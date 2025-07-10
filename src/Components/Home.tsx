@@ -52,7 +52,7 @@ const Home = () => {
             </button>
             <button className="bg-white/80 text-emerald-700 border border-emerald-500 backdrop-blur-sm font-semibold px-4 py-2 rounded-lg shadow-lg hover:bg-white hover:text-emerald-800 transition-all duration-200  ">
               <Link
-                to="/popup"
+                to="/app/popup"
                 className="flex items-center gap-2 font-medium text-lg"
               >
                 <span>Ask A Quesiton</span>
