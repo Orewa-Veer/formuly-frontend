@@ -1,4 +1,4 @@
-import { useData } from "./userData";
+import { useData } from "./useData";
 export interface Tags {
   _id: string;
   name: string;

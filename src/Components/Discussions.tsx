@@ -4,6 +4,7 @@ import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { Bookmark } from "lucide-react";
 import { Question } from "../models/Question";
 import ReplySubmit from "./ReplySubmit";
+import ReplyList from "./ReplyList";
 
 const Discussions = () => {
   const params = useParams<{ id: string }>();
@@ -14,10 +15,10 @@ const Discussions = () => {
   if (error) return <div>{error.message}</div>;
   if (!data) return <div>No data found</div>;
   return (
-    <div className="pt-16 p-3">
+    <div className="pt-16 p-3 flex ">
       {" "}
       {/* Question*/}
-      <div key={data._id}>
+      <div key={data._id} className="flex-1">
         <div className="backdrop-blur-lg  bg-white/50 border border-white/80 text-gray-800 rounded-3xl p-6 px-10   shadow-xl  flex gap-2">
           <div className="flex flex-col    space-y-5 items-center  p-3">
             <div className="flex flex-col space-y-5 items-center mt-10 p-3 pl-1">
@@ -81,9 +82,15 @@ const Discussions = () => {
         {/* <div className="backdrop-blur-lg bg-white/50 border-white/80 border shadow-lg rounded-xl p-6 mx-15 mt-10">
             <ReplySubmit discussion={data} setDiscuss={setDiscuss} />
           </div> */}
+        <div>
+          <ReplyList id={data._id} />
+        </div>
+        <div>
+          <ReplySubmit discuss={data} />
+        </div>
       </div>
       {/* side panel */}
-      <div className="w-full h-full   rounded-lg flex flex-col gap-5 py-6 ">
+      <div className="w-1/5  h-full   rounded-lg flex flex-col gap-5 py-6 ">
         {/* top */}
         <div className="flex-1 w-full h-fit bg-white/50 rounded-md border-white/80 backdrop-blur-md shadow-md p-3">
           <h2 className="text-2xl ">related tags</h2>
@@ -96,9 +103,7 @@ const Discussions = () => {
         {/* bottom */}
         <div className="flex-1 h-fit w-full bg-white/50 rounded-md border-white/80 backdrop-blur-md shadow-md "></div>
       </div>
-      <div>
-        <ReplySubmit discuss={data} />
-      </div>
+      {/* Reply List */}
     </div>
   );
 };

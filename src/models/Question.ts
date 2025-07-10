@@ -8,7 +8,7 @@ export interface Reply {
   _id: string;
   parentId: string;
   // parentId: string | null;
-  user: string;
+  user: User;
   body: string;
   createdAt: Date;
   upvotes: Upvotes[];
