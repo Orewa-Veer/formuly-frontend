@@ -19,7 +19,7 @@ export interface DiscussStru {
 const AskForm = () => {
   const { register, handleSubmit } = useForm<FormStu>();
   const [tagsId, setTagsId] = useState<string[]>([]);
-  const { tags, error } = useTags();
+  const { data, error } = useTags();
   const onSubmit = (data: FormStu) => {
     const newDiscuss = {
       userId: data.userId,
@@ -30,8 +30,8 @@ const AskForm = () => {
     const discuss = new DiscussionService();
     discuss.postDiscussion(newDiscuss);
   };
-  if (!tags) return <div>No tags exist</div>;
-  if (error) return <div>{error}</div>;
+  if (!data) return <div>No tags exist</div>;
+  if (error) return <div>{error.message}</div>;
   const handleClick = (tagId: string) => {
     if (!tagsId.includes(tagId)) {
       setTagsId((prev) => [...prev, tagId]);
@@ -82,7 +82,7 @@ const AskForm = () => {
           />
         </div>
         <div className="flex gap-3">
-          {tags.map((tag) => (
+          {data.map((tag) => (
             <div
               key={tag.name}
               className="border rounded-full px-2 py-0.5 text-xs border-black  cursor-pointer"
