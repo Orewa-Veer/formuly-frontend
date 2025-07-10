@@ -20,7 +20,7 @@ const QuestionPage = () => {
         </div>
         <div>
           <Button className="bg-[#059669] text-white rounded font-medium">
-            <Link to={"/popup"}> Ask Question</Link>
+            <Link to={"/app/popup"}> Ask Question</Link>
           </Button>
         </div>
       </div>

@@ -6,12 +6,12 @@ export interface User {
 }
 export interface Reply {
   _id: string;
-  questionId: string;
+  parentId: string;
   // parentId: string | null;
   user: string;
   body: string;
   createdAt: Date;
-  upvotes: number;
+  upvotes: Upvotes[];
   isSolution?: boolean;
 }
 export interface Upvotes {
@@ -30,5 +30,5 @@ export interface Question {
   user: User;
   upvotes: Upvotes[];
   isSolved: boolean;
-  replies: Reply[];
+  replyCounter: number;
 }

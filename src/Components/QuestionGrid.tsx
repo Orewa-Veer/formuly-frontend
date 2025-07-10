@@ -29,7 +29,7 @@ const QuestionGrid = () => {
             {/* replies */}
             <div className="flex items-center gap-1 mt-2" key={discuss._id}>
               <MessageSquare className="text-emerald-700 size-6" />{" "}
-              <span>{discuss.replies.length}</span>
+              <span>{discuss.replyCounter}</span>
             </div>
           </div>
           {/*top */}

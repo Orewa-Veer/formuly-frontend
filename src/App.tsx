@@ -6,6 +6,7 @@ import { AppSidebar } from "./Components/Sidebar";
 import { SidebarProvider } from "./Components/ui/sidebar";
 import { AuthProvider } from "./services/AuthContext";
 import Discussions from "./Components/Discussions";
+import AskForm from "./Components/AskForm";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/questions/:id" element={<Discussions />}></Route>
             <Route path="/questions" element={<QuestionPage />}></Route>
+            <Route path="/popup" element={<AskForm />}></Route>
           </Routes>
         </main>
       </div>

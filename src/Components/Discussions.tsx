@@ -3,6 +3,7 @@ import { useADiscuss } from "../useHooks/useDiscussion";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { Bookmark } from "lucide-react";
 import { Question } from "../models/Question";
+import ReplySubmit from "./ReplySubmit";
 
 const Discussions = () => {
   const params = useParams<{ id: string }>();
@@ -43,7 +44,7 @@ const Discussions = () => {
                     /> */}
                   Asked by{" "}
                   <span className="font-medium">{data.user.username}</span> •{" "}
-                  <div>{new Date(data.createdAt).toLocaleString()}</div>
+                  <span>{new Date(data.createdAt).toLocaleString()}</span>
                 </p>
                 <div id="show-tags" className=" flex gap-3">
                   {data.tags.map((tag) => (
@@ -69,7 +70,7 @@ const Discussions = () => {
                   ❤️ {data.views}
                 </button> */}
               <button className="hover:text-blue-500 transition">
-                💬 {data.replies.length} Replies
+                💬 {data.replyCounter} Replies
               </button>
             </div>
           </div>
@@ -94,6 +95,9 @@ const Discussions = () => {
         <div className="flex-1 w-full h-fit bg-white/50 rounded-md border-white/80 backdrop-blur-md shadow-md "></div>
         {/* bottom */}
         <div className="flex-1 h-fit w-full bg-white/50 rounded-md border-white/80 backdrop-blur-md shadow-md "></div>
+      </div>
+      <div>
+        <ReplySubmit discuss={data} />
       </div>
     </div>
   );
