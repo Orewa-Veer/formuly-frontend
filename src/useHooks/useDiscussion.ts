@@ -34,12 +34,18 @@ export const useADiscuss = <T>(id?: string) => {
 };
 
 export const useDiscussion = (
-  id?: string,
   sortType?: string,
-  filter?: string
+  filter?: string,
+  title?: string
 ) =>
   useData<Question>(
-    id ? `/api/discussion/${id}` : "/api/discussion",
-    { params: { sort: sortType, filter: filter } },
-    [id, sortType, filter] // Depend on ID so it refetches if ID changes
+    "/api/discussion",
+    {
+      params: {
+        sort: sortType === "date" ? "createdAt" : "upvotes",
+        isSolved: filter === "solved" ? "true" : "false",
+        title: title,
+      },
+    },
+    [sortType, filter, title] // Depend on ID so it refetches if ID changes
   );

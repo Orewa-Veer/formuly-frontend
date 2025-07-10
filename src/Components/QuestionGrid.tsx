@@ -9,9 +9,10 @@ import { useDiscussion } from "../useHooks/useDiscussion";
 interface Props {
   sortType?: string;
   filter?: string;
+  title?: string;
 }
-const QuestionGrid = ({ sortType = "", filter = "" }: Props) => {
-  const { data, loading, error } = useDiscussion();
+const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
+  const { data, loading, error } = useDiscussion(sortType, filter, title);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;

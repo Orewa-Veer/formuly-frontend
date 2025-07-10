@@ -32,7 +32,7 @@ export const useData = <T>(
     fetchData();
 
     return () => controller.abort(); // ✅ clean up on unmount
-  }, [endpoint, requestConfig, ...deps]);
+  }, [endpoint, ...deps]);
 
   return { data, loading, error };
 };
