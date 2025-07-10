@@ -7,8 +7,11 @@ import { SidebarProvider } from "./Components/ui/sidebar";
 import { AuthProvider } from "./services/AuthContext";
 import Discussions from "./Components/Discussions";
 import AskForm from "./Components/AskForm";
+import useCurrentCustomer from "./useHooks/useCurrentCustomer";
 
 function App() {
+  const user = useCurrentCustomer();
+  if (!user) return <div>Unauthorized</div>;
   return (
     <AuthProvider>
       <div className="  h-full w-full flex ">

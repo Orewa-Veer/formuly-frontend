@@ -26,32 +26,39 @@ const ReplySubmit = ({ discuss }: Reply) => {
     console.log(error);
   };
   return (
-    <div className="flex flex-col gap-3">
-      <div>Reply to the question</div>
+    <div className="flex flex-col gap-3 pl-2 mt-3  backdrop-blur-lg border-white/20">
+      <div className="font-semibold text-xl"> Reply to the question</div>
       <form
         action=""
         onSubmit={handleSubmit(onSubmit, onError)}
-        className="flex flex-col gap-3 w-xl border border-black p-5"
+        className="flex flex-col gap-3 w-xl border rounded-md  p-5"
       >
         <div className="flex flex-col gap-2">
-          <label htmlFor="reply-body">Enter Body</label>
+          <label
+            htmlFor="reply-body"
+            className="text-sm text-gray-600 font-semibold"
+          >
+            Enter Body
+          </label>
           <input
             id="reply-body"
             {...register("body")}
             type="text"
-            className="border border-black"
+            className="border border-gray-300/50 rounded-sm"
           />
           {errors.body && (
             <div className="text-red-700">{errors.body.message}</div>
           )}
         </div>
 
-        <button
-          type="submit"
-          className="cursor-pointer bg-blue-400 border-blue-700 ps-3 py-1 inline"
-        >
-          Submit
-        </button>
+        <div className="flex items-center justify-center">
+          <button
+            type="submit"
+            className="cursor-pointer bg-blue-700/60 border-blue-700/80 rounded-md w-fit px-3 py-0.5 inline"
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );

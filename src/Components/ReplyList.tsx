@@ -1,5 +1,7 @@
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { useReplies } from "../useHooks/useReplies";
+import { MdDelete } from "react-icons/md";
+import Service from "../services/genricServices";
 interface Props {
   id: string;
 }
@@ -36,6 +38,15 @@ const ReplyList = ({ id }: Props) => {
             <div className="flex gap-2 justify-end">
               <GoTriangleUp className="size-8 cursor-pointer" />
               <GoTriangleDown className="size-8 cursor-pointer" />
+              <div
+                className="flex items-center cursor-pointer hover:text-red-500"
+                onClick={() => {
+                  const reply = new Service("/api/replies");
+                  reply.delete(rep._id);
+                }}
+              >
+                <MdDelete />
+              </div>
             </div>
           </div>
         ))}

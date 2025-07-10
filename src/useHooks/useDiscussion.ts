@@ -33,9 +33,13 @@ export const useADiscuss = <T>(id?: string) => {
   return { data, loading, error };
 };
 
-export const useDiscussion = (id?: string) =>
+export const useDiscussion = (
+  id?: string,
+  sortType?: string,
+  filter?: string
+) =>
   useData<Question>(
     id ? `/api/discussion/${id}` : "/api/discussion",
-    undefined, // No custom request config in this case
-    [id] // Depend on ID so it refetches if ID changes
+    { params: { sort: sortType, filter: filter } },
+    [id, sortType, filter] // Depend on ID so it refetches if ID changes
   );

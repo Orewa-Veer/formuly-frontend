@@ -76,12 +76,7 @@ const Discussions = () => {
             </div>
           </div>
         </div>
-        {/* Replies */}
-        {/* <RepliesList replies={data.replies} /> */}
-        {/* bottom input box */}
-        {/* <div className="backdrop-blur-lg bg-white/50 border-white/80 border shadow-lg rounded-xl p-6 mx-15 mt-10">
-            <ReplySubmit discussion={data} setDiscuss={setDiscuss} />
-          </div> */}
+
         <div>
           <ReplyList id={data._id} />
         </div>

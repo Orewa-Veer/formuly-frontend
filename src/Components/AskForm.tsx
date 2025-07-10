@@ -2,7 +2,7 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useTags from "../useHooks/useTags";
-import DiscussionService from "../services/discussionServices";
+import Service from "../services/genricServices";
 export interface FormStu {
   userId: string;
   title: string;
@@ -27,8 +27,8 @@ const AskForm = () => {
       body: data.body,
       tagId: tagsId,
     };
-    const discuss = new DiscussionService();
-    discuss.postDiscussion(newDiscuss);
+    const discuss = new Service("/api/discussion");
+    discuss.post<DiscussStru>(newDiscuss);
   };
   if (!data) return <div>No tags exist</div>;
   if (error) return <div>{error.message}</div>;

@@ -5,7 +5,12 @@ import { Link } from "react-router-dom";
 import { MessageSquare } from "lucide-react";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { useDiscussion } from "../useHooks/useDiscussion";
-const QuestionGrid = () => {
+
+interface Props {
+  sortType?: string;
+  filter?: string;
+}
+const QuestionGrid = ({ sortType = "", filter = "" }: Props) => {
   const { data, loading, error } = useDiscussion();
 
   if (loading) return <div>Loading...</div>;
