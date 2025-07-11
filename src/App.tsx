@@ -15,12 +15,12 @@ function App() {
   return (
     <AuthProvider>
       <div className="  h-full w-full flex ">
-        <aside className="w-64">
+        <aside className="w-60">
           <SidebarProvider>
             <AppSidebar />
           </SidebarProvider>
         </aside>
-        <main className="w-full">
+        <main className="w-full pl-10 pt-8">
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/questions/:id" element={<Discussions />}></Route>

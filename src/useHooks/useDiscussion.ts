@@ -42,7 +42,7 @@ export const useDiscussion = (
     "/api/discussion",
     {
       params: {
-        sort: sortType === "date" ? "createdAt" : "upvotes",
+        sort: sortType === "date" ? "createdAt" : "upvoteCounter",
         isSolved: filter === "solved" ? "true" : "false",
         title: title,
       },

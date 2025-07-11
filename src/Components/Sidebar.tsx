@@ -56,7 +56,7 @@ const items = [
 export function AppSidebar() {
   const [active, setactive] = useState("Home");
   return (
-    <Sidebar variant="floating" className="fixed top-10 ">
+    <Sidebar variant="floating" className="fixed  ">
       <SidebarContent className="mt-4 ml-3 shadow-md ">
         <SidebarGroup>
           <SidebarGroupLabel className="flex justify-between text-[#059669] font-sans font-bold text-3xl px-3 pb-0">

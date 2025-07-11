@@ -14,9 +14,9 @@ const Home = () => {
   };
   return (
     <>
-      <div className="flex flex-col pt-16 px-3">
+      <div className="flex flex-col  px-3">
         {/* Colured Section */}
-        <div className="flex flex-col items-center justify-between bg-gray-200 px-6 sm:px-8 md:px-10 py-20">
+        <div className="flex flex-col items-center justify-between  px-6 sm:px-8 md:px-10 p-3">
           {/* top button*/}
           <div className="flex  mb-8 shadow-md bg-white/20 rounded-full border-white/20 text-center border px-4 py-2 w-78 gap-2 backdrop-blur-sm hover:bg-white/50 hover:backdrop-blur-md ">
             <IoIosRocket className="text-emerald-700" />
@@ -108,7 +108,7 @@ const Home = () => {
 
         <div
           ref={heroRef}
-          className="flex flex-col items-center py-20 px-6 sm:px-8 md:px-10 backdrop-blur-sm bg-gray-200"
+          className="flex flex-col items-center py-20 px-6 sm:px-8 md:px-10 backdrop-blur-sm "
         >
           {/* Heading*/}
           <div className="mb-16 text-center">
@@ -191,7 +191,7 @@ const Home = () => {
           </div>
         </div>
         {/* Treding Tech*/}
-        <div className="py-20 px-6 sm:px-8 md:px-10  bg-gray-200 ">
+        <div className="py-20 px-6 sm:px-8 md:px-10   ">
           {/* Heading*/}
           <div className="text-center mb-16">
             <h2 className="text-5xl drop-shadow-lg backdrop-blur-lg font-bold text-gray-900 mb-6">
@@ -227,7 +227,7 @@ const Home = () => {
                 <span className="text-sm text-gray-600">questions</span>
               </div>
               {/* third section */}
-              <div className=" mt-4 h-2 bg-gray-100 rounded-full overflow-hidden w-full">
+              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
                 <div className="bg-yellow-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
               </div>
             </Cards>
@@ -254,7 +254,7 @@ const Home = () => {
                 <span className="text-sm text-gray-600">questions</span>
               </div>
               {/* third section */}
-              <div className=" mt-4 h-2 bg-gray-100 rounded-full overflow-hidden w-full">
+              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
                 <div className="bg-blue-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
               </div>
             </Cards>
@@ -281,7 +281,7 @@ const Home = () => {
                 <span className="text-sm text-gray-600">questions</span>
               </div>
               {/* third section */}
-              <div className=" mt-4 h-2 bg-gray-100 rounded-full overflow-hidden w-full">
+              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
                 <div className="bg-green-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
               </div>
             </Cards>
@@ -308,7 +308,7 @@ const Home = () => {
                 <span className="text-sm text-gray-600">questions</span>
               </div>
               {/* third section */}
-              <div className=" mt-4 h-2 bg-gray-100 rounded-full overflow-hidden w-full">
+              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
                 <div className="bg-emerald-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
               </div>
             </Cards>
@@ -335,7 +335,7 @@ const Home = () => {
                 <span className="text-sm text-gray-600">questions</span>
               </div>
               {/* third section */}
-              <div className=" mt-4 h-2 bg-gray-100 rounded-full overflow-hidden w-full">
+              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
                 <div className="bg-purple-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
               </div>
             </Cards>
@@ -362,7 +362,7 @@ const Home = () => {
                 <span className="text-sm text-gray-600">questions</span>
               </div>
               {/* third section */}
-              <div className=" mt-4 h-2 bg-gray-100 rounded-full overflow-hidden w-full">
+              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
                 <div className="bg-indigo-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
               </div>
             </Cards>

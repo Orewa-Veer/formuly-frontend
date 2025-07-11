@@ -11,7 +11,7 @@ export interface Reply {
   user: User;
   body: string;
   createdAt: Date;
-  upvotes: Upvotes[];
+  upvoteCounter: number;
   isSolution?: boolean;
 }
 export interface Upvotes {
@@ -28,7 +28,7 @@ export interface Question {
   tags: Tags[];
   createdAt: Date;
   user: User;
-  upvotes: Upvotes[];
+  upvoteCounter: number;
   isSolved: boolean;
   replyCounter: number;
 }

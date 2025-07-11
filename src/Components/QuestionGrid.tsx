@@ -29,7 +29,7 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
             {/* upvotes */}
             <div className="flex flex-col gap-2 items-center justify-between p-3">
               <GoTriangleUp className="rounded-full  border-2 text-gray-600 border-gray-600 size-6" />
-              <span className="font-medium">{discuss.upvotes.length}</span>
+              <span className="font-medium">{discuss.upvoteCounter}</span>
               <GoTriangleDown className="rounded-full  border-2 text-gray-600 border-gray-600 size-6" />
             </div>
             {/* replies */}

@@ -10,7 +10,6 @@ export interface FormStu {
   tags: string;
 }
 export interface DiscussStru {
-  userId: string;
   title: string;
   body: string;
   tagId: string[];
@@ -22,7 +21,6 @@ const AskForm = () => {
   const { data, error } = useTags();
   const onSubmit = (data: FormStu) => {
     const newDiscuss = {
-      userId: data.userId,
       title: data.title,
       body: data.body,
       tagId: tagsId,
@@ -53,15 +51,7 @@ const AskForm = () => {
             {...register("title", { required: true })}
           />
         </div>
-        <div className="flex justify-between">
-          <label htmlFor="form-userId">UserId</label>
-          <input
-            id="form-userId"
-            type="text"
-            placeholder="Enter the userId"
-            {...register("userId", { required: true })}
-          />
-        </div>
+
         <div className="flex justify-between">
           <label htmlFor="form-body">Body</label>
           <input

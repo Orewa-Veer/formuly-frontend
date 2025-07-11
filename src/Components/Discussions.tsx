@@ -24,7 +24,7 @@ const Discussions = () => {
             <div className="flex flex-col space-y-5 items-center mt-10 p-3 pl-1">
               <GoTriangleUp className="size-10 text-gray-600  rounded-full border-gray-600 border-2" />
               <span className="text-gray-600 text-3xl font-bold">
-                {data.upvotes.length}
+                {data.upvoteCounter}
               </span>
               <GoTriangleDown className="size-10 text-gray-600 rounded-full border-gray-600 border-2" />
             </div>
@@ -65,7 +65,7 @@ const Discussions = () => {
             </p>
             <div className="flex mt-6 gap-4 text-sm text-gray-600 justify-end ">
               <button className="hover:text-green-600 transition flex gap-1 items-center">
-                <GoTriangleUp className="size-8" /> {data.upvotes.length}
+                <GoTriangleUp className="size-8" /> {data.upvoteCounter}
               </button>
               {/* <button className="hover:text-pink-500 transition">
                   ❤️ {data.views}
