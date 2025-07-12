@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldErrors, useForm } from "react-hook-form";
 import z from "zod";
 import { Question } from "../models/Question";
-import apiClient from "../services/api-Client";
+import Service from "../services/genricServices";
 const schema = z.object({
   body: z.string(),
 });
@@ -18,9 +18,8 @@ const ReplySubmit = ({ discuss }: Reply) => {
     formState: { errors },
   } = useForm<FormSch>({ resolver: zodResolver(schema) });
   const onSubmit = (data: FormSch) => {
-    apiClient
-      .post(`/api/replies/${discuss._id}`, data)
-      .catch((err) => console.log(err));
+    const reply = new Service(`/api/replies/${discuss._id}`);
+    reply.post(data);
   };
   const onError = (error: FieldErrors<FormSch>) => {
     console.log(error);

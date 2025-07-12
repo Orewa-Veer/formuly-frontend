@@ -1,10 +1,10 @@
-import { useParams } from "react-router-dom";
-import { useADiscuss } from "../useHooks/useDiscussion";
-import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { Bookmark } from "lucide-react";
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import { useParams } from "react-router-dom";
 import { Question } from "../models/Question";
-import ReplySubmit from "./ReplySubmit";
+import { useADiscuss } from "../useHooks/useDiscussion";
 import ReplyList from "./ReplyList";
+import ReplySubmit from "./ReplySubmit";
 
 const Discussions = () => {
   const params = useParams<{ id: string }>();

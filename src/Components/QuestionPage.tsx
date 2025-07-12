@@ -17,7 +17,7 @@ const QuestionPage = () => {
   };
 
   return (
-    <div className="p-3  flex flex-col gap-4 w-full">
+    <div className="p-3 sm:px-6 md:px-8 lg:px-10 xl:px-14 flex flex-col w-full gap-4 ">
       {/* Top Panel */}
       <div className="flex w-full justify-between mx-auto mb-8">
         <div>
@@ -35,18 +35,22 @@ const QuestionPage = () => {
         </div>
       </div>
       {/* Top-Search */}
-      <div className="flex flex-col md:flex-row gap-4 mb-6 justify-between">
-        <div className="flex items-center flex-1  rounded-md">
-          <Search className="relative left-8 top-1.75  h-4 w-4 -translate-y-1/2 text-muted-foreground " />
-          <Input
-            placeholder="Seach questiosn..."
-            value={tit}
-            onChange={(val) => setTit(val.target.value)}
-            className="  px-10"
-          />
-          <button className="cursor-pointer " onClick={handleClick}>
+      <div className="flex flex-col lg:flex-row gap-4 mb-6 w-full justify-between">
+        <div className="flex items-center flex-1 w-full rounded-md gap-2">
+          <div className="flex flex-1  items-center">
+            <Input
+              placeholder="Seach questiosn..."
+              value={tit}
+              onChange={(val) => setTit(val.target.value)}
+              className="  px-6"
+            />
+          </div>
+          <Button
+            className="cursor-pointer bg-blue-500 text-white "
+            onClick={handleClick}
+          >
             <Search />
-          </button>
+          </Button>
         </div>
 
         <div className="flex justify-between gap-2">

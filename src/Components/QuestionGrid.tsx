@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { MessageSquare } from "lucide-react";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { useDiscussion } from "../useHooks/useDiscussion";
+import Service from "../services/genricServices";
 
 interface Props {
   sortType?: string;
@@ -18,6 +19,10 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
   if (error) return <div>{error.message}</div>;
   if (!data) return <div> No Discussions</div>;
   // console.log(data[0]._id);
+  const handleUpvotes = (id: string) => {
+    const upvote = new Service("/api/upvote/" + id);
+    upvote.post();
+  };
   return (
     <>
       {data.map((discuss) => (
@@ -28,7 +33,10 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
           <div className={`border-r-3 `}>
             {/* upvotes */}
             <div className="flex flex-col gap-2 items-center justify-between p-3">
-              <GoTriangleUp className="rounded-full  border-2 text-gray-600 border-gray-600 size-6" />
+              <GoTriangleUp
+                className="rounded-full  border-2 text-gray-600 border-gray-600 size-6 cursor-pointer"
+                onClick={() => handleUpvotes(discuss._id)}
+              />
               <span className="font-medium">{discuss.upvoteCounter}</span>
               <GoTriangleDown className="rounded-full  border-2 text-gray-600 border-gray-600 size-6" />
             </div>

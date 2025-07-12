@@ -1,28 +1,41 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@radix-ui/react-collapsible";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import { Home, LogOut, MessageSquare, UserCircle } from "lucide-react";
+import { useState } from "react";
+import { BsTags, BsThreeDotsVertical } from "react-icons/bs";
+import { FaRegBookmark, FaRegClock } from "react-icons/fa";
+import { FaArrowTrendUp, FaRegMessage } from "react-icons/fa6";
+import { MdOutlinePeopleAlt } from "react-icons/md";
+import { Link } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "./ui/sidebar";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@radix-ui/react-collapsible";
-import { Home } from "lucide-react";
-import { useState } from "react";
-import { BsTags } from "react-icons/bs";
-import { FaRegBookmark, FaRegClock } from "react-icons/fa";
-import { FaArrowTrendUp, FaRegMessage } from "react-icons/fa6";
-import { MdOutlinePeopleAlt } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { IoNotifications } from "react-icons/io5";
 
 // Menu items.
 const items = [
@@ -37,6 +50,11 @@ const items = [
     icon: FaRegMessage,
   },
   {
+    title: "Bookmark",
+    url: "/bookmark",
+    icon: FaRegBookmark,
+  },
+  {
     title: "Rent",
     url: "#",
     icon: FaArrowTrendUp,
@@ -46,25 +64,23 @@ const items = [
     url: "#",
     icon: FaRegClock,
   },
-  {
-    title: "Bookmark",
-    url: "/bookmark",
-    icon: FaRegBookmark,
-  },
 ];
 
 export function AppSidebar() {
   const [active, setactive] = useState("Home");
+  const { isMobile } = useSidebar();
   return (
-    <Sidebar variant="floating" className="fixed  ">
-      <SidebarContent className="mt-4 ml-3 shadow-md ">
+    <Sidebar variant="inset">
+      <SidebarHeader className="mt-2 mb-3">
+        <div className="flex justify-around text-[#059669] font-sans font-extrabold text-4xl px-3 pb-0 ">
+          <span>Forumly</span>
+          <MessageSquare className="size-9 relative top-1" />
+        </div>
+
+        <span className="text-xs text-[#6B7280] px-3">Developer Community</span>
+      </SidebarHeader>
+      <SidebarContent className="  ">
         <SidebarGroup>
-          <SidebarGroupLabel className="flex justify-between text-[#059669] font-sans font-bold text-3xl px-3 pb-0">
-            <span>Forumly</span>
-          </SidebarGroupLabel>
-          <SidebarGroupLabel className="text-xs text-[#6B7280] px-3">
-            Developer Community
-          </SidebarGroupLabel>
           <SidebarGroupContent className="text-sm font-medium">
             <SidebarMenu>
               {items.map((item) => (
@@ -89,7 +105,7 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup className="mb-8">
+        <SidebarGroup className="">
           <SidebarGroupContent>
             <SidebarMenu>
               <Collapsible defaultOpen className="group/collapsible">
@@ -110,7 +126,7 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup className="mb-8">
+        <SidebarGroup className="mb-3">
           <SidebarGroupContent>
             <SidebarMenu>
               <Collapsible defaultOpen className="group/collapsible">
@@ -167,6 +183,76 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton
+                  size={"lg"}
+                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                >
+                  <Avatar className="h-8 w-8 rounded-lg grayscale">
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      className="rounded-full"
+                    />
+                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  </Avatar>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">{"Pheonix"}</span>
+                    <span className="text-muted-foreground truncate text-xs">
+                      {"Pratihar@gmail.com"}
+                    </span>
+                  </div>
+                  <BsThreeDotsVertical className="ml-auto size-4" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg bg-gray-100 border border-gray-200 shadow-lg p-3"
+                side={isMobile ? "bottom" : "right"}
+                align="end"
+                sideOffset={4}
+              >
+                <DropdownMenuLabel className="p-0 font-normal ">
+                  {" "}
+                  <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                    <Avatar className="h-8 w-8 rounded-lg">
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        className="rounded-full"
+                      />
+                      <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                    </Avatar>
+                    <div className="grid flex-1 text-left text-sm leading-tight">
+                      <span className="truncate font-medium">{"Pheonix"}</span>
+                      <span className="text-muted-foreground truncate text-xs">
+                        {"Pratihar@gmail.com"}
+                      </span>
+                    </div>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator className=" border-1 border-gray-300 mb-2" />
+                <DropdownMenuGroup className="flex flex-col gap-2 mb-2 pl-1">
+                  <DropdownMenuItem className="flex text-sm font-medium items-center gap-2">
+                    <UserCircle className="size-5" />
+                    Account
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="flex text-sm font-medium items-center gap-2">
+                    <IoNotifications className="size-5" />
+                    Notifications
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator className=" border-1 border-gray-300" />
+                <DropdownMenuItem className="flex text-sm font-medium items-center gap-2 mt-2 pl-1 text-red-700 cursor-pointer">
+                  <LogOut className="size-5" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }

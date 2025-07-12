@@ -23,7 +23,7 @@ const ReplyList = ({ id }: Props) => {
               {/* <img src={rep.user.avatar} alt="" className="size-6" /> */}
               <span>{rep.user.username}</span>
               <span className="text-sm flex gap-1 items-center">
-                {rep.upvotes.length}
+                {rep.upvoteCounter}
                 <GoTriangleUp />
               </span>
             </div>

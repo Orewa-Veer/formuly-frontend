@@ -7,6 +7,15 @@ import { IoBulb } from "react-icons/io5";
 import { MdElectricBolt, MdOutlinePeopleAlt } from "react-icons/md";
 
 import { Link } from "react-router-dom";
+
+const Tagis = [
+  { name: "JavaScript", questions: 1234, color: "bg-orange-400" },
+  { name: "React", questions: 1200, color: "bg-blue-400" },
+  { name: "Python", questions: 1000, color: "bg-green-400" },
+  { name: "Node.js", questions: 800, color: "bg-emerald-400" },
+  { name: "Typescript", questions: 780, color: "bg-violet-400" },
+  { name: "CSS", questions: 600, color: "bg-indigo-400" },
+];
 const Home = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const scrollToHero = () => {
@@ -14,9 +23,9 @@ const Home = () => {
   };
   return (
     <>
-      <div className="flex flex-col  px-3">
+      <div className="flex flex-col p-3  px-6 md:px-8 lg:px-10 xl:px-14">
         {/* Colured Section */}
-        <div className="flex flex-col items-center justify-between  px-6 sm:px-8 md:px-10 p-3">
+        <div className="flex flex-col items-center justify-between  ">
           {/* top button*/}
           <div className="flex  mb-8 shadow-md bg-white/20 rounded-full border-white/20 text-center border px-4 py-2 w-78 gap-2 backdrop-blur-sm hover:bg-white/50 hover:backdrop-blur-md ">
             <IoIosRocket className="text-emerald-700" />
@@ -27,10 +36,7 @@ const Home = () => {
           {/* Tagline */}
           <h1 className="text-6xl font-extrabold text-gray-900 drop-shadow-md  mb-8 leading-tight  ">
             Where Developers <br />
-            <span
-              className="bg-gradient-to-r from-indigo-600 to-violet-600
- bg-clip-text text-transparent"
-            >
+            <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
               {" "}
               Ask, Learn & Grow
             </span>
@@ -61,7 +67,7 @@ const Home = () => {
             </button>
           </div>
           {/* Cards*/}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto ">
             <Cards>
               <MdOutlinePeopleAlt className="size-10 text-blue-600 mx-auto mb-3" />
               <div className="flex flex-col items-center">
@@ -108,7 +114,7 @@ const Home = () => {
 
         <div
           ref={heroRef}
-          className="flex flex-col items-center py-20 px-6 sm:px-8 md:px-10 backdrop-blur-sm "
+          className="flex flex-col items-center py-20  backdrop-blur-sm "
         >
           {/* Heading*/}
           <div className="mb-16 text-center">
@@ -123,7 +129,7 @@ const Home = () => {
           </div>
 
           {/* Cards*/}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
             <Cards>
               <div className="flex flex-col space-y-1.5 text-center-pb-4">
                 <div className="size-16 flex justify-center items-center rounded-2xl mx-auto mb-4 bg-blue-500 deeply-nested-child group-hover/hoverRoot:scale-110 transition-transform">
@@ -191,7 +197,7 @@ const Home = () => {
           </div>
         </div>
         {/* Treding Tech*/}
-        <div className="py-20 px-6 sm:px-8 md:px-10   ">
+        <div className="py-20    ">
           {/* Heading*/}
           <div className="text-center mb-16">
             <h2 className="text-5xl drop-shadow-lg backdrop-blur-lg font-bold text-gray-900 mb-6">
@@ -203,169 +209,38 @@ const Home = () => {
             </p>
           </div>
           {/* Cards*/}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
-            <Cards className="h-full w-full">
-              {/* first section*/}
-              <div className="flex items-center justify-between mb-4 w-full">
-                {" "}
-                <div className="flex items-center gap-3">
-                  <div className="size-4 bg-yellow-500 rounded-full"></div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {" "}
-                    JavaScript
-                  </h3>{" "}
-                </div>
-                <div className="rounded-full flex items-center bg-green-100 text-green-500 border border-green-200">
-                  <a href="" className="px-2.5 py-.5 font-semibold text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+            {Tagis.map((tag) => (
+              <Cards className="h-full w-full py-6" padding="p-4">
+                {/* first section*/}
+                <div className="flex  justify-between mb-4 w-full">
+                  <div className="flex items-center justify-start gap-3">
+                    <div className={`size-4 ${tag.color} rounded-full`}></div>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {tag.name}
+                    </h3>
+                  </div>
+                  {/* <div className="rounded-full flex items-center bg-green-100 text-green-500 border border-green-200">
+                  <a href="" className="px-2 py-.5 font-semibold text-sm">
                     12%
                   </a>
+                </div> */}
                 </div>
-              </div>
-              {/*Second Section */}
-              <div className="flex items-center justify-between w-full">
-                <span className="text-2xl font-bold text-gray-900">1,234</span>
-                <span className="text-sm text-gray-600">questions</span>
-              </div>
-              {/* third section */}
-              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
-                <div className="bg-yellow-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
-              </div>
-            </Cards>
-            <Cards className="h-full w-full">
-              {/* first section*/}
-              <div className="flex items-center justify-between mb-4 w-full">
-                {" "}
-                <div className="flex items-center gap-3">
-                  <div className="size-4 bg-blue  -500 rounded-full"></div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {" "}
-                    React
-                  </h3>{" "}
+                {/*Second Section */}
+                <div className="flex flex-col  justify-start pl-3 w-full">
+                  <span className="text-2xl font-bold text-gray-900">
+                    {tag.questions}
+                  </span>
+                  <span className="text-sm text-gray-600">questions</span>
                 </div>
-                <div className="rounded-full flex items-center bg-green-100 text-green-500 border border-green-200">
-                  <a href="" className="px-2.5 py-.5 font-semibold text-sm">
-                    +9%
-                  </a>
+                {/* third section */}
+                <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
+                  <div
+                    className={`${tag.color} rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full`}
+                  ></div>
                 </div>
-              </div>
-              {/*Second Section */}
-              <div className="flex items-center justify-between w-full">
-                <span className="text-2xl font-bold text-gray-900">1,234</span>
-                <span className="text-sm text-gray-600">questions</span>
-              </div>
-              {/* third section */}
-              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
-                <div className="bg-blue-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
-              </div>
-            </Cards>
-            <Cards className="h-full w-full">
-              {/* first section*/}
-              <div className="flex items-center justify-between mb-4 w-full">
-                {" "}
-                <div className="flex items-center gap-3">
-                  <div className="size-4 bg-green-500 rounded-full"></div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {" "}
-                    Python
-                  </h3>{" "}
-                </div>
-                <div className="rounded-full flex items-center bg-green-100 text-green-500 border border-green-200">
-                  <a href="" className="px-2.5 py-.5 font-semibold text-sm">
-                    16%
-                  </a>
-                </div>
-              </div>
-              {/*Second Section */}
-              <div className="flex items-center justify-between w-full">
-                <span className="text-2xl font-bold text-gray-900">1,274</span>
-                <span className="text-sm text-gray-600">questions</span>
-              </div>
-              {/* third section */}
-              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
-                <div className="bg-green-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
-              </div>
-            </Cards>
-            <Cards className="h-full w-full">
-              {/* first section*/}
-              <div className="flex items-center justify-between mb-4 w-full">
-                {" "}
-                <div className="flex items-center gap-3">
-                  <div className="size-4 bg-emerald-500 rounded-full"></div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {" "}
-                    Node.Js
-                  </h3>{" "}
-                </div>
-                <div className="rounded-full flex items-center bg-green-100 text-green-500 border border-green-200">
-                  <a href="" className="px-2.5 py-.5 font-semibold text-sm">
-                    +11%
-                  </a>
-                </div>
-              </div>
-              {/*Second Section */}
-              <div className="flex items-center justify-between w-full">
-                <span className="text-2xl font-bold text-gray-900">1,234</span>
-                <span className="text-sm text-gray-600">questions</span>
-              </div>
-              {/* third section */}
-              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
-                <div className="bg-emerald-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
-              </div>
-            </Cards>
-            <Cards className="h-full w-full">
-              {/* first section*/}
-              <div className="flex items-center justify-between mb-4 w-full">
-                {" "}
-                <div className="flex items-center gap-3">
-                  <div className="size-4 bg-purple-500 rounded-full"></div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {" "}
-                    CSS
-                  </h3>{" "}
-                </div>
-                <div className="rounded-full flex items-center bg-green-100 text-green-500 border border-green-200">
-                  <a href="" className="px-2.5 py-.5 font-semibold text-sm">
-                    +4%
-                  </a>
-                </div>
-              </div>
-              {/*Second Section */}
-              <div className="flex items-center justify-between w-full">
-                <span className="text-2xl font-bold text-gray-900">1,456</span>
-                <span className="text-sm text-gray-600">questions</span>
-              </div>
-              {/* third section */}
-              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
-                <div className="bg-purple-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
-              </div>
-            </Cards>
-            <Cards className="h-full w-full">
-              {/* first section*/}
-              <div className="flex items-center justify-between mb-4 w-full">
-                {" "}
-                <div className="flex items-center gap-3">
-                  <div className="size-4 bg-indigo-500 rounded-full"></div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {" "}
-                    TypeScript
-                  </h3>{" "}
-                </div>
-                <div className="rounded-full flex items-center bg-green-100 text-green-500 border border-green-200">
-                  <a href="" className="px-2.5 py-.5 font-semibold text-sm">
-                    +18%
-                  </a>
-                </div>
-              </div>
-              {/*Second Section */}
-              <div className="flex items-center justify-between w-full">
-                <span className="text-2xl font-bold text-gray-900">432</span>
-                <span className="text-sm text-gray-600">questions</span>
-              </div>
-              {/* third section */}
-              <div className=" mt-4 h-2  rounded-full overflow-hidden w-full">
-                <div className="bg-indigo-500 rounded-full h-full w-[82%] transition-all duration-500 group-hover:w-full"></div>
-              </div>
-            </Cards>
+              </Cards>
+            ))}
           </div>
         </div>
         {/* Questions*/}
