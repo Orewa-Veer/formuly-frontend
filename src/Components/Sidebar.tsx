@@ -234,9 +234,11 @@ export function AppSidebar() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className=" border-1 border-gray-300 mb-2" />
                 <DropdownMenuGroup className="flex flex-col gap-2 mb-2 pl-1">
-                  <DropdownMenuItem className="flex text-sm font-medium items-center gap-2">
-                    <UserCircle className="size-5" />
-                    Account
+                  <DropdownMenuItem className="flex text-sm font-medium items-center ">
+                    <Link to={"/app/user"} className="flex items-center gap-2">
+                      <UserCircle className="size-5" />
+                      Account
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="flex text-sm font-medium items-center gap-2">
                     <IoNotifications className="size-5" />

@@ -2,6 +2,7 @@ export interface User {
   _id: string;
   username: string;
   email: string;
+  name: string;
   password: string;
 }
 export interface Reply {

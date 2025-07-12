@@ -13,7 +13,7 @@ interface Props {
   title?: string;
 }
 const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
-  const { data, loading, error } = useDiscussion(sortType, filter, title);
+  const { data, loading, error } = useDiscussion({ sortType, filter, title });
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;

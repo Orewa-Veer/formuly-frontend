@@ -32,12 +32,13 @@ export const useADiscuss = <T>(id?: string) => {
 
   return { data, loading, error };
 };
-
-export const useDiscussion = (
-  sortType?: string,
-  filter?: string,
-  title?: string
-) =>
+interface Props {
+  sortType?: string;
+  filter?: string;
+  title?: string;
+  user?: string;
+}
+export const useDiscussion = ({ sortType, filter, title, user }: Props) =>
   useData<Question>(
     "/api/discussion",
     {
@@ -45,7 +46,8 @@ export const useDiscussion = (
         sort: sortType === "date" ? "createdAt" : "upvoteCounter",
         isSolved: filter === "solved" ? "true" : "false",
         title: title,
+        user: user,
       },
     },
-    [sortType, filter, title] // Depend on ID so it refetches if ID changes
+    [sortType, filter, title, user] // Depend on ID so it refetches if ID changes
   );

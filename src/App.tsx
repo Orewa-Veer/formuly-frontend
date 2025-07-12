@@ -12,6 +12,7 @@ import {
 } from "./Components/ui/sidebar";
 import { AuthProvider } from "./services/AuthContext";
 import useCurrentCustomer from "./useHooks/useCurrentCustomer";
+import UserProfile from "./Components/UserProfile";
 
 function App() {
   const user = useCurrentCustomer();
@@ -34,6 +35,7 @@ function App() {
                     ></Route>
                     <Route path="/questions" element={<QuestionPage />}></Route>
                     <Route path="/popup" element={<AskForm />}></Route>
+                    <Route path="/user" element={<UserProfile />}></Route>
                   </Routes>
                 </div>
               </main>
