@@ -2,18 +2,50 @@ import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { useReplies } from "../useHooks/useReplies";
 import { MdDelete } from "react-icons/md";
 import Service from "../services/genricServices";
+import socket from "../socket";
+import { useEffect, useState } from "react";
+import { Reply } from "../models/Question";
 interface Props {
   id: string;
 }
 const ReplyList = ({ id }: Props) => {
+  const [replyList, setReplyList] = useState<Reply[] | []>([]);
   const { data, error, loading } = useReplies(id);
+
+  useEffect(() => {
+    setReplyList(data || []);
+  }, [data]);
+  useEffect(() => {
+    const handleReplyUpdated = (reply: Reply) => {
+      setReplyList((prev) => {
+        const exists = prev.find((r) => r._id === reply._id);
+        if (exists) {
+          return prev.map((r) => (r._id === reply._id ? reply : r));
+        } else {
+          return [...prev, reply];
+        }
+      });
+    };
+    const handleReplyDeleted = (reply: Reply) => {
+      setReplyList((prev) => prev.filter((r) => r._id !== reply._id));
+    };
+    console.log("Reply updated using socket");
+    socket.on("reply:updated", handleReplyUpdated);
+    socket.on("reply:deleted", handleReplyDeleted);
+
+    return () => {
+      socket.off("reply:updated", handleReplyUpdated);
+      socket.off("reply:deleted", handleReplyDeleted);
+    };
+  }, []);
   if (loading) return <div>Loading Replies...</div>;
   if (error) return <div>{error.message}</div>;
   if (!data) return <div>No Replies Yet</div>;
+
   return (
     <div>
       <div className="ml-6 space-y-5 mt-6 text-gray-600">
-        {data.map((rep) => (
+        {replyList.map((rep) => (
           <div
             key={rep._id}
             className="backdrop-blur-lg shadow-lg  bg-white/20 border border-white/40 px-10 p-6 mx-10 gap-5  flex flex-col rounded-xl"

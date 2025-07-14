@@ -5,15 +5,24 @@ import { Question } from "../models/Question";
 import { useADiscuss } from "../useHooks/useDiscussion";
 import ReplyList from "./ReplyList";
 import ReplySubmit from "./ReplySubmit";
+import socket from "../socket";
+import { useEffect } from "react";
 
 const Discussions = () => {
   const params = useParams<{ id: string }>();
   if (!params.id) console.log("No id provided");
 
   const { data, loading, error } = useADiscuss<Question>(params.id);
+  useEffect(() => {
+    socket.emit("discussion:join", params.id);
+    return () => {
+      socket.emit("discussion:leave", params.id);
+    };
+  }, [params.id]);
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
   if (!data) return <div>No data found</div>;
+
   return (
     <div className="pt-16 p-3 flex ">
       {" "}
