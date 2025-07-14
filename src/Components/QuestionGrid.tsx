@@ -6,6 +6,9 @@ import { MessageSquare } from "lucide-react";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { useDiscussion } from "../useHooks/useDiscussion";
 import Service from "../services/genricServices";
+import { useEffect, useState } from "react";
+import { Question } from "../models/Question";
+import socket from "../socket";
 
 interface Props {
   sortType?: string;
@@ -13,8 +16,28 @@ interface Props {
   title?: string;
 }
 const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
+  const [discussions, setDiscussions] = useState<Question[] | []>([]);
   const { data, loading, error } = useDiscussion({ sortType, filter, title });
-
+  useEffect(() => {
+    if (data) setDiscussions(data);
+  }, [data]);
+  useEffect(() => {
+    const updateHandler = (discuss: Question) => {
+      setDiscussions((prev) =>
+        prev.map((d) => {
+          if (d._id === discuss._id) {
+            return discuss;
+          } else {
+            return d;
+          }
+        })
+      );
+    };
+    socket.on("discussions:updated", updateHandler);
+    return () => {
+      socket.off("discussions:updated", updateHandler);
+    };
+  }, []);
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
   if (!data) return <div> No Discussions</div>;
@@ -25,7 +48,7 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
   };
   return (
     <>
-      {data.map((discuss) => (
+      {discussions.map((discuss) => (
         <Cards
           key={discuss._id}
           className={` border shadow-sm rounded-b-md gap-3 bg-gradient-to-br  border-gray-200  flex hover:shadow-lg backdrop-blur-lg hover:backdrop-blur-2xl hover:-translate-y-1 transition duration-200`}

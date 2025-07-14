@@ -1,17 +1,24 @@
 import { Search } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FilterDiscuss } from "./FilterDiscuss";
 import QuestionGrid from "./QuestionGrid";
 import { SortDiscuss } from "./SortDiscuss";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import socket from "../socket";
 const QuestionPage = () => {
+  useEffect(() => {
+    socket.emit("questions:join");
+    return () => {
+      socket.emit("questions:disconnected");
+    };
+  }, []);
   const [tit, setTit] = useState("");
   const [title, setTitle] = useState("");
   const [filter, setFilter] = React.useState("");
   const [sort, setSort] = React.useState("");
-  console.log(tit);
+  // console.log(tit);
   const handleClick = () => {
     setTitle(tit);
   };

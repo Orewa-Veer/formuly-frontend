@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Cards from "./Cards";
 import { FaArrowRight, FaCode, FaRegStar } from "react-icons/fa";
 import { FaBullseye, FaRegMessage } from "react-icons/fa6";
@@ -7,6 +7,7 @@ import { IoBulb } from "react-icons/io5";
 import { MdElectricBolt, MdOutlinePeopleAlt } from "react-icons/md";
 
 import { Link } from "react-router-dom";
+import socket from "../socket";
 
 const Tagis = [
   { name: "JavaScript", questions: 1234, color: "bg-orange-400" },
@@ -17,6 +18,12 @@ const Tagis = [
   { name: "CSS", questions: 600, color: "bg-indigo-400" },
 ];
 const Home = () => {
+  useEffect(() => {
+    socket.emit("Latest:join");
+    return () => {
+      socket.emit("Latest:disconnected");
+    };
+  }, []);
   const heroRef = useRef<HTMLDivElement>(null);
   const scrollToHero = () => {
     heroRef.current?.scrollIntoView({ behavior: "smooth" });
