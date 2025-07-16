@@ -36,3 +36,10 @@ export interface Question {
 export interface Bookmarks {
   parent_id: Question;
 }
+export type NotificationType = "upvote" | "reply";
+export interface Notifications {
+  userId: string;
+  discussId: string;
+  type: NotificationType;
+  date: Date;
+}

@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { Home, LogOut, MessageSquare, UserCircle } from "lucide-react";
+import { Bell, Home, LogOut, MessageSquare, UserCircle } from "lucide-react";
 import { useState } from "react";
 import { BsTags, BsThreeDotsVertical } from "react-icons/bs";
 import { FaRegBookmark, FaRegClock } from "react-icons/fa";
@@ -55,9 +55,9 @@ const items = [
     icon: FaRegBookmark,
   },
   {
-    title: "Rent",
-    url: "#",
-    icon: FaArrowTrendUp,
+    title: "Notifications",
+    url: "/app/notification",
+    icon: Bell,
   },
   {
     title: "Recent",
