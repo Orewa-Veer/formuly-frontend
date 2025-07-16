@@ -16,8 +16,8 @@ const Bookmark = () => {
     if (book) setBookmarks(book);
   }, [book]);
   useEffect(() => {
-    if (bookmarks) setDiscussions(bookmarks.map((b) => b.parent_id));
-  }, [bookmarks]);
+    if (bookmarks) setDiscussions(book.map((b) => b.parent_id));
+  }, [book]);
 
   // const { data, loading, error } = useDiscussion({});
   // useeffects
