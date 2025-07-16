@@ -1,14 +1,10 @@
-import { IoShareSocial } from "react-icons/io5";
-import Cards from "./Cards";
-import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
-import { MessageSquare } from "lucide-react";
-import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
-import { useDiscussion } from "../useHooks/useDiscussion";
-import Service from "../services/genricServices";
-import { useEffect, useState } from "react";
-import { Question } from "../models/Question";
+import { useEffect, useMemo, useState } from "react";
+import { Bookmarks, Question } from "../models/Question";
 import socket from "../socket";
+import { useDiscussion } from "../useHooks/useDiscussion";
+import QuestionCard from "./QuestionCard";
+import { useData } from "../useHooks/useData";
+import Service from "../services/genricServices";
 
 interface Props {
   sortType?: string;
@@ -18,6 +14,35 @@ interface Props {
 const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
   const [discussions, setDiscussions] = useState<Question[] | []>([]);
   const { data, loading, error } = useDiscussion({ sortType, filter, title });
+  const { data: book } = useData<Bookmarks>("/api/bookmark");
+  const [books, setBookmarks] = useState<Bookmarks[]>([]);
+  useEffect(() => {
+    if (book) setBookmarks(book);
+    console.log(book);
+  }, [book]);
+  console.log(book);
+  const bookmarksSet = useMemo(
+    () => new Set(books.map((b) => b.parent_id._id)),
+    [books]
+  );
+  const handleUpvotes = (id: string) => {
+    const upvote = new Service("/api/upvote/" + id);
+    upvote.post();
+  };
+  const handleBookmark = (discussId: string) => {
+    const bookmark = new Service("/api/bookmark/" + discussId);
+    bookmark.post().then((res) => {
+      if (res.data.status === "added") {
+        console.log(res.data.book.parent_id);
+        setBookmarks([...books, res.data.book]);
+      } else {
+        setBookmarks(books.filter((b) => b.parent_id._id !== discussId));
+      }
+    });
+  };
+  // useEffect(() => {
+  //   if (book) setBookmarks(book.map((b) => b.parent_id));
+  // }, [book]);
   useEffect(() => {
     if (data) setDiscussions(data);
   }, [data]);
@@ -42,95 +67,15 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
   if (error) return <div>{error.message}</div>;
   if (!data) return <div> No Discussions</div>;
   // console.log(data[0]._id);
-  const handleUpvotes = (id: string) => {
-    const upvote = new Service("/api/upvote/" + id);
-    upvote.post();
-  };
+
   return (
     <>
-      {discussions.map((discuss) => (
-        <Cards
-          key={discuss._id}
-          className={` border shadow-sm rounded-b-md gap-3 bg-gradient-to-br  border-gray-200  flex hover:shadow-lg backdrop-blur-lg hover:backdrop-blur-2xl hover:-translate-y-1 transition duration-200`}
-        >
-          <div className={`border-r-3 `}>
-            {/* upvotes */}
-            <div className="flex flex-col gap-2 items-center justify-between p-3">
-              <GoTriangleUp
-                className="rounded-full  border-2 text-gray-600 border-gray-600 size-6 cursor-pointer"
-                onClick={() => handleUpvotes(discuss._id)}
-              />
-              <span className="font-medium">{discuss.upvoteCounter}</span>
-              <GoTriangleDown className="rounded-full  border-2 text-gray-600 border-gray-600 size-6" />
-            </div>
-            {/* replies */}
-            <div className="flex items-center gap-1 mt-2" key={discuss._id}>
-              <MessageSquare className="text-emerald-700 size-6" />{" "}
-              <span>{discuss.replyCounter}</span>
-            </div>
-          </div>
-          {/*top */}
-          <div className="flex-1">
-            <div className="flex items-start justify-between mb-3 w-full">
-              {/*text */}
-              <div>
-                <h3 className="text-2xl font-bold tracking-wide text-gray-900 hover:text-primary cursor-pointer mb-2">
-                  <Link to={`/app/questions/${discuss._id}`} key={discuss._id}>
-                    {discuss.title}
-                  </Link>
-                </h3>
-                <p
-                  className="text-gray-600 text-sm mb-3 line-clamp-2 italic"
-                  dangerouslySetInnerHTML={{ __html: discuss.body }}
-                ></p>
-              </div>
-              {/*logo */}
-              <div className=" flex gap-2 ml-4 ">
-                {/* <Button
-              className={`px-1.5 py-0.5 bg-gradient-to-br ${color.buttons}  text-black`}
-              onClick={() => {
-                if (users[0].bookmark.includes(discuss._id))
-                  return users[0].bookmark.filter((book) => book != discuss._id);
-                users[0].bookmark.push(discuss.title);
-              }}
-            >
-              <FaRegBookmark />
-            </Button> */}
-                <Button className={`p-2 bg-gradient-to-br  text-black`}>
-                  <IoShareSocial />
-                </Button>
-              </div>
-            </div>
-            {/*mid */}
-            <div className="flex flex-wrap gap-2 mb-4 w-full">
-              {discuss.tags.map((cat) => (
-                <div
-                  key={cat.name}
-                  className={`bg-gradient-to-br   rounded-full items-center px-2.5 py-.75 font-semibold border text-xs`}
-                >
-                  {cat.name}
-                </div>
-              ))}
-            </div>
-            {/*bottom */}
-            {/* <div className="flex items-center justify-between w-full">
-          <div className="flex items-center gap-2">
-            <div className="size-6 rounded-full bg-gray-500">
-              {" "}
-              <img src={discuss.user.avatar} alt="" />
-            </div>
-            <span className="font-medium text-sm">{discuss.user.username}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaRegEye /> <span>{discuss.views}</span>
-          </div>
-        </div> */}
-            <div className="w-full p-2 text-sm font-semibold">
-              {discuss.user.username}
-            </div>
-          </div>
-        </Cards>
-      ))}
+      <QuestionCard
+        discussions={discussions}
+        bookmarks={bookmarksSet}
+        handleUpvotes={handleUpvotes}
+        handleBookmark={handleBookmark}
+      />
     </>
   );
 };

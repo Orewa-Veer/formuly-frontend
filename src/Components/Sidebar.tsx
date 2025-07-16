@@ -51,7 +51,7 @@ const items = [
   },
   {
     title: "Bookmark",
-    url: "/bookmark",
+    url: "/app/bookmark",
     icon: FaRegBookmark,
   },
   {

@@ -33,3 +33,6 @@ export interface Question {
   isSolved: boolean;
   replyCounter: number;
 }
+export interface Bookmarks {
+  parent_id: Question;
+}

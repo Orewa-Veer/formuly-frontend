@@ -13,6 +13,7 @@ import {
 import { AuthProvider } from "./services/AuthContext";
 import useCurrentCustomer from "./useHooks/useCurrentCustomer";
 import UserProfile from "./Components/UserProfile";
+import Bookmark from "./Components/Bookmark";
 
 function App() {
   const user = useCurrentCustomer();
@@ -36,6 +37,7 @@ function App() {
                     <Route path="/questions" element={<QuestionPage />}></Route>
                     <Route path="/popup" element={<AskForm />}></Route>
                     <Route path="/user" element={<UserProfile />}></Route>
+                    <Route path="/bookmark" element={<Bookmark />}></Route>
                   </Routes>
                 </div>
               </main>

@@ -35,43 +35,47 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="p-3 pl-5">
+    <div className="p-3 pl-5 flex items-center h-lvh justify-center bg-gray-100">
       <form
         action=""
         onSubmit={handleSubmit(onSubmit, onError)}
-        className="flex flex-col gap-3 w-xl border border-black p-5"
+        className="flex flex-col gap-3 w-xl bg-white/10 border border-white/20 p-5 backdrop-blur-lg shadow-xl rounded-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg"
       >
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 text-lg font-semibold ">
           <label htmlFor="login-username">Enter Username</label>
           <input
             id="login-username"
             {...register("username")}
             type="text"
-            className="border border-black"
+            className="border border-gray-800 px-2.5 py-0.5 rounded-md backdrop-blur-md"
           />
           {errors.username && (
             <div className="text-red-700">{errors.username.message}</div>
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="login-email">Enter Email</label>
+          <label htmlFor="login-email" className="text-lg font-semibold">
+            Enter Email
+          </label>
           <input
             id="login-email"
             {...register("email")}
             type="text"
-            className="border border-black"
+            className="border border-gray-800 px-2.5 py-0.5 rounded-md backdrop-blur-md"
           />
           {errors.email && (
             <div className="text-red-700">{errors.email.message}</div>
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="login-password">Enter Password</label>
+          <label htmlFor="login-password" className="text-lg font-semibold">
+            Enter Password
+          </label>
           <input
             id="login-password"
             {...register("password")}
             type="text"
-            className="border border-black"
+            className="border border-gray-800 px-2.5 py-0.5 rounded-md backdrop-blur-md"
           />
           {errors.password && (
             <div className="text-red-700">{errors.password.message}</div>
@@ -79,7 +83,7 @@ const LoginPage = () => {
         </div>
         <button
           type="submit"
-          className="cursor-pointer bg-blue-400 border-blue-700 ps-3 py-1 inline"
+          className="cursor-pointer bg-blue-400 border-blue-700 ps-3 py-1 inline rounded-lg font-semibold text-white"
         >
           Submit
         </button>

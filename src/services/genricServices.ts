@@ -6,9 +6,9 @@ export default class Service {
     this.endpoint = endpoint;
   }
   post<T>(body?: T) {
-    apiClient.post(this.endpoint, body && body).catch((ex) => console.log(ex));
+    return apiClient.post(this.endpoint, body && body);
   }
   delete(id: string) {
-    apiClient.delete(this.endpoint + "/" + id).catch((ex) => console.log(ex));
+    return apiClient.delete(this.endpoint + "/" + id);
   }
 }

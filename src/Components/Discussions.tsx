@@ -1,12 +1,12 @@
 import { Bookmark } from "lucide-react";
-import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import { useEffect } from "react";
+import { GoTriangleUp } from "react-icons/go";
 import { useParams } from "react-router-dom";
 import { Question } from "../models/Question";
+import socket from "../socket";
 import { useADiscuss } from "../useHooks/useDiscussion";
 import ReplyList from "./ReplyList";
 import ReplySubmit from "./ReplySubmit";
-import socket from "../socket";
-import { useEffect } from "react";
 
 const Discussions = () => {
   const params = useParams<{ id: string }>();
@@ -24,30 +24,33 @@ const Discussions = () => {
   if (!data) return <div>No data found</div>;
 
   return (
-    <div className="pt-16 p-3 flex ">
+    <div className="pt-16 p-1 md:p-3 flex  ">
       {" "}
       {/* Question*/}
       <div key={data._id} className="flex-1">
-        <div className="backdrop-blur-lg  bg-white/50 border border-white/80 text-gray-800 rounded-3xl p-6 px-10   shadow-xl  flex gap-2">
-          <div className="flex flex-col    space-y-5 items-center  p-3">
-            <div className="flex flex-col space-y-5 items-center mt-10 p-3 pl-1">
-              <GoTriangleUp className="size-10 text-gray-600  rounded-full border-gray-600 border-2" />
+        {/* Question card  */}
+        <div className="backdrop-blur-lg  bg-white/40 border border-white/60 text-gray-800 rounded-3xl p-0.5 md:p-4 px-2 md:px-6   shadow-lg  flex gap-2">
+          {/* Left Side  */}
+          <div className="flex flex-col    space-y-5 items-center  p-3 border-r-2 pr-0">
+            <div className="flex  gap-2 items-center mt-10 p-3 pl-1">
               <span className="text-gray-600 text-3xl font-bold">
                 {data.upvoteCounter}
               </span>
-              <GoTriangleDown className="size-10 text-gray-600 rounded-full border-gray-600 border-2" />
+              <GoTriangleUp className="size-7 text-gray-600  rounded-full border-gray-600 border-2" />
+              {/* <GoTriangleDown className="size-10 text-gray-600 rounded-full border-gray-600 border-2" /> */}
             </div>
             <div>
               <Bookmark className="text-emerald-700 " />
             </div>
           </div>
+          {/* Right side  */}
           <div id="ques-wrap" className="flex-1 pl-6">
-            <div className="flex  items-start justify-between">
-              <div className="flex flex-col gap-3">
+            <div className="flex  ">
+              <div className="flex flex-col gap-1">
                 <h1 className="text-4xl font-bold text-shadow-2xs text-shadow-gray-500 text-gray-800 font-iceland ">
                   {data.title}
                 </h1>
-                <p className="text-xs text-gray-600  mt-1 flex gap-3 items-center">
+                <p className="text-xs text-gray-600  mt-1 pl-1 flex gap-3 items-center">
                   {/* <img
                       src={data.user.avatar}
                       className="w-8 h-8 rounded-full border border-gray-300"
@@ -56,11 +59,12 @@ const Discussions = () => {
                   <span className="font-medium">{data.user.username}</span> •{" "}
                   <span>{new Date(data.createdAt).toLocaleString()}</span>
                 </p>
-                <div id="show-tags" className=" flex gap-3">
+                {/* tags  */}
+                <div id="show-tags" className=" flex gap-3 mt-2 pl-1">
                   {data.tags.map((tag) => (
                     <div
                       key={tag.name}
-                      className="rounded-full px-2.5 py-0.5 text-xs bg-white/60 border-emerald-700/80 text-gray-700"
+                      className="rounded-full px-1.5  text-xs bg-white/60 border border-emerald-700/80 text-gray-700"
                     >
                       {tag.name}
                     </div>
@@ -89,24 +93,11 @@ const Discussions = () => {
         <div>
           <ReplyList id={data._id} />
         </div>
-        <div>
+        <div className="mt-10 mb-5 flex items-center justify-center">
           <ReplySubmit discuss={data} />
         </div>
       </div>
       {/* side panel */}
-      <div className="w-1/5  h-full   rounded-lg flex flex-col gap-5 py-6 ">
-        {/* top */}
-        <div className="flex-1 w-full h-fit bg-white/50 rounded-md border-white/80 backdrop-blur-md shadow-md p-3">
-          <h2 className="text-2xl ">related tags</h2>
-          {data.tags.map((tag) => (
-            <div key={tag.name}>{tag.name}</div>
-          ))}
-        </div>
-        {/* medium */}
-        <div className="flex-1 w-full h-fit bg-white/50 rounded-md border-white/80 backdrop-blur-md shadow-md "></div>
-        {/* bottom */}
-        <div className="flex-1 h-fit w-full bg-white/50 rounded-md border-white/80 backdrop-blur-md shadow-md "></div>
-      </div>
       {/* Reply List */}
     </div>
   );
