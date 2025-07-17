@@ -1,24 +1,27 @@
-import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
-import { useReplies } from "../useHooks/useReplies";
-import { MdDelete } from "react-icons/md";
-import Service from "../services/genricServices";
-import socket from "../socket";
 import { useEffect, useState } from "react";
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import { MdDelete } from "react-icons/md";
 import { Reply } from "../models/Question";
+import Service from "../services/genricServices";
+import { useReplies } from "../useHooks/useReplies";
+import useSocket from "../useHooks/useSocket";
 interface Props {
   id: string;
 }
 const ReplyList = ({ id }: Props) => {
   const [replyList, setReplyList] = useState<Reply[] | []>([]);
   const { data, error, loading } = useReplies(id);
-
+  const socket = useSocket();
   useEffect(() => {
     setReplyList(data || []);
   }, [data]);
   useEffect(() => {
+    if (!socket) return;
     const handleReplyUpdated = (reply: Reply) => {
+      console.log("In replies");
       setReplyList((prev) => {
         const exists = prev.find((r) => r._id === reply._id);
+
         if (exists) {
           return prev.map((r) => (r._id === reply._id ? reply : r));
         } else {
@@ -37,7 +40,7 @@ const ReplyList = ({ id }: Props) => {
       socket.off("reply:updated", handleReplyUpdated);
       socket.off("reply:deleted", handleReplyDeleted);
     };
-  }, []);
+  }, [socket]);
   if (loading) return <div>Loading Replies...</div>;
   if (error) return <div>{error.message}</div>;
   if (!data) return <div>No Replies Yet</div>;

@@ -3,22 +3,26 @@ import { useEffect } from "react";
 import { GoTriangleUp } from "react-icons/go";
 import { useParams } from "react-router-dom";
 import { Question } from "../models/Question";
-import socket from "../socket";
 import { useADiscuss } from "../useHooks/useDiscussion";
 import ReplyList from "./ReplyList";
 import ReplySubmit from "./ReplySubmit";
+import useSocket from "../useHooks/useSocket";
 
 const Discussions = () => {
+  const socket = useSocket();
   const params = useParams<{ id: string }>();
   if (!params.id) console.log("No id provided");
 
   const { data, loading, error } = useADiscuss<Question>(params.id);
+  // console.log("this is the socket", socket);
   useEffect(() => {
+    if (!socket) return;
+    console.log("emmiting the discussion socket");
     socket.emit("discussion:join", params.id);
     return () => {
       socket.emit("discussion:leave", params.id);
     };
-  }, [params.id]);
+  }, [params.id, socket]);
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
   if (!data) return <div>No data found</div>;

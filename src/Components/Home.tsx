@@ -1,13 +1,13 @@
 import { useEffect, useRef } from "react";
-import Cards from "./Cards";
 import { FaArrowRight, FaCode, FaRegStar } from "react-icons/fa";
 import { FaBullseye, FaRegMessage } from "react-icons/fa6";
 import { IoIosRocket } from "react-icons/io";
 import { IoBulb } from "react-icons/io5";
 import { MdElectricBolt, MdOutlinePeopleAlt } from "react-icons/md";
+import Cards from "./Cards";
 
 import { Link } from "react-router-dom";
-import socket from "../socket";
+import useSocket from "../useHooks/useSocket";
 
 const Tagis = [
   { name: "JavaScript", questions: 1234, color: "bg-orange-400" },
@@ -18,7 +18,9 @@ const Tagis = [
   { name: "CSS", questions: 600, color: "bg-indigo-400" },
 ];
 const Home = () => {
+  const socket = useSocket();
   useEffect(() => {
+    if (!socket) return;
     socket.emit("Latest:join");
     return () => {
       socket.emit("Latest:disconnected");

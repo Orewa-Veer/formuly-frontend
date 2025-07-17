@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Bookmarks, Question } from "../models/Question";
-import socket from "../socket";
-import { useDiscussion } from "../useHooks/useDiscussion";
-import QuestionCard from "./QuestionCard";
-import { useData } from "../useHooks/useData";
 import Service from "../services/genricServices";
+import { useData } from "../useHooks/useData";
+import { useDiscussion } from "../useHooks/useDiscussion";
+import useSocket from "../useHooks/useSocket";
+import QuestionCard from "./QuestionCard";
 
 interface Props {
   sortType?: string;
@@ -16,6 +16,7 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
   const { data, loading, error } = useDiscussion({ sortType, filter, title });
   const { data: book } = useData<Bookmarks>("/api/bookmark");
   const [books, setBookmarks] = useState<Bookmarks[]>([]);
+  const socket = useSocket();
   useEffect(() => {
     if (book) setBookmarks(book);
     console.log(book);
@@ -47,6 +48,7 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
     if (data) setDiscussions(data);
   }, [data]);
   useEffect(() => {
+    if (!socket) return;
     const updateHandler = (discuss: Question) => {
       setDiscussions((prev) =>
         prev.map((d) => {
@@ -62,7 +64,7 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
     return () => {
       socket.off("discussions:updated", updateHandler);
     };
-  }, []);
+  }, [socket]);
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
   if (!data) return <div> No Discussions</div>;
