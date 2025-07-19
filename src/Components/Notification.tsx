@@ -22,7 +22,7 @@ const Notification = () => {
     socket.on("notification:new", handleNotific);
   }, [ready, socket]);
 
-  console.log(data);
+  // console.log(data);
   return (
     <div className="p-3 sm:px-6 md:px-8 lg:px-10 xl:px-14 ">
       {/* container  */}

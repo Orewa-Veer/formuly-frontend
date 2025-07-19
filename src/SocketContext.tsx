@@ -15,6 +15,7 @@ export const SocketProvider = ({ children }: Props) => {
   useEffect(() => {
     if (user?.user?._id && !socketRef.current) {
       const socket = io("http://localhost:3000", {
+        transports: ["websocket"],
         auth: {
           userId: user.user._id,
         },
