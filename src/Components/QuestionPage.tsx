@@ -1,21 +1,23 @@
 import { Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import useSocket from "../useHooks/useSocket";
+import { useSocket } from "../services/useSocket";
 import { FilterDiscuss } from "./FilterDiscuss";
 import QuestionGrid from "./QuestionGrid";
 import { SortDiscuss } from "./SortDiscuss";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 const QuestionPage = () => {
-  const socket = useSocket();
+  const { socket, ready } = useSocket();
   useEffect(() => {
-    if (!socket) return;
+    if (!ready || !socket) return;
+
+    console.log("This is the socket", socket);
     socket.emit("questions:join");
     return () => {
-      socket.emit("questions:disconnected");
+      socket?.emit("questions:disconnected");
     };
-  }, []);
+  }, [ready, socket]);
   const [tit, setTit] = useState("");
   const [title, setTitle] = useState("");
   const [filter, setFilter] = React.useState("");

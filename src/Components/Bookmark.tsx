@@ -2,15 +2,15 @@ import { BookmarkIcon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Bookmarks, Question } from "../models/Question";
 import Service from "../services/genricServices";
+import { useSocket } from "../services/useSocket";
 import { useData } from "../useHooks/useData";
-import useSocket from "../useHooks/useSocket";
 import QuestionCard from "./QuestionCard";
 
 const Bookmark = () => {
-  const socket = useSocket();
   // Data fectchin
   const { data: book, error, loading } = useData<Bookmarks>("/api/bookmark");
   const [discussions, setDiscussions] = useState<Question[] | []>([]);
+  const { ready, socket } = useSocket();
   // fetching discussions fromm it
   const [bookmarks, setBookmarks] = useState<Bookmarks[]>([]);
   useEffect(() => {
@@ -32,12 +32,12 @@ const Bookmark = () => {
   // }, [data]);
   // socket handler
   useEffect(() => {
-    if (!socket) return;
+    if (!ready || !socket) return;
     socket.emit("bookmark:join");
     return () => {
       socket.emit("bookamrk:leave");
     };
-  }, []);
+  }, [ready, socket]);
   // handle functions
   const handleUpvotes = (id: string) => {
     const upvote = new Service("/api/upvote/" + id);

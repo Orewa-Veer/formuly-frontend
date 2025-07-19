@@ -14,6 +14,7 @@ import {
 } from "./Components/ui/sidebar";
 import UserProfile from "./Components/UserProfile";
 import useCurrentCustomer from "./useHooks/useCurrentCustomer";
+import { SocketProvider } from "./SocketContext";
 
 function App() {
   const user = useCurrentCustomer();
@@ -28,21 +29,23 @@ function App() {
             <main className="pt-3">
               <SidebarTrigger />
               <div className="flex flex-col flex-1">
-                <Routes>
-                  <Route path="/" element={<Home />}></Route>
-                  <Route
-                    path="/questions/:id"
-                    element={<Discussions />}
-                  ></Route>
-                  <Route path="/questions" element={<QuestionPage />}></Route>
-                  <Route path="/popup" element={<AskForm />}></Route>
-                  <Route path="/user" element={<UserProfile />}></Route>
-                  <Route path="/bookmark" element={<Bookmark />}></Route>
-                  <Route
-                    path="/notification"
-                    element={<Notification />}
-                  ></Route>
-                </Routes>
+                <SocketProvider>
+                  <Routes>
+                    <Route path="/" element={<Home />}></Route>
+                    <Route
+                      path="/questions/:id"
+                      element={<Discussions />}
+                    ></Route>
+                    <Route path="/questions" element={<QuestionPage />}></Route>
+                    <Route path="/popup" element={<AskForm />}></Route>
+                    <Route path="/user" element={<UserProfile />}></Route>
+                    <Route path="/bookmark" element={<Bookmark />}></Route>
+                    <Route
+                      path="/notification"
+                      element={<Notification />}
+                    ></Route>
+                  </Routes>
+                </SocketProvider>
               </div>
             </main>
           </SidebarInset>

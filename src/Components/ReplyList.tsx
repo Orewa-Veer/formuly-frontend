@@ -4,21 +4,22 @@ import { MdDelete } from "react-icons/md";
 import { Reply } from "../models/Question";
 import Service from "../services/genricServices";
 import { useReplies } from "../useHooks/useReplies";
-import useSocket from "../useHooks/useSocket";
+import { useSocket } from "../services/useSocket";
 interface Props {
   id: string;
 }
 const ReplyList = ({ id }: Props) => {
   const [replyList, setReplyList] = useState<Reply[] | []>([]);
   const { data, error, loading } = useReplies(id);
-  const socket = useSocket();
+  const { socket, ready } = useSocket();
   useEffect(() => {
     setReplyList(data || []);
   }, [data]);
   useEffect(() => {
-    if (!socket) return;
+    if (!ready || !socket) return;
+    console.log(socket);
     const handleReplyUpdated = (reply: Reply) => {
-      console.log("In replies");
+      console.log("In replies", reply);
       setReplyList((prev) => {
         const exists = prev.find((r) => r._id === reply._id);
 
@@ -40,7 +41,7 @@ const ReplyList = ({ id }: Props) => {
       socket.off("reply:updated", handleReplyUpdated);
       socket.off("reply:deleted", handleReplyDeleted);
     };
-  }, [socket]);
+  }, [ready, socket]);
   if (loading) return <div>Loading Replies...</div>;
   if (error) return <div>{error.message}</div>;
   if (!data) return <div>No Replies Yet</div>;

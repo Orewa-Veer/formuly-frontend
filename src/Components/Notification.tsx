@@ -3,24 +3,24 @@ import { useEffect, useState } from "react";
 import { Notifications } from "../models/Question";
 import timeAgo from "../services/timeAgo";
 import { useData } from "../useHooks/useData";
-import useSocket from "../useHooks/useSocket";
+import { useSocket } from "../services/useSocket";
 import Cards from "./Cards";
 
 const Notification = () => {
-  const { data, error, loading } = useData<Notifications>("/api/notification");
+  const { data } = useData<Notifications>("/api/notification");
   const [notifications, setNotifications] = useState<Notifications[]>([]);
-  const socket = useSocket();
+  const { socket, ready } = useSocket();
   useEffect(() => {
     setNotifications(data);
   }, [data]);
   useEffect(() => {
-    if (!socket) return;
+    if (!ready || !socket) return;
     const handleNotific = (notifc: Notifications) => {
       console.log(notifc);
       setNotifications((prev) => [...prev, notifc]);
     };
     socket.on("notification:new", handleNotific);
-  });
+  }, [ready, socket]);
 
   console.log(data);
   return (

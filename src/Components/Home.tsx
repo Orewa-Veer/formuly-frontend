@@ -7,7 +7,7 @@ import { MdElectricBolt, MdOutlinePeopleAlt } from "react-icons/md";
 import Cards from "./Cards";
 
 import { Link } from "react-router-dom";
-import useSocket from "../useHooks/useSocket";
+import { useSocket } from "../services/useSocket";
 
 const Tagis = [
   { name: "JavaScript", questions: 1234, color: "bg-orange-400" },
@@ -18,14 +18,14 @@ const Tagis = [
   { name: "CSS", questions: 600, color: "bg-indigo-400" },
 ];
 const Home = () => {
-  const socket = useSocket();
+  const { socket, ready } = useSocket();
   useEffect(() => {
-    if (!socket) return;
+    if (!ready || !socket) return;
     socket.emit("Latest:join");
     return () => {
       socket.emit("Latest:disconnected");
     };
-  }, []);
+  }, [ready, socket]);
   const heroRef = useRef<HTMLDivElement>(null);
   const scrollToHero = () => {
     heroRef.current?.scrollIntoView({ behavior: "smooth" });
