@@ -33,7 +33,7 @@ const Discussions = () => {
       {/* Question*/}
       <div key={data._id} className="flex-1">
         {/* Question card  */}
-        <div className="backdrop-blur-lg  bg-white/40 border border-white/60 text-gray-800 rounded-3xl p-0.5 md:p-4 px-2 md:px-6   shadow-lg  flex gap-2">
+        <div className="backdrop-blur-md  bg-white/40 border border-gray-300/60 text-gray-800 rounded-md p-0.5 md:p-4 px-2 md:px-6   shadow-lg  flex gap-2">
           {/* Left Side  */}
           <div className="flex flex-col    space-y-5 items-center  p-3 border-r-2 pr-0">
             <div className="flex  gap-2 items-center mt-10 p-3 pl-1">
@@ -94,7 +94,7 @@ const Discussions = () => {
           </div>
         </div>
 
-        <div>
+        <div className="">
           <ReplyList id={data._id} />
         </div>
         <div className="mt-10 mb-5 flex items-center justify-center">

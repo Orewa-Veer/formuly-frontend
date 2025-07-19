@@ -5,6 +5,7 @@ import { Reply } from "../models/Question";
 import Service from "../services/genricServices";
 import { useReplies } from "../useHooks/useReplies";
 import { useSocket } from "../services/useSocket";
+import { useAuth } from "../services/useAuth";
 interface Props {
   id: string;
 }
@@ -12,6 +13,7 @@ const ReplyList = ({ id }: Props) => {
   const [replyList, setReplyList] = useState<Reply[] | []>([]);
   const { data, error, loading } = useReplies(id);
   const { socket, ready } = useSocket();
+  const { user } = useAuth();
   useEffect(() => {
     setReplyList(data || []);
   }, [data]);
@@ -48,11 +50,11 @@ const ReplyList = ({ id }: Props) => {
 
   return (
     <div>
-      <div className="ml-6 space-y-5 mt-6 text-gray-600">
+      <div className="ml-6 space-y-5 mt-6 text-gray-600 ">
         {replyList.map((rep) => (
           <div
             key={rep._id}
-            className="backdrop-blur-lg shadow-lg  bg-white/20 border border-white/40 px-10 p-6 mx-10 gap-5  flex flex-col rounded-xl"
+            className="backdrop-blur-sm shadow-sm  bg-white/20 border border-gray-300/40 px-10 p-6 mx-10 gap-5  flex flex-col rounded-md"
           >
             {/* user which replied */}
             <div className="flex items-center gap-3">
@@ -73,9 +75,11 @@ const ReplyList = ({ id }: Props) => {
             {/* footing */}
             <div className="flex gap-2 justify-end">
               <GoTriangleUp className="size-8 cursor-pointer" />
-              <GoTriangleDown className="size-8 cursor-pointer" />
+
               <div
-                className="flex items-center cursor-pointer hover:text-red-500"
+                className={`flex items-center ${
+                  rep.user._id !== user._id ? "hidden" : ""
+                } cursor-pointer hover:text-red-500`}
                 onClick={() => {
                   const reply = new Service("/api/replies");
                   reply.delete(rep._id);

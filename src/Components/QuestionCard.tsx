@@ -26,7 +26,7 @@ const QuestionCard = ({
       {discussions.map((discuss) => (
         <Cards
           key={discuss._id}
-          className={` border shadow-sm rounded-b-md gap-3 bg-gradient-to-br  border-gray-200  flex hover:shadow-lg backdrop-blur-lg hover:backdrop-blur-2xl hover:-translate-y-1 transition duration-200`}
+          className={` border shadow-sm rounded-b-md gap-3 bg-gradient-to-br  border-gray-200  flex hover:shadow-lg backdrop-blur-lg hover:backdrop-blur-xl hover:-translate-y-0.5 transition duration-100`}
         >
           <div className={`border-r-3 `}>
             {/* upvotes */}

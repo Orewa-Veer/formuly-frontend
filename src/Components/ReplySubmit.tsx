@@ -14,12 +14,14 @@ interface Reply {
 const ReplySubmit = ({ discuss }: Reply) => {
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<FormSch>({ resolver: zodResolver(schema) });
   const onSubmit = (data: FormSch) => {
     const reply = new Service(`/api/replies/${discuss._id}`);
     reply.post(data).catch((ex) => console.log(ex.message));
+    reset();
   };
   const onError = (error: FieldErrors<FormSch>) => {
     console.log(error);
