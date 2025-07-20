@@ -1,15 +1,17 @@
 import { ArrowUp, Bell, MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Notifications } from "../../types/Question";
-import timeAgo from "../../services/timeAgo";
-import { useData } from "../../useHooks/useData";
-import { useSocket } from "../../services/useSocket";
-import Cards from "../../Components/Cards";
-import { Button } from "../../Components/ui/button";
-import Service from "../../services/genricServices";
+import Cards from "../../../Components/Cards";
+import { Button } from "../../../Components/ui/button";
+import timeAgo from "../../../services/timeAgo";
+import { useSocket } from "../../../services/useSocket";
+import { Notifications } from "../../../types/Question";
+import { useData } from "../../../useHooks/useData";
+import { useNotification } from "../hooks/useNotification";
 
 const Notification = () => {
-  const { data } = useData<Notifications>("/api/notification");
+  const [seen, setSeen] = useState("false");
+  const [type, setType] = useState("");
+  const { data } = useNotification({ seen: seen, type: type });
   const [notifications, setNotifications] = useState<Notifications[]>([]);
   const { socket, ready } = useSocket();
   useEffect(() => {
@@ -26,10 +28,10 @@ const Notification = () => {
       socket.off("notification:new", handleNotific);
     };
   }, [ready, socket]);
-  const handleClick = () => {
-    const notific = new Service("/api/notification/mark-all-seen");
-    notific.post().then(res=>)
-  };
+  // const handleClick = () => {
+  //   const notific = new Service("/api/notification/mark-all-seen");
+  //   notific.post().then(res=>)
+  // };
 
   // console.log(data);
   return (
@@ -38,14 +40,20 @@ const Notification = () => {
 
       <div className="w-full">
         {/* Header  */}
-        <div className="flex gap-2 mb-8 text-4xl text-blue-600 items-center font-bold">
-          <Bell className="size-9 text-blue-600" /> <span>Notifications</span>
+        <div className="flex gap-2 justify-between mb-8 text-3xl text-blue-600 items-center font-bold">
+          <div className="flex items-center">
+            <Bell className="size-9 text-blue-600" /> <span>Notifications</span>
+          </div>
+          <div>
+            <Button>Filter</Button>
+            <Button>Mark All Seen</Button>
+          </div>
         </div>
         {/* Body  */}
         <div className="flex flex-col space-y-2 items-center">
           <Button
             className="bg-white text-emerald-700 hover:bg-emerald-700 hover:text-white"
-            onClick={handleClick}
+            // onClick={handleClick}
           >
             Marked All as seen
           </Button>

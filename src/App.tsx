@@ -4,7 +4,7 @@ import AskForm from "./Components/AskForm";
 import Bookmark from "./features/Bookmark/Bookmark";
 import Discussions from "./features/discussions/components/Discussions";
 import Home from "./features/home/Home";
-import Notification from "./features/notification/Notification";
+import Notification from "./features/notification/page/Notification";
 import QuestionPage from "./features/discussions/pages/QuestionPage";
 import { AppSidebar } from "./features/sidebar/Sidebar";
 import {
