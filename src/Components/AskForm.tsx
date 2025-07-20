@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import useTags from "../useHooks/useTags";
 import Service from "../services/genricServices";
+import { Tags } from "../types/Question";
 export interface FormStu {
   userId: string;
   title: string;
@@ -16,8 +17,9 @@ export interface DiscussStru {
 }
 
 const AskForm = () => {
-  const { register, handleSubmit } = useForm<FormStu>();
+  const { register, handleSubmit, reset } = useForm<FormStu>();
   const [tagsId, setTagsId] = useState<string[]>([]);
+  const [tagValue, setTags] = useState<string[]>([]);
   const { data, error } = useTags();
   const onSubmit = (data: FormStu) => {
     const newDiscuss = {
@@ -27,64 +29,81 @@ const AskForm = () => {
     };
     const discuss = new Service("/api/discussion");
     discuss.post<DiscussStru>(newDiscuss);
+    reset();
   };
   if (!data) return <div>No tags exist</div>;
   if (error) return <div>{error.message}</div>;
-  const handleClick = (tagId: string) => {
-    if (!tagsId.includes(tagId)) {
-      setTagsId((prev) => [...prev, tagId]);
+  const handleClick = (tag: Tags) => {
+    if (!tagsId.includes(tag._id)) {
+      setTagsId((prev) => [...prev, tag._id]);
+      setTags((prev) => [...prev, tag.name]);
+    } else {
+      setTagsId((prev) => prev.filter((t) => t !== tag._id));
+      setTags((prev) => prev.filter((t) => t !== tag.name));
     }
   };
   return (
-    <div className="pt-5 p-3">
+    <div className="pt-5 p-3 sm:px-5 md:px-8 lg:px-10 xl:px-14 max-w-5xl ">
       <form
         action=""
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-3 backdrop-blur-md shadow-md rounded-sm p-6"
       >
-        <div className="flex justify-between">
-          <label htmlFor="form-title">Title</label>
+        <div className="flex flex-col space-y-1">
+          <label htmlFor="form-title" className="font-semibold text-lg">
+            Title
+          </label>
           <input
             id="form-title"
             type="text"
             placeholder="Enter the title"
             {...register("title", { required: true })}
+            className="border rounded-sm px-2 py-1"
           />
         </div>
 
-        <div className="flex justify-between">
-          <label htmlFor="form-body">Body</label>
+        <div className="flex space-y-1 flex-col">
+          <label htmlFor="form-body" className="font-semibold text-lg">
+            Body
+          </label>
           <input
             id="form-body"
             type="text"
             placeholder="Enter the body"
             {...register("body", { required: true })}
+            className="border rounded-sm px-2 py-1"
           />
         </div>
-        <div className="flex justify-between">
-          <label htmlFor="form-tags">Tags</label>
+        <div className="flex space-y-1 flex-col">
+          <label htmlFor="form-tags" className="font-semibold text-lg">
+            Tags
+          </label>
           <input
             id="form-tags"
             type="text"
             placeholder="Enter the tags"
             {...register("tags")}
-            value={tagsId.join()}
+            value={tagValue.join()}
+            className="border rounded-sm px-2 py-1"
           />
         </div>
-        <div className="flex gap-3">
+        <div className="flex gap-3 mt-1">
           {data.map((tag) => (
             <div
               key={tag.name}
               className="border rounded-full px-2 py-0.5 text-xs border-black  cursor-pointer"
               onClick={() => {
-                handleClick(tag._id);
+                handleClick(tag);
               }}
             >
               {tag.name}
             </div>
           ))}
         </div>
-        <Button type="submit"> Submit Form</Button>
+        <Button variant={"outline"} type="submit" className="w-fit">
+          {" "}
+          Submit Form
+        </Button>
       </form>
     </div>
   );

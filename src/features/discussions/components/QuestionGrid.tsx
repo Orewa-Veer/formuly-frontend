@@ -20,9 +20,9 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
 
   useEffect(() => {
     if (book) setBookmarks(book);
-    console.log(book);
+    // console.log(book);
   }, [book]);
-  console.log(book);
+  // console.log(book);
   const bookmarksSet = useMemo(
     () => new Set(books.map((b) => b.parent_id._id)),
     [books]

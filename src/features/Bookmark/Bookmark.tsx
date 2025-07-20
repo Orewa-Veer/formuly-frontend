@@ -57,7 +57,7 @@ const Bookmark = () => {
   if (error) return <div>{error.message}</div>;
   // if (!data) return <div> No Discussions</div>;
   if (!bookmarks) return;
-  console.log(book);
+  // console.log(book);
 
   return (
     <div className="flex flex-col p-3  px-6 md:px-8 lg:px-10 xl:px-14">
@@ -67,7 +67,9 @@ const Bookmark = () => {
           <BookmarkIcon className="size-10 font-bold " />
           <span>Bookmarks</span>
         </h1>
-        <p className="text-muted">All your bookmarks Apprear here</p>
+        <p className="text-gray-400 italic pl-2">
+          All your bookmarks Apprear here
+        </p>
       </div>
       {/* Questions grid  */}
       <div>

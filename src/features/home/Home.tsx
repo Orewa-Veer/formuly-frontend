@@ -58,7 +58,7 @@ const Home = () => {
             to experts, everyone is welcome to learn and contribute.
           </div>
           {/* Buttons */}
-          <div className="flex flex-col sm:flex sm:flex-row gap-6 justify-center mb-16">
+          <div className="flex flex-col sm:flex-row justify-around w-full  gap-6  mb-16">
             <button className="bg-white/20 border border-white/30 backdrop-blur-sm shadow-md transition-all duration-200 rounded-lg text-black  px-6 py-2 hover:bg-white/30">
               <div className="flex items-center gap-2 font-medium text-lg">
                 <span onClick={scrollToHero}>Start Exploring</span>
@@ -76,7 +76,7 @@ const Home = () => {
             </button>
           </div>
           {/* Cards*/}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8  mx-auto w-full h-full">
             <Cards>
               <MdOutlinePeopleAlt className="size-10 text-blue-600 mx-auto mb-3" />
               <div className="flex flex-col items-center">

@@ -21,6 +21,7 @@ export interface Upvotes {
   userId: string;
 }
 export interface Tags {
+  _id: string;
   name: string;
   body: string;
 }

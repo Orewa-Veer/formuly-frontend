@@ -5,6 +5,8 @@ import timeAgo from "../../services/timeAgo";
 import { useData } from "../../useHooks/useData";
 import { useSocket } from "../../services/useSocket";
 import Cards from "../../Components/Cards";
+import { Button } from "../../Components/ui/button";
+import Service from "../../services/genricServices";
 
 const Notification = () => {
   const { data } = useData<Notifications>("/api/notification");
@@ -20,7 +22,14 @@ const Notification = () => {
       setNotifications((prev) => [...prev, notifc]);
     };
     socket.on("notification:new", handleNotific);
+    return () => {
+      socket.off("notification:new", handleNotific);
+    };
   }, [ready, socket]);
+  const handleClick = () => {
+    const notific = new Service("/api/notification/mark-all-seen");
+    notific.post().then(res=>)
+  };
 
   // console.log(data);
   return (
@@ -34,6 +43,12 @@ const Notification = () => {
         </div>
         {/* Body  */}
         <div className="flex flex-col space-y-2 items-center">
+          <Button
+            className="bg-white text-emerald-700 hover:bg-emerald-700 hover:text-white"
+            onClick={handleClick}
+          >
+            Marked All as seen
+          </Button>
           {/* Cards  */}
           {notifications.map((notific) => (
             <Cards className="flex gap-2 w-fit bg-white/10 border border-white/20 rounded-sm backdrop-blur-md shadow-sm p-3">
