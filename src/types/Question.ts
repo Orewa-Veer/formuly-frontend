@@ -41,7 +41,7 @@ export interface Bookmarks {
 export type NotificationType = "upvote" | "reply";
 export interface Notifications {
   userId: string;
-  discussId: string;
+  discussId: Question;
   type: NotificationType;
   date: Date;
 }
