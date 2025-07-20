@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldErrors, useForm } from "react-hook-form";
 import z from "zod";
-import { Question } from "../models/Question";
-import Service from "../services/genricServices";
+import { Question } from "../../../types/Question";
+import Service from "../../../services/genricServices";
 const schema = z.object({
   body: z.string(),
 });

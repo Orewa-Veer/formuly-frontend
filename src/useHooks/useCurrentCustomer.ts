@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-Client";
-import { User } from "../models/Question";
+import { User } from "../types/Question";
 
 export default function useCurrentCustomer() {
   const [user, setUser] = useState<User | null>(null);

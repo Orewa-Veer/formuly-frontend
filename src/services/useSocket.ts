@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { SocketContextType } from "../models/SocketContextType";
+import { SocketContextType } from "../types/SocketContextType";
 
 export const SocketContext = createContext<SocketContextType | null>(null);
 export function useSocket() {

@@ -3,8 +3,8 @@
 import * as React from "react";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 
-import { cn } from "../lib/utils";
-import { Button } from "./ui/button";
+import { cn } from "../../../lib/utils";
+import { Button } from "../../../Components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -12,8 +12,12 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "./ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+} from "../../../Components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../../../Components/ui/popover";
 import { FaSortAmountDown } from "react-icons/fa";
 
 const frameworks = [

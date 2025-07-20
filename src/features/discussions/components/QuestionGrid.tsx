@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { Bookmarks, Question } from "../models/Question";
-import Service from "../services/genricServices";
-import { useData } from "../useHooks/useData";
-import { useDiscussion } from "../useHooks/useDiscussion";
-import { useSocket } from "../services/useSocket";
+import { Bookmarks, Question } from "../../../types/Question";
+import Service from "../../../services/genricServices";
+import { useData } from "../../../useHooks/useData";
+import { useDiscussion } from "../hooks/useDiscussion";
+import { useSocket } from "../../../services/useSocket";
 import QuestionCard from "./QuestionCard";
 
 interface Props {

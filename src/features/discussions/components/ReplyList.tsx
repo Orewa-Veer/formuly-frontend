@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import { GoTriangleUp } from "react-icons/go";
 import { MdDelete } from "react-icons/md";
-import { Reply } from "../models/Question";
-import Service from "../services/genricServices";
-import { useReplies } from "../useHooks/useReplies";
-import { useSocket } from "../services/useSocket";
-import { useAuth } from "../services/useAuth";
+import { Reply } from "../../../types/Question";
+import Service from "../../../services/genricServices";
+import { useAuth } from "../../../services/useAuth";
+import { useSocket } from "../../../services/useSocket";
+import { useReplies } from "../hooks/useReplies";
 interface Props {
   id: string;
 }

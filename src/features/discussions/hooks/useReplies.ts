@@ -1,5 +1,5 @@
-import { Reply } from "../models/Question";
-import { useData } from "./useData";
+import { Reply } from "../../../types/Question";
+import { useData } from "../../../useHooks/useData";
 
 export const useReplies = (id?: string) =>
   useData<Reply>(

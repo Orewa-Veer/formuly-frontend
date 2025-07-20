@@ -1,10 +1,10 @@
 import { BookmarkIcon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { Bookmarks, Question } from "../models/Question";
-import Service from "../services/genricServices";
-import { useSocket } from "../services/useSocket";
-import { useData } from "../useHooks/useData";
-import QuestionCard from "./QuestionCard";
+import { Bookmarks, Question } from "../../types/Question";
+import Service from "../../services/genricServices";
+import { useSocket } from "../../services/useSocket";
+import { useData } from "../../useHooks/useData";
+import QuestionCard from "../discussions/components/QuestionCard";
 
 const Bookmark = () => {
   // Data fectchin

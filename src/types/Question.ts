@@ -4,6 +4,8 @@ export interface User {
   email: string;
   name: string;
   password: string;
+  bio: string;
+  location: string;
 }
 export interface Reply {
   _id: string;

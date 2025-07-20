@@ -3,9 +3,9 @@ import { FaRegBookmark } from "react-icons/fa";
 import { GoTriangleUp } from "react-icons/go";
 import { IoShareSocial } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { Question } from "../models/Question";
-import Cards from "./Cards";
-import { Button } from "./ui/button";
+import { Question } from "../../../types/Question";
+import Cards from "../../../Components/Cards";
+import { Button } from "../../../Components/ui/button";
 interface Props {
   discussions: Question[];
   bookmarks?: Set<string>;

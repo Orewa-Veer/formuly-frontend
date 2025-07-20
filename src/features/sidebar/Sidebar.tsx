@@ -17,7 +17,8 @@ import { Bell, Home, LogOut, MessageSquare, UserCircle } from "lucide-react";
 import { useState } from "react";
 import { BsTags, BsThreeDotsVertical } from "react-icons/bs";
 import { FaRegBookmark, FaRegClock } from "react-icons/fa";
-import { FaArrowTrendUp, FaRegMessage } from "react-icons/fa6";
+import { FaRegMessage } from "react-icons/fa6";
+import { IoNotifications } from "react-icons/io5";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import { Link } from "react-router-dom";
 import {
@@ -34,8 +35,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   useSidebar,
-} from "./ui/sidebar";
-import { IoNotifications } from "react-icons/io5";
+} from "../../Components/ui/sidebar";
 
 // Menu items.
 const items = [

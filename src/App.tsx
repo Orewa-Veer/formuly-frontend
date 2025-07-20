@@ -1,18 +1,18 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import AskForm from "./Components/AskForm";
-import Bookmark from "./Components/Bookmark";
-import Discussions from "./Components/Discussions";
-import Home from "./Components/Home";
-import Notification from "./Components/Notification";
-import QuestionPage from "./Components/QuestionPage";
-import { AppSidebar } from "./Components/Sidebar";
+import Bookmark from "./features/Bookmark/Bookmark";
+import Discussions from "./features/discussions/components/Discussions";
+import Home from "./features/home/Home";
+import Notification from "./features/notification/Notification";
+import QuestionPage from "./features/discussions/pages/QuestionPage";
+import { AppSidebar } from "./features/sidebar/Sidebar";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "./Components/ui/sidebar";
-import UserProfile from "./Components/UserProfile";
+import UserProfile from "./features/UserProfile/UserProfile";
 import useCurrentCustomer from "./useHooks/useCurrentCustomer";
 import { SocketProvider } from "./SocketContext";
 

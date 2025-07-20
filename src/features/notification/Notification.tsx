@@ -1,10 +1,10 @@
 import { ArrowUp, Bell, MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Notifications } from "../models/Question";
-import timeAgo from "../services/timeAgo";
-import { useData } from "../useHooks/useData";
-import { useSocket } from "../services/useSocket";
-import Cards from "./Cards";
+import { Notifications } from "../../types/Question";
+import timeAgo from "../../services/timeAgo";
+import { useData } from "../../useHooks/useData";
+import { useSocket } from "../../services/useSocket";
+import Cards from "../../Components/Cards";
 
 const Notification = () => {
   const { data } = useData<Notifications>("/api/notification");

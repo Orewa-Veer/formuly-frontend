@@ -4,10 +4,10 @@ import { FaBullseye, FaRegMessage } from "react-icons/fa6";
 import { IoIosRocket } from "react-icons/io";
 import { IoBulb } from "react-icons/io5";
 import { MdElectricBolt, MdOutlinePeopleAlt } from "react-icons/md";
-import Cards from "./Cards";
+import Cards from "../../Components/Cards";
 
 import { Link } from "react-router-dom";
-import { useSocket } from "../services/useSocket";
+import { useSocket } from "../../services/useSocket";
 
 const Tagis = [
   { name: "JavaScript", questions: 1234, color: "bg-orange-400" },

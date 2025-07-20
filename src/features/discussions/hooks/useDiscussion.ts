@@ -1,7 +1,7 @@
 import { AxiosError, CanceledError } from "axios";
-import { Question } from "../models/Question";
-import { useData } from "./useData";
-import apiClient from "../services/api-Client";
+import { Question } from "../../../types/Question";
+import { useData } from "../../../useHooks/useData";
+import apiClient from "../../../services/api-Client";
 import { useEffect, useState } from "react";
 export const useADiscuss = <T>(id?: string) => {
   const [data, setData] = useState<T>();
