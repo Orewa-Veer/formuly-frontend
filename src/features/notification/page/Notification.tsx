@@ -1,4 +1,4 @@
-import { ArrowUp, Bell, MessageSquare } from "lucide-react";
+import { ArrowUp, Bell, MessageCircle, MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
 import Cards from "../../../Components/Cards";
 import { Button } from "../../../Components/ui/button";
@@ -7,6 +7,9 @@ import { useSocket } from "../../../services/useSocket";
 import { Notifications } from "../../../types/Question";
 import { useData } from "../../../useHooks/useData";
 import { useNotification } from "../hooks/useNotification";
+import { FilterNotifications } from "../components/FilterNotifications";
+import { Link } from "react-router-dom";
+import Service from "../../../services/genricServices";
 
 const Notification = () => {
   const [seen, setSeen] = useState("false");
@@ -33,43 +36,62 @@ const Notification = () => {
   //   notific.post().then(res=>)
   // };
 
+  const handleNotificClick = (id: string) => {
+    const noti = new Service(`/api/notification/${id}`);
+    noti
+      .post()
+      .then((res) => console.log(res))
+      .catch((ex) => console.log(ex));
+  };
+  const handleAllSeen = () => {
+    const noti = new Service(`/api/notification/mark-all-seen`);
+    noti.post().catch((ex) => console.log(ex));
+  };
+
   // console.log(data);
   return (
     <div className="p-3 sm:px-6 md:px-8 lg:px-10 xl:px-14 ">
       {/* container  */}
 
-      <div className="w-full">
+      <div className="max-w-2xl mx-auto p-6 space-y-6">
         {/* Header  */}
-        <div className="flex gap-2 justify-between mb-8 text-3xl text-blue-600 items-center font-bold">
-          <div className="flex items-center">
-            <Bell className="size-9 text-blue-600" /> <span>Notifications</span>
-          </div>
-          <div>
-            <Button>Filter</Button>
-            <Button>Mark All Seen</Button>
-          </div>
-        </div>
+
         {/* Body  */}
-        <div className="flex flex-col space-y-2 items-center">
-          <Button
-            className="bg-white text-emerald-700 hover:bg-emerald-700 hover:text-white"
-            // onClick={handleClick}
-          >
-            Marked All as seen
-          </Button>
+        <div className="flex flex-col space-y-2 max-w-2xl ">
+          <div className="flex gap-2 justify-between mb-8 text-3xl text-gray-800 items-center font-bold">
+            <div className="text-4xl font-bold drop-shadow-2xl flex items-center  gap-2">
+              <Bell className="size-9 " /> <span>Notifications</span>
+            </div>
+            <div className="flex gap-2">
+              <FilterNotifications value={type} setValue={setType} />
+              <Button
+                className="shadow-xl backdrop-blur-2xl border-white/80 hover:bg-emerald-700"
+                onClick={() => handleAllSeen()}
+              >
+                Mark All Seen
+              </Button>
+            </div>
+          </div>
           {/* Cards  */}
           {notifications.map((notific) => (
-            <Cards className="flex gap-2 w-fit bg-white/10 border border-white/20 rounded-sm backdrop-blur-md shadow-sm p-3">
+            <Cards className="flex items-start gap-3 p-4 rounded-xl shadow-sm border hover:bg-muted transition">
               <div>
                 {notific.type === "reply" ? (
-                  <MessageSquare className="text-emerald-600" />
+                  <MessageCircle className="text-blue-600" />
                 ) : (
-                  <ArrowUp />
+                  <ArrowUp className="text-pink-600" />
                 )}
               </div>
               <div className="flex flex-col">
-                {`Someone ${notific.type} your discussion Titled ${notific.discussId.title} `}
-                <span className="w-full text-end text-gray-600 text-sm">{`${timeAgo(
+                {`New ${notific.type} your discussion Titled  `}{" "}
+                <Link
+                  to={`/app/questions/${notific.discussId._id}`}
+                  onClick={() => handleNotificClick(notific._id)}
+                >
+                  ${notific.discussId.title}
+                </Link>
+                {/* <span>{notific.userId}</span> */}
+                <span className="w-full  text-gray-600 text-sm">{`${timeAgo(
                   `${notific.date}`
                 )}`}</span>
               </div>

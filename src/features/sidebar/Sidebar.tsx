@@ -36,6 +36,7 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from "../../Components/ui/sidebar";
+import { useNotification } from "../notification/hooks/useNotification";
 
 // Menu items.
 const items = [
@@ -54,11 +55,11 @@ const items = [
     url: "/app/bookmark",
     icon: FaRegBookmark,
   },
-  {
-    title: "Notifications",
-    url: "/app/notification",
-    icon: Bell,
-  },
+  // {
+  //   title: `Notifications ${data.length}`,
+  //   url: "/app/notification",
+  //   icon: Bell,
+  // },
   {
     title: "Recent",
     url: "#",
@@ -69,6 +70,7 @@ const items = [
 export function AppSidebar() {
   const [active, setactive] = useState("Home");
   const { isMobile } = useSidebar();
+  const { data } = useNotification({ seen: "false" });
   return (
     <Sidebar variant="inset">
       <SidebarHeader className="mt-2 mb-3">
@@ -102,6 +104,28 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem
+                key={"notification"}
+                className={`${
+                  active === "Notifications" && "bg-emerald-50 text-emerald-600"
+                } px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600 `}
+              >
+                <SidebarMenuButton
+                  className="hover:bg-emerald-50 hover:text-emerald-600"
+                  asChild
+                  onClick={() => setactive("Notifications")}
+                >
+                  <Link to={"/app/notification"}>
+                    <Bell />
+                    <span className="flex items-center gap-2">
+                      Notifications{" "}
+                      <div className="size-4 rounded-full items-center flex justify-center text-xs bg-red-600 text-white">
+                        {data.length}
+                      </div>
+                    </span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
