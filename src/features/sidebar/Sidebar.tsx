@@ -119,9 +119,13 @@ export function AppSidebar() {
                     <Bell />
                     <span className="flex items-center gap-2">
                       Notifications{" "}
-                      <div className="size-4 rounded-full items-center flex justify-center text-xs bg-red-600 text-white">
-                        {data.length}
-                      </div>
+                      {data.length === 0 ? (
+                        ""
+                      ) : (
+                        <div className="size-4 rounded-full items-center flex justify-center text-xs bg-red-600 text-white">
+                          {data.length}
+                        </div>
+                      )}
                     </span>
                   </Link>
                 </SidebarMenuButton>

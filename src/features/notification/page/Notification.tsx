@@ -1,20 +1,20 @@
-import { ArrowUp, Bell, MessageCircle, MessageSquare } from "lucide-react";
+import { ArrowUp, Bell, MessageCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Cards from "../../../Components/Cards";
 import { Button } from "../../../Components/ui/button";
+import Service from "../../../services/genricServices";
 import timeAgo from "../../../services/timeAgo";
 import { useSocket } from "../../../services/useSocket";
 import { Notifications } from "../../../types/Question";
-import { useData } from "../../../useHooks/useData";
-import { useNotification } from "../hooks/useNotification";
 import { FilterNotifications } from "../components/FilterNotifications";
-import { Link } from "react-router-dom";
-import Service from "../../../services/genricServices";
+import { useNotification } from "../hooks/useNotification";
 
 const Notification = () => {
   const [seen, setSeen] = useState("false");
   const [type, setType] = useState("");
-  const { data } = useNotification({ seen: seen, type: type });
+  const [limit, setLimit] = useState<number>(10);
+  const { data } = useNotification({ seen: seen, type: type, limit: limit });
   const [notifications, setNotifications] = useState<Notifications[]>([]);
   const { socket, ready } = useSocket();
   useEffect(() => {
@@ -26,16 +26,29 @@ const Notification = () => {
       console.log(notifc);
       setNotifications((prev) => [...prev, notifc]);
     };
+    const handleAll = () => {
+      setNotifications([]);
+    };
+    const handleDeleted = (notific: Notifications) => {
+      console.log(notific);
+      setNotifications((prev) => prev.filter((p) => p._id !== notific._id));
+    };
     socket.on("notification:new", handleNotific);
+    socket.on("allNotification:seen", handleAll);
+    socket.on("notificDeleted", handleDeleted);
     return () => {
       socket.off("notification:new", handleNotific);
+      socket.off("allNotification:seen", handleAll);
+      socket.off("notificDeleted", handleDeleted);
     };
   }, [ready, socket]);
   // const handleClick = () => {
   //   const notific = new Service("/api/notification/mark-all-seen");
   //   notific.post().then(res=>)
   // };
-
+  const handleShowMore = () => {
+    setLimit((prev) => prev + 10);
+  };
   const handleNotificClick = (id: string) => {
     const noti = new Service(`/api/notification/${id}`);
     noti
@@ -65,7 +78,8 @@ const Notification = () => {
             <div className="flex gap-2">
               <FilterNotifications value={type} setValue={setType} />
               <Button
-                className="shadow-xl backdrop-blur-2xl border-white/80 hover:bg-emerald-700"
+                variant={"outline"}
+                // className="shadow-xl backdrop-blur-2xl border-white/80 hover:bg-emerald-700"
                 onClick={() => handleAllSeen()}
               >
                 Mark All Seen
@@ -73,30 +87,47 @@ const Notification = () => {
             </div>
           </div>
           {/* Cards  */}
-          {notifications.map((notific) => (
-            <Cards className="flex items-start gap-3 p-4 rounded-xl shadow-sm border hover:bg-muted transition">
-              <div>
-                {notific.type === "reply" ? (
-                  <MessageCircle className="text-blue-600" />
-                ) : (
-                  <ArrowUp className="text-pink-600" />
-                )}
-              </div>
-              <div className="flex flex-col">
-                {`New ${notific.type} your discussion Titled  `}{" "}
-                <Link
-                  to={`/app/questions/${notific.discussId._id}`}
-                  onClick={() => handleNotificClick(notific._id)}
-                >
-                  ${notific.discussId.title}
-                </Link>
-                {/* <span>{notific.userId}</span> */}
-                <span className="w-full  text-gray-600 text-sm">{`${timeAgo(
-                  `${notific.date}`
-                )}`}</span>
-              </div>
-            </Cards>
-          ))}
+          <div>
+            {notifications.map((notific) => (
+              <Cards className="flex items-start gap-3 p-4 rounded-xl shadow-sm border hover:bg-muted transition">
+                <div>
+                  {notific.type === "reply" ? (
+                    <MessageCircle className="text-blue-600" />
+                  ) : (
+                    <ArrowUp className="text-pink-600" />
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  <div className="flex gap-2">
+                    <span>
+                      {`New ${notific.type} your discussion Titled  `}{" "}
+                    </span>
+                    <Link
+                      className="text-base font-semibold hover:underline"
+                      to={`/app/questions/${notific.discussId._id}`}
+                      onClick={() => handleNotificClick(notific._id)}
+                    >
+                      {" "}
+                      {notific.discussId.title}
+                    </Link>
+                  </div>
+                  {/* <span>{notific.userId}</span> */}
+                  <span className="w-full  text-gray-600 text-sm">{`${timeAgo(
+                    `${notific.date}`
+                  )}`}</span>
+                </div>
+              </Cards>
+            ))}
+          </div>
+          <div className="flex justify-center">
+            <Button
+              variant={"outline"}
+              className="w-[25%]"
+              onClick={handleShowMore}
+            >
+              Show More
+            </Button>
+          </div>
         </div>
       </div>
     </div>
