@@ -220,7 +220,11 @@ const Home = () => {
           {/* Cards*/}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             {Tagis.map((tag) => (
-              <Cards className="h-full w-full py-6" padding="p-4">
+              <Cards
+                className="h-full w-full py-6"
+                padding="p-4"
+                key={tag.name}
+              >
                 {/* first section*/}
                 <div className="flex  justify-between mb-4 w-full">
                   <div className="flex items-center justify-start gap-3">

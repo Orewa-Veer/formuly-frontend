@@ -1,10 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@radix-ui/react-collapsible";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -13,14 +8,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { Bell, Home, LogOut, MessageSquare, UserCircle } from "lucide-react";
+import {
+  Bell,
+  Home,
+  LogOut,
+  MessageSquare,
+  Tag,
+  UserCircle,
+} from "lucide-react";
 import { useState } from "react";
-import { BsTags, BsThreeDotsVertical } from "react-icons/bs";
-import { FaRegBookmark, FaRegClock } from "react-icons/fa";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaRegBookmark } from "react-icons/fa";
 import { FaRegMessage } from "react-icons/fa6";
-import { IoNotifications } from "react-icons/io5";
-import { MdOutlinePeopleAlt } from "react-icons/md";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -31,14 +31,11 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   useSidebar,
 } from "../../Components/ui/sidebar";
-import { useNotification } from "../notification/hooks/useNotification";
-import { useAuth } from "../../services/useAuth";
 import Service from "../../services/genricServices";
+import { useAuth } from "../../services/useAuth";
+import { useNotification } from "../notification/hooks/useNotification";
 
 // Menu items.
 const items = [
@@ -63,9 +60,9 @@ const items = [
   //   icon: Bell,
   // },
   {
-    title: "Recent",
-    url: "#",
-    icon: FaRegClock,
+    title: "Tags",
+    url: "/app/tags",
+    icon: Tag,
   },
 ];
 
@@ -144,7 +141,7 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <SidebarGroup className="">
+        {/* <SidebarGroup className="">
           <SidebarGroupContent>
             <SidebarMenu>
               <Collapsible defaultOpen className="group/collapsible">
@@ -164,8 +161,8 @@ export function AppSidebar() {
               </Collapsible>
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup className="mb-3">
+        </SidebarGroup> */}
+        {/* <SidebarGroup className="mb-3">
           <SidebarGroupContent>
             <SidebarMenu>
               <Collapsible defaultOpen className="group/collapsible">
@@ -184,7 +181,10 @@ export function AppSidebar() {
                   <SidebarMenuSub>
                     <CollapsibleContent>
                       <SidebarMenuSubItem>
-                        <SidebarMenuSubButton className="hover:bg-emerald-50 hover:text-emerald-600">
+                        <SidebarMenuSubButton
+                          asChild
+                          className="hover:bg-emerald-50 hover:text-emerald-600"
+                        >
                           <Link
                             to="#"
                             className="font-sans text-xs font-medium"
@@ -194,21 +194,30 @@ export function AppSidebar() {
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                       <SidebarMenuSubItem>
-                        <SidebarMenuSubButton className="hover:bg-emerald-50 hover:text-emerald-600">
+                        <SidebarMenuSubButton
+                          asChild
+                          className="hover:bg-emerald-50 hover:text-emerald-600"
+                        >
                           <a href="#" className="font-sans text-xs font-medium">
                             Backend Engineers
                           </a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                       <SidebarMenuSubItem>
-                        <SidebarMenuSubButton className="hover:bg-emerald-50 hover:text-emerald-600">
+                        <SidebarMenuSubButton
+                          asChild
+                          className="hover:bg-emerald-50 hover:text-emerald-600"
+                        >
                           <a href="#" className="font-sans text-xs font-medium">
                             DevOps & Cloud
                           </a>
                         </SidebarMenuSubButton>
                       </SidebarMenuSubItem>
                       <SidebarMenuSubItem>
-                        <SidebarMenuSubButton className="hover:bg-emerald-50 hover:text-emerald-600">
+                        <SidebarMenuSubButton
+                          asChild
+                          className="hover:bg-emerald-50 hover:text-emerald-600"
+                        >
                           <a href="#" className="font-sans text-xs font-medium">
                             Mobile Development
                           </a>
@@ -220,7 +229,7 @@ export function AppSidebar() {
               </Collapsible>
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup>
+        </SidebarGroup> */}
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>

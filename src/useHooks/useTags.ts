@@ -5,5 +5,4 @@ export interface Tags {
   body: string;
 }
 
-const useTags = () => useData<Tags>("/api/tags");
-export default useTags;
+export const useTags = () => useData<Tags>("/api/tags");
