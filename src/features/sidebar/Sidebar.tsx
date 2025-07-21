@@ -20,7 +20,7 @@ import { FaRegBookmark, FaRegClock } from "react-icons/fa";
 import { FaRegMessage } from "react-icons/fa6";
 import { IoNotifications } from "react-icons/io5";
 import { MdOutlinePeopleAlt } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -38,6 +38,7 @@ import {
 } from "../../Components/ui/sidebar";
 import { useNotification } from "../notification/hooks/useNotification";
 import { useAuth } from "../../services/useAuth";
+import Service from "../../services/genricServices";
 
 // Menu items.
 const items = [
@@ -73,6 +74,14 @@ export function AppSidebar() {
   const { isMobile } = useSidebar();
   const { data } = useNotification({ seen: "false" });
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    const logout = new Service("/api/logout");
+    logout
+      .post()
+      .then(() => navigate("/login"))
+      .catch((ex) => console.log(ex));
+  };
   return (
     <Sidebar variant="inset">
       <SidebarHeader className="mt-2 mb-3">
@@ -280,7 +289,10 @@ export function AppSidebar() {
                   </DropdownMenuItem> */}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator className=" border-1 border-gray-300" />
-                <DropdownMenuItem className="flex text-sm font-medium items-center gap-2 mt-2 pl-1 text-red-700 cursor-pointer">
+                <DropdownMenuItem
+                  className="flex text-sm font-medium items-center gap-2 mt-2 pl-1 text-red-700 cursor-pointer"
+                  onClick={handleLogout}
+                >
                   <LogOut className="size-5" />
                   Logout
                 </DropdownMenuItem>

@@ -1,23 +1,23 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import AskForm from "./Components/AskForm";
-import Bookmark from "./features/Bookmark/Bookmark";
-import Discussions from "./features/discussions/components/Discussions";
-import Home from "./features/home/Home";
-import Notification from "./features/notification/page/Notification";
-import QuestionPage from "./features/discussions/pages/QuestionPage";
-import { AppSidebar } from "./features/sidebar/Sidebar";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "./Components/ui/sidebar";
-import UserProfile from "./features/UserProfile/UserProfile";
-import useCurrentCustomer from "./useHooks/useCurrentCustomer";
 import { SocketProvider } from "./SocketContext";
+import Bookmark from "./features/Bookmark/Bookmark";
+import UserProfile from "./features/UserProfile/UserProfile";
+import Discussions from "./features/discussions/components/Discussions";
+import QuestionPage from "./features/discussions/pages/QuestionPage";
+import Home from "./features/home/Home";
+import Notification from "./features/notification/page/Notification";
+import { AppSidebar } from "./features/sidebar/Sidebar";
+import { useAuth } from "./services/useAuth";
 
 function App() {
-  const user = useCurrentCustomer();
+  const { user } = useAuth();
 
   if (!user) return <div>Unauthorized</div>;
   return (

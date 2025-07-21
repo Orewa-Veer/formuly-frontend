@@ -7,8 +7,10 @@ import { useAuth } from "../../services/useAuth";
 import { useDiscussion } from "../discussions/hooks/useDiscussion";
 import Cards from "../../Components/Cards";
 import { Button } from "../../Components/ui/button";
+import { useState } from "react";
 const UserProfile = () => {
   const user = useAuth();
+  useState();
   const { data, loading, error } = useDiscussion({ user: user?.user?._id });
   console.log(user);
   if (loading) return <div>Loading...</div>;
