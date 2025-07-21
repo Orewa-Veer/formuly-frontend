@@ -2,22 +2,39 @@ import { MessageSquare } from "lucide-react";
 import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import { IoShareSocial } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import Service from "../../services/genricServices";
-import { useAuth } from "../../services/useAuth";
-import { useDiscussion } from "../discussions/hooks/useDiscussion";
-import Cards from "../../Components/Cards";
-import { Button } from "../../Components/ui/button";
-import { useState } from "react";
+import Service from "../../../services/genricServices";
+import { useAuth } from "../../../services/useAuth";
+import { useDiscussion } from "../../discussions/hooks/useDiscussion";
+import Cards from "../../../Components/Cards";
+import { Button } from "../../../Components/ui/button";
+import { useEffect, useState } from "react";
+import { Question } from "../../../types/Question";
+import { useUpvotes } from "../hooks/useUpvotes";
 const UserProfile = () => {
   const user = useAuth();
   useState();
   const { data, loading, error } = useDiscussion({ user: user?.user?._id });
+  const { data: upvotes } = useUpvotes();
+  const [feed, setFeed] = useState<Question[]>();
+  const [active, setActive] = useState("discussion");
+  useEffect(() => {
+    if (data) setFeed(data);
+  }, [data]);
   console.log(user);
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
+  if (!feed) return <div>Nothing to Show</div>;
   const handleUpvotes = (id: string) => {
     const upvote = new Service("/api/upvote/" + id);
     upvote.post();
+  };
+  const upvoteData = () => {
+    setFeed(upvotes);
+    setActive("upvote");
+  };
+  const discussData = () => {
+    setFeed(data);
+    setActive("discussion");
   };
 
   return (
@@ -48,19 +65,33 @@ const UserProfile = () => {
         </div>
         <div className="bg-gray-50 p-4 rounded-xl shadow">
           <h4 className="text-gray-600 text-sm">Upvoted</h4>
-          <p className="text-xl font-bold">90</p>
+          <p className="text-xl font-bold">{upvotes.length}</p>
         </div>
       </div>
 
       {/* Tabs */}
       <div className="flex gap-4 border-b mb-4">
-        <Button variant={"secondary"} className="pb-2  ">
+        <Button
+          variant={"ghost"}
+          key={"discussion"}
+          className={`pb-2 ${active === "discussion" ? "bg-gray-200" : ""} `}
+          onClick={discussData}
+        >
           Discussions
         </Button>
-        <Button variant={"outline"} className="pb-2 ">
+        <Button
+          variant={"ghost"}
+          key={"reply"}
+          className={`pb-2 ${active === "reply" ? "bg-gray-200" : ""} `}
+        >
           Replies
         </Button>
-        <Button variant={"ghost"} className="pb-2 ">
+        <Button
+          variant={"ghost"}
+          key={"upvote"}
+          className={`pb-2 ${active === "upvote" ? "bg-gray-200" : ""} `}
+          onClick={upvoteData}
+        >
           Upvoted
         </Button>
       </div>
@@ -89,7 +120,7 @@ const UserProfile = () => {
       {/* discussion  */}
       <div className="space-y-4">
         {" "}
-        {data.map((discuss) => (
+        {feed.map((discuss) => (
           <Cards
             key={discuss._id}
             className={` border shadow-sm border-gray-300 rounded-b-md gap-3 bg-white  flex hover:shadow-md backdrop-blur-md hover:backdrop-blur-lg hover:-translate-y-0.5 transition duration-100`}

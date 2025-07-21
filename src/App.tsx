@@ -8,7 +8,7 @@ import {
 } from "./Components/ui/sidebar";
 import { SocketProvider } from "./SocketContext";
 import Bookmark from "./features/Bookmark/Bookmark";
-import UserProfile from "./features/UserProfile/UserProfile";
+import UserProfile from "./features/UserProfile/pages/UserProfile";
 import Discussions from "./features/discussions/components/Discussions";
 import QuestionPage from "./features/discussions/pages/QuestionPage";
 import Home from "./features/home/Home";
