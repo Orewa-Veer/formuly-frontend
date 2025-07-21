@@ -37,6 +37,7 @@ import {
   useSidebar,
 } from "../../Components/ui/sidebar";
 import { useNotification } from "../notification/hooks/useNotification";
+import { useAuth } from "../../services/useAuth";
 
 // Menu items.
 const items = [
@@ -71,6 +72,7 @@ export function AppSidebar() {
   const [active, setactive] = useState("Home");
   const { isMobile } = useSidebar();
   const { data } = useNotification({ seen: "false" });
+  const { user } = useAuth();
   return (
     <Sidebar variant="inset">
       <SidebarHeader className="mt-2 mb-3">
@@ -220,7 +222,7 @@ export function AppSidebar() {
                   size={"lg"}
                   className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                 >
-                  <Avatar className="h-8 w-8 rounded-lg grayscale">
+                  <Avatar className="h-8 w-8 rounded-lg ">
                     <AvatarImage
                       src="https://github.com/shadcn.png"
                       className="rounded-full"
@@ -228,9 +230,11 @@ export function AppSidebar() {
                     <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{"Pheonix"}</span>
+                    <span className="truncate font-medium">
+                      {user?.username}
+                    </span>
                     <span className="text-muted-foreground truncate text-xs">
-                      {"Pratihar@gmail.com"}
+                      {user?.email}
                     </span>
                   </div>
                   <BsThreeDotsVertical className="ml-auto size-4" />
@@ -253,9 +257,11 @@ export function AppSidebar() {
                       <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-medium">{"Pheonix"}</span>
+                      <span className="truncate font-medium">
+                        {user?.username}
+                      </span>
                       <span className="text-muted-foreground truncate text-xs">
-                        {"Pratihar@gmail.com"}
+                        {user?.email}
                       </span>
                     </div>
                   </div>
@@ -268,10 +274,10 @@ export function AppSidebar() {
                       Account
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="flex text-sm font-medium items-center gap-2">
+                  {/* <DropdownMenuItem className="flex text-sm font-medium items-center gap-2">
                     <IoNotifications className="size-5" />
                     Notifications
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator className=" border-1 border-gray-300" />
                 <DropdownMenuItem className="flex text-sm font-medium items-center gap-2 mt-2 pl-1 text-red-700 cursor-pointer">
