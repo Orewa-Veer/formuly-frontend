@@ -87,7 +87,7 @@ const Notification = () => {
             </div>
           </div>
           {/* Cards  */}
-          <div>
+          <div className="space-y-2">
             {notifications.map((notific) => (
               <Cards className="flex items-start gap-3 p-4 rounded-xl shadow-sm border hover:bg-muted transition">
                 <div>
