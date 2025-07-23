@@ -3,7 +3,7 @@
 import * as React from "react";
 
 // --- UI Primitives ---
-import { Button } from "../../tiptap-ui-primitive/button  ";
+import { Button } from "../../tiptap-ui-primitive/button";
 
 // --- Icons ---
 import { MoonStarIcon } from "@/components/tiptap-icons/moon-star-icon";

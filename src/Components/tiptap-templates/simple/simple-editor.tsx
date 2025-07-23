@@ -241,6 +241,11 @@ export function SimpleEditor({ content, onChange }: Props) {
     editor,
     overlayHeight: toolbarRef.current?.getBoundingClientRect().height ?? 0,
   });
+  React.useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content || "", false); // false = don't emit update event
+    }
+  }, [content]);
 
   React.useEffect(() => {
     if (!isMobile && mobileView !== "main") {

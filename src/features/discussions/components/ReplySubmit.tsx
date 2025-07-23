@@ -27,11 +27,11 @@ const ReplySubmit = ({ discuss }: Reply) => {
   const onSubmit = (data: FormSch) => {
     const clean = DOMPurfiy.sanitize(data.body);
     console.log(clean);
-    apiClient
-      .post(`/api/replies/${discuss._id}`, { body: clean })
-      .catch((ex) => console.log(ex));
-    // const reply = new Service(`/api/replies/${discuss._id}`);
-    // reply.post(clean).catch((ex) => console.log(ex.message));
+    // apiClient
+    //   .post(`/api/replies/${discuss._id}`, { body: clean })
+    //   .catch((ex) => console.log(ex));
+    const reply = new Service(`/api/replies/${discuss._id}`);
+    reply.post({ body: clean }).catch((ex) => console.log(ex.message));
     reset();
   };
   const onError = (error: FieldErrors<FormSch>) => {
@@ -49,7 +49,11 @@ const ReplySubmit = ({ discuss }: Reply) => {
           control={control}
           name="body"
           render={({ field }) => (
-            <SimpleEditor content={field.value} onChange={field.onChange} />
+            <SimpleEditor
+              // key={field.value}
+              content={field.value}
+              onChange={field.onChange}
+            />
           )}
         ></Controller>
         {errors.body && (
