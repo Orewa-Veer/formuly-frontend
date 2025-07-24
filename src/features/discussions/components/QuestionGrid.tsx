@@ -5,6 +5,7 @@ import { useData } from "../../../useHooks/useData";
 import { useDiscussion } from "../hooks/useDiscussion";
 import { useSocket } from "../../../services/useSocket";
 import QuestionCard from "./QuestionCard";
+import Paginations from "@/Components/Pagination";
 
 interface Props {
   sortType?: string;
@@ -13,7 +14,13 @@ interface Props {
 }
 const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
   const [discussions, setDiscussions] = useState<Question[] | []>([]);
-  const { data, loading, error } = useDiscussion({ sortType, filter, title });
+  const [page, setPage] = useState(1);
+  const { data, loading, error } = useDiscussion({
+    sortType,
+    filter,
+    title,
+    page,
+  });
   const { data: book } = useData<Bookmarks>("/api/bookmark");
   const [books, setBookmarks] = useState<Bookmarks[]>([]);
   const { socket, ready } = useSocket();
@@ -79,6 +86,7 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
         handleUpvotes={handleUpvotes}
         handleBookmark={handleBookmark}
       />
+      <Paginations page={page} onChange={(page) => setPage(page)} />
     </>
   );
 };

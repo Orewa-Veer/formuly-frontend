@@ -78,7 +78,7 @@ const ReplyList = ({ id }: Props) => {
 
               <div
                 className={`flex items-center ${
-                  rep.user._id !== user._id ? "hidden" : ""
+                  rep.user?._id !== user?._id ? "hidden" : ""
                 } cursor-pointer hover:text-red-500`}
                 onClick={() => {
                   const reply = new Service("/api/replies");

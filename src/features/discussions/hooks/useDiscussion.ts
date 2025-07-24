@@ -37,8 +37,9 @@ interface Props {
   filter?: string;
   title?: string;
   user?: string;
+  page?: number;
 }
-export const useDiscussion = ({ sortType, filter, title, user }: Props) =>
+export const useDiscussion = ({ sortType, filter, title, user, page }: Props) =>
   useData<Question>(
     "/api/discussion",
     {
@@ -47,6 +48,7 @@ export const useDiscussion = ({ sortType, filter, title, user }: Props) =>
         isSolved: filter === "solved" ? "true" : "false",
         title: title,
         user: user,
+        page: page ? page : 1,
       },
     },
     [sortType, filter, title, user] // Depend on ID so it refetches if ID changes

@@ -54,7 +54,7 @@ import { UndoRedoButton } from "../../tiptap-ui/undo-redo-button";
 
 // --- Icons ---
 import { ArrowLeftIcon } from "../../tiptap-icons/arrow-left-icon";
-import { HighlighterIcon } from "@/components/tiptap-icons/highlighter-icon";
+import { HighlighterIcon } from "../../tiptap-icons/highlighter-icon";
 import { LinkIcon } from "@/components/tiptap-icons/link-icon";
 
 // --- Hooks ---
@@ -245,7 +245,7 @@ export function SimpleEditor({ content, onChange }: Props) {
     if (editor && content !== editor.getHTML()) {
       editor.commands.setContent(content || "", false); // false = don't emit update event
     }
-  }, [content]);
+  }, [content, editor]);
 
   React.useEffect(() => {
     if (!isMobile && mobileView !== "main") {
