@@ -5,7 +5,6 @@ import z from "zod";
 import { SimpleEditor } from "../../../Components/tiptap-templates/simple/simple-editor";
 import Service from "../../../services/genricServices";
 import { Question } from "../../../types/Question";
-import apiClient from "@/services/api-Client";
 const schema = z.object({
   body: z.string(),
 });

@@ -23,7 +23,7 @@ const TagsSectioin = () => {
       {/* Body  */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-3">
         {tags.map((tag: Tags) => (
-          <Cards>
+          <Cards key={tag._id}>
             {" "}
             <div className="text-xl font-semibold">{tag.name}</div>
             <div className="text-sm text-gray-700 leading-relaxed">

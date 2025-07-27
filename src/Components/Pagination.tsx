@@ -34,7 +34,7 @@ const Paginations = ({ page, onChange, totalPages }: Props) => {
             />
           </PaginationItem>
           {arr.map((_, index) => (
-            <PaginationItem>
+            <PaginationItem key={index + 1}>
               <PaginationLink
                 key={index + 1}
                 onClick={() => {

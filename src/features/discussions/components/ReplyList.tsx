@@ -71,7 +71,10 @@ const ReplyList = ({ id }: Props) => {
             </p>
             {/* body  */}
 
-            <div dangerouslySetInnerHTML={{ __html: rep.body }} />
+            <div
+              className="prose "
+              dangerouslySetInnerHTML={{ __html: rep.body }}
+            />
 
             {/* footing */}
             <div className="flex gap-2 justify-end">

@@ -18,7 +18,7 @@ const UserProfile = () => {
   const [feed, setFeed] = useState<Question[]>();
   const [active, setActive] = useState("discussion");
   useEffect(() => {
-    if (data) setFeed(data);
+    if (data) setFeed(data.data);
   }, [data]);
   console.log(user);
   if (loading) return <div>Loading...</div>;
@@ -29,11 +29,11 @@ const UserProfile = () => {
     upvote.post();
   };
   const upvoteData = () => {
-    setFeed(upvotes);
+    setFeed(upvotes.data);
     setActive("upvote");
   };
   const discussData = () => {
-    setFeed(data);
+    setFeed(data.data);
     setActive("discussion");
   };
 
@@ -57,7 +57,7 @@ const UserProfile = () => {
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="bg-gray-50 p-4 rounded-xl shadow">
           <h4 className="text-gray-600 text-sm">Discussions</h4>
-          <p className="text-xl font-bold">{data.length}</p>
+          <p className="text-xl font-bold">{data.data.length}</p>
         </div>
         <div className="bg-gray-50 p-4 rounded-xl shadow">
           <h4 className="text-gray-600 text-sm">Replies</h4>
@@ -65,7 +65,7 @@ const UserProfile = () => {
         </div>
         <div className="bg-gray-50 p-4 rounded-xl shadow">
           <h4 className="text-gray-600 text-sm">Upvoted</h4>
-          <p className="text-xl font-bold">{upvotes.length}</p>
+          <p className="text-xl font-bold">{upvotes.data.length}</p>
         </div>
       </div>
 
