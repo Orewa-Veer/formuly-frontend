@@ -88,7 +88,7 @@ const AskForm = () => {
           />
         </div>
         <div className="flex gap-3 mt-1">
-          {data.map((tag) => (
+          {data.data.map((tag) => (
             <div
               key={tag.name}
               className="border rounded-full px-2 py-0.5 text-xs border-black  cursor-pointer"
