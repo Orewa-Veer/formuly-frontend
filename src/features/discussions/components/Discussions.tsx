@@ -84,9 +84,10 @@ const Discussions = () => {
               </div>
               {/* body */}
             </div>
-            <p className="mt-6 text-gray-600 text-lg leading-relaxed font-iceland">
-              {discussion.body}
-            </p>
+            <p
+              className="mt-6 text-gray-600 text-lg leading-relaxed font-iceland prose"
+              dangerouslySetInnerHTML={{ __html: discussion.body }}
+            ></p>
             <div className="flex mt-6 gap-4 text-sm text-gray-600 justify-end ">
               <button className="hover:text-green-600 transition flex gap-1 items-center">
                 <GoTriangleUp className="size-8" /> {discussion.upvoteCounter}

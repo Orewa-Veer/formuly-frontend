@@ -1,11 +1,12 @@
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useTags } from "../..../../useHooks/useTags";
 import Service from "../services/genricServices";
 import { Tags } from "../types/Question";
+import { SimpleEditor } from "./tiptap-templates/simple/simple-editor";
+import DOMPurify from "dompurify";
 export interface FormStu {
-  userId: string;
   title: string;
   body: string;
   tags: string;
@@ -17,14 +18,15 @@ export interface DiscussStru {
 }
 
 const AskForm = () => {
-  const { register, handleSubmit, reset } = useForm<FormStu>();
+  const { register, control, handleSubmit, reset } = useForm<FormStu>();
   const [tagsId, setTagsId] = useState<string[]>([]);
   const [tagValue, setTags] = useState<string[]>([]);
   const { data, error } = useTags();
   const onSubmit = (data: FormStu) => {
+    const clean = DOMPurify.sanitize(data.body);
     const newDiscuss = {
       title: data.title,
-      body: data.body,
+      body: clean,
       tagId: tagsId,
     };
     const discuss = new Service("/api/discussion");
@@ -66,13 +68,17 @@ const AskForm = () => {
           <label htmlFor="form-body" className="font-semibold text-lg">
             Body
           </label>
-          <input
-            id="form-body"
-            type="text"
-            placeholder="Enter the body"
-            {...register("body", { required: true })}
-            className="border rounded-sm px-2 py-1"
-          />
+          <Controller
+            control={control}
+            name="body"
+            render={({ field }) => (
+              <SimpleEditor
+                // key={field.value}
+                content={field.value}
+                onChange={field.onChange}
+              />
+            )}
+          ></Controller>
         </div>
         <div className="flex space-y-1 flex-col">
           <label htmlFor="form-tags" className="font-semibold text-lg">

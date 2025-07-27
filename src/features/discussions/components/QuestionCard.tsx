@@ -58,7 +58,7 @@ const QuestionCard = ({
                   </Link>
                 </h3>
                 <p
-                  className="text-gray-600 text-sm mb-3 line-clamp-2 italic"
+                  className="text-gray-600 text-sm mb-3 line-clamp-2 italic "
                   dangerouslySetInnerHTML={{ __html: discuss.body }}
                 ></p>
               </div>
