@@ -18,7 +18,7 @@ const Notification = () => {
   const [notifications, setNotifications] = useState<Notifications[]>([]);
   const { socket, ready } = useSocket();
   useEffect(() => {
-    setNotifications(data);
+    setNotifications(data.data);
   }, [data]);
   useEffect(() => {
     if (!ready || !socket) return;

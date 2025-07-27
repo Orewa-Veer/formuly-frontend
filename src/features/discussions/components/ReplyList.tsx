@@ -10,16 +10,17 @@ interface Props {
   id: string;
 }
 const ReplyList = ({ id }: Props) => {
-  const [replyList, setReplyList] = useState<Reply[] | []>([]);
+  const [replyList, setReplyList] = useState<Reply[]>([]);
   const { data, error, loading } = useReplies(id);
   const { socket, ready } = useSocket();
   const { user } = useAuth();
+  console.log(data.data);
   useEffect(() => {
-    setReplyList(data || []);
+    setReplyList(data?.data || []);
   }, [data]);
   useEffect(() => {
     if (!ready || !socket) return;
-    console.log(socket);
+    // console.log(socket);
     const handleReplyUpdated = (reply: Reply) => {
       console.log("In replies", reply);
       setReplyList((prev) => {

@@ -21,15 +21,19 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
     title,
     page,
   });
+  // console.log(data.data);
   const { data: book } = useData<Bookmarks>("/api/bookmark");
   const [books, setBookmarks] = useState<Bookmarks[]>([]);
   const { socket, ready } = useSocket();
-
+  const [pageCount, setPageCount] = useState<number>(1);
   useEffect(() => {
-    if (book) setBookmarks(book);
+    setPageCount(data.totalPages || 1);
+  }, [data]);
+  useEffect(() => {
+    if (book) setBookmarks(book.data);
     // console.log(book);
   }, [book]);
-  // console.log(book);
+  // console.log(books);
   const bookmarksSet = useMemo(
     () => new Set(books.map((b) => b.parent_id._id)),
     [books]
@@ -52,8 +56,9 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
   // useEffect(() => {
   //   if (book) setBookmarks(book.map((b) => b.parent_id));
   // }, [book]);
+
   useEffect(() => {
-    if (data) setDiscussions(data);
+    if (data) setDiscussions(data.data);
   }, [data]);
   useEffect(() => {
     if (!ready || !socket) return;
@@ -78,6 +83,8 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
   if (!data) return <div> No Discussions</div>;
   // console.log(data[0]._id);
 
+  // console.log(discussions);
+
   return (
     <>
       <QuestionCard
@@ -86,7 +93,11 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
         handleUpvotes={handleUpvotes}
         handleBookmark={handleBookmark}
       />
-      <Paginations page={page} onChange={(page) => setPage(page)} />
+      <Paginations
+        page={page}
+        onChange={(page) => setPage(page)}
+        totalPages={pageCount}
+      />
     </>
   );
 };

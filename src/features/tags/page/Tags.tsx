@@ -8,7 +8,7 @@ const TagsSectioin = () => {
   console.log(data);
   const [tags, setTags] = useState<Tags[]>();
   useEffect(() => {
-    if (data) setTags(data);
+    if (data) setTags(data.data || []);
   }, [data]);
   if (error) return <div>{error.message}</div>;
   if (loading) return <div>Loading...</div>;

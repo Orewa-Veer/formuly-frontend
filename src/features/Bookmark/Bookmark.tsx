@@ -14,10 +14,10 @@ const Bookmark = () => {
   // fetching discussions fromm it
   const [bookmarks, setBookmarks] = useState<Bookmarks[]>([]);
   useEffect(() => {
-    if (book) setBookmarks(book);
+    if (book) setBookmarks(book.data);
   }, [book]);
   useEffect(() => {
-    if (bookmarks) setDiscussions(book.map((b) => b.parent_id));
+    if (bookmarks) setDiscussions(book.data.map((b) => b.parent_id));
   }, [book]);
 
   // const { data, loading, error } = useDiscussion({});
