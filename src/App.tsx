@@ -16,6 +16,7 @@ import Notification from "./features/notification/page/Notification";
 import { AppSidebar } from "./features/sidebar/Sidebar";
 import { useAuth } from "./services/useAuth";
 import TagsSectioin from "./features/tags/page/Tags";
+import TagForm from "./features/tags/components/TagForm";
 
 function App() {
   const { user } = useAuth();
@@ -42,6 +43,7 @@ function App() {
                     <Route path="/user" element={<UserProfile />}></Route>
                     <Route path="/bookmark" element={<Bookmark />}></Route>
                     <Route path="/tags" element={<TagsSectioin />}></Route>
+                    <Route path="/createTag" element={<TagForm />}></Route>
                     <Route
                       path="/notification"
                       element={<Notification />}

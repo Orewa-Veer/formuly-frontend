@@ -6,7 +6,7 @@ import { SimpleEditor } from "../../../Components/tiptap-templates/simple/simple
 import Service from "../../../services/genricServices";
 import { Question } from "../../../types/Question";
 const schema = z.object({
-  body: z.string(),
+  body: z.string().max(3000, { message: "Max word limit  exceed" }),
 });
 type FormSch = z.infer<typeof schema>;
 interface Reply {
