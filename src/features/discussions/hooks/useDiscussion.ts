@@ -48,8 +48,8 @@ export const useDiscussion = ({ sortType, filter, title, user, page }: Props) =>
         isSolved: filter === "solved" ? "true" : "false",
         title: title,
         user: user,
-        page: page ? page : 1,
+        page: page,
       },
     },
-    [sortType, filter, title, user] // Depend on ID so it refetches if ID changes
+    [sortType, filter, title, user, page] // Depend on ID so it refetches if ID changes
   );
