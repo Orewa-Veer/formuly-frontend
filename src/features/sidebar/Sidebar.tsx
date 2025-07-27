@@ -127,11 +127,11 @@ export function AppSidebar() {
                     <Bell />
                     <span className="flex items-center gap-2">
                       Notifications{" "}
-                      {data.length === 0 ? (
+                      {data.data.length === 0 ? (
                         ""
                       ) : (
                         <div className="size-4 rounded-full items-center flex justify-center text-xs bg-red-600 text-white">
-                          {data.length}
+                          {data.data.length}
                         </div>
                       )}
                     </span>
