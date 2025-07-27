@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTags } from "../..../../useHooks/useTags";
 import Service from "../services/genricServices";
-import { Tags } from "../types/Question";
+import { Tags } from "../useHooks/useTags";
 import { SimpleEditor } from "./tiptap-templates/simple/simple-editor";
 import DOMPurify from "dompurify";
 export interface FormStu {
@@ -65,7 +65,7 @@ const AskForm = () => {
         </div>
 
         <div className="flex space-y-1 flex-col">
-          <label htmlFor="form-body" className="font-semibold text-lg">
+          <label htmlFor="body" className="font-semibold text-lg">
             Body
           </label>
           <Controller

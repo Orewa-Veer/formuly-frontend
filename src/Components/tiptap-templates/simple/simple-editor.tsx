@@ -243,7 +243,7 @@ export function SimpleEditor({ content, onChange }: Props) {
   });
   React.useEffect(() => {
     if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content || "", false); // false = don't emit update event
+      editor.commands.setContent(content || ""); // false = don't emit update event
     }
   }, [content, editor]);
 

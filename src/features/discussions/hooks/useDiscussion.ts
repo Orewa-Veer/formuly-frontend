@@ -38,8 +38,16 @@ interface Props {
   title?: string;
   user?: string;
   page?: number;
+  tagId?: string;
 }
-export const useDiscussion = ({ sortType, filter, title, user, page }: Props) =>
+export const useDiscussion = ({
+  sortType,
+  filter,
+  title,
+  user,
+  page,
+  tagId,
+}: Props) =>
   useData<Question>(
     "/api/discussion",
     {
@@ -49,6 +57,7 @@ export const useDiscussion = ({ sortType, filter, title, user, page }: Props) =>
         title: title,
         user: user,
         page: page,
+        tagId: tagId,
       },
     },
     [sortType, filter, title, user, page] // Depend on ID so it refetches if ID changes

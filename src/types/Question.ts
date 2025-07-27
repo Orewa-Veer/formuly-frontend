@@ -1,3 +1,5 @@
+import { Tags } from "@/useHooks/useTags";
+
 export interface User {
   _id: string;
   username: string;
@@ -20,11 +22,7 @@ export interface Reply {
 export interface Upvotes {
   userId: string;
 }
-export interface Tags {
-  _id: string;
-  name: string;
-  body: string;
-}
+
 export interface Question {
   _id: string;
   title: string;

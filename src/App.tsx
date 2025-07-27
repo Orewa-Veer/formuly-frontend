@@ -39,6 +39,7 @@ function App() {
                       element={<Discussions />}
                     ></Route>
                     <Route path="/questions" element={<QuestionPage />}></Route>
+
                     <Route path="/popup" element={<AskForm />}></Route>
                     <Route path="/user" element={<UserProfile />}></Route>
                     <Route path="/bookmark" element={<Bookmark />}></Route>

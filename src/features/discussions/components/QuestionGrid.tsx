@@ -11,8 +11,14 @@ interface Props {
   sortType?: string;
   filter?: string;
   title?: string;
+  tagId?: string;
 }
-const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
+const QuestionGrid = ({
+  sortType = "",
+  filter = "",
+  title = "",
+  tagId = "",
+}: Props) => {
   const [discussions, setDiscussions] = useState<Question[] | []>([]);
   const [page, setPage] = useState(1);
   const { data, loading, error } = useDiscussion({
@@ -20,6 +26,7 @@ const QuestionGrid = ({ sortType = "", filter = "", title = "" }: Props) => {
     filter,
     title,
     page,
+    tagId,
   });
   // console.log(data.data);
   const { data: book } = useData<Bookmarks>("/api/bookmark");
