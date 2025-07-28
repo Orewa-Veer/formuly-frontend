@@ -27,12 +27,15 @@ const TagForm = () => {
   };
 
   return (
-    <div className="p-3 pl-5 flex items-center h-lvh justify-center bg-gray-100">
+    <div className="p-3 pl-5 flex items-center h-lvh justify-center bg-white">
       <form
         action=""
         onSubmit={handleSubmit(onSubmit, onError)}
         className="flex flex-col gap-3 w-xl bg-white/10 border border-white/20 p-5 backdrop-blur-lg shadow-xl rounded-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg"
       >
+        <div>
+          <h2 className="text-2xl font-semibold border-b-2">Create Tag</h2>
+        </div>
         <div className="flex flex-col gap-2 text-lg font-semibold ">
           <label htmlFor="tag-name"></label>Name
           <input
@@ -60,12 +63,14 @@ const TagForm = () => {
           )}
         </div>
 
-        <button
-          type="submit"
-          className="cursor-pointer bg-blue-400 border-blue-700 ps-3 py-1 inline rounded-lg font-semibold text-white"
-        >
-          Submit
-        </button>
+        <div className="flex w-full justify-center">
+          <button
+            type="submit"
+            className="w-fit  cursor-pointer bg-blue-400 border-blue-700 px-3 py-1  rounded-lg font-semibold text-white"
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );
