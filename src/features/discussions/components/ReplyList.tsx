@@ -51,11 +51,11 @@ const ReplyList = ({ id }: Props) => {
 
   return (
     <div>
-      <div className="ml-6 space-y-5 mt-6 text-gray-600 ">
+      <div className="ml-1 sm:ml-3 md:ml-5 w-full space-y-5 mt-6 text-gray-600 ">
         {replyList.map((rep) => (
           <div
             key={rep._id}
-            className="backdrop-blur-sm shadow-sm  bg-white/20 border border-gray-300/40 px-10 p-6 mx-10 gap-5  flex flex-col rounded-md"
+            className="backdrop-blur-sm shadow-sm  bg-white/20 border border-gray-300/40 px-10 p-6 mx-1 sm:mx-3 md:mx-5 lg:mx-8 xl:mx-10 gap-5  flex flex-col rounded-md"
           >
             {/* user which replied */}
             <div className="flex items-center gap-3">
