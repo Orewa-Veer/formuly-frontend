@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Separator } from "../../tiptap-ui-primitive/separator";
+import { Separator } from "../separator";
 import "@/components/tiptap-ui-primitive/toolbar/toolbar.scss";
 import { cn } from "@/lib/tiptap-utils";
 

@@ -1,7 +1,7 @@
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useTags } from "../..../../useHooks/useTags";
+import { useTags } from "../useHooks/useTags";
 import Service from "../services/genricServices";
 import { Tags } from "../useHooks/useTags";
 import { SimpleEditor } from "./tiptap-templates/simple/simple-editor";

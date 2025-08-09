@@ -4,7 +4,7 @@ import * as React from "react";
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 
 import { cn } from "../../../lib/utils";
-import { Button } from "../../../Components/ui/button";
+import { Button } from "../../../components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -12,12 +12,12 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../../../Components/ui/command";
+} from "../../../components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "../../../Components/ui/popover";
+} from "../../../components/ui/popover";
 import { FaSortAmountDown } from "react-icons/fa";
 
 const frameworks = [

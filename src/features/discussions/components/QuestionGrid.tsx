@@ -5,7 +5,7 @@ import { useData } from "../../../useHooks/useData";
 import { useDiscussion } from "../hooks/useDiscussion";
 import { useSocket } from "../../../services/useSocket";
 import QuestionCard from "./QuestionCard";
-import Paginations from "@/Components/Pagination";
+import Paginations from "@/components/Pagination";
 
 interface Props {
   sortType?: string;

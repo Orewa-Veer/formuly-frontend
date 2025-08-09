@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import DOMPurfiy from "dompurify";
 import { Controller, FieldErrors, useForm } from "react-hook-form";
 import z from "zod";
-import { SimpleEditor } from "../../../Components/tiptap-templates/simple/simple-editor";
+import { SimpleEditor } from "../../../components/tiptap-templates/simple/simple-editor";
 import Service from "../../../services/genricServices";
 import { Question } from "../../../types/Question";
 const schema = z.object({

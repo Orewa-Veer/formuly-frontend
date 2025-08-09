@@ -14,7 +14,7 @@ export const SocketProvider = ({ children }: Props) => {
   const socketRef = useRef<Socket | null>(null);
   useEffect(() => {
     if (user?.user?._id && !socketRef.current) {
-      const socket = io("http://localhost:3000", {
+      const socket = io("https://forumly-backend.onrender.com", {
         transports: ["websocket"],
         auth: {
           userId: user.user._id,

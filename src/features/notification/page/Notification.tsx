@@ -1,8 +1,8 @@
 import { ArrowUp, Bell, MessageCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Cards from "../../../Components/Cards";
-import { Button } from "../../../Components/ui/button";
+import Cards from "../../../components/Cards";
+import { Button } from "../../../components/ui/button";
 import Service from "../../../services/genricServices";
 import timeAgo from "../../../services/timeAgo";
 import { useSocket } from "../../../services/useSocket";
@@ -11,7 +11,7 @@ import { FilterNotifications } from "../components/FilterNotifications";
 import { useNotification } from "../hooks/useNotification";
 
 const Notification = () => {
-  const [seen, setSeen] = useState("false"); 
+  const [seen, setSeen] = useState("false");
   const [type, setType] = useState("");
   const [limit, setLimit] = useState<number>(10);
   const { data } = useNotification({ seen: seen, type: type, limit: limit });
