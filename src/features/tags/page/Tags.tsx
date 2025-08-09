@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Cards from "../../../temp-components/Cards";
+import Cards from "../../../components/Cards";
 import { Tags } from "../../../useHooks/useTags";
 import { useTags } from "../../../useHooks/useTags";
 
