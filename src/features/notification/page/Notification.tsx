@@ -11,7 +11,7 @@ import { FilterNotifications } from "../components/FilterNotifications";
 import { useNotification } from "../hooks/useNotification";
 
 const Notification = () => {
-  const [seen, setSeen] = useState("false");
+  const [seen, setSeen] = useState("false"); 
   const [type, setType] = useState("");
   const [limit, setLimit] = useState<number>(10);
   const { data } = useNotification({ seen: seen, type: type, limit: limit });

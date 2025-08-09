@@ -2,11 +2,12 @@
 import { io, Socket } from "socket.io-client";
 
 let socket: Socket | null = null;
+// const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
 
 export const initSocket = (token: string) => {
   if (socket) socket.disconnect(); // kill old one if re-authing
 
-  socket = io("http://localhost:3000", {
+  socket = io("https://forumly-backend.onrender.com", {
     auth: { userId: token },
     transports: ["websocket"],
     autoConnect: true,
