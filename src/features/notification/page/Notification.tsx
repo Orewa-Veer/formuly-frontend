@@ -1,8 +1,8 @@
 import { ArrowUp, Bell, MessageCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Cards from "../../../components/Cards";
-import { Button } from "../../../components/ui/button";
+import Cards from "../../../temp-components/Cards";
+import { Button } from "../../../temp-components/ui/button";
 import Service from "../../../services/genricServices";
 import timeAgo from "../../../services/timeAgo";
 import { useSocket } from "../../../services/useSocket";

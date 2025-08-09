@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import AskForm from "./components/AskForm";
+import AskForm from "./temp-components/AskForm";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "./components/ui/sidebar";
+} from "./temp-components/ui/sidebar";
 import { SocketProvider } from "./SocketContext";
 import Bookmark from "./features/Bookmark/Bookmark";
 import UserProfile from "./features/UserProfile/pages/UserProfile";

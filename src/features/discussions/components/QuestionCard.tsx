@@ -4,8 +4,8 @@ import { GoTriangleUp } from "react-icons/go";
 import { IoShareSocial } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { Question } from "../../../types/Question";
-import Cards from "../../../components/Cards";
-import { Button } from "../../../components/ui/button";
+import Cards from "../../../temp-components/Cards";
+import { Button } from "../../../temp-components/ui/button";
 interface Props {
   discussions: Question[];
   bookmarks?: Set<string>;

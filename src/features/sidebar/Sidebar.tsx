@@ -32,7 +32,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "../../components/ui/sidebar";
+} from "../../temp-components/ui/sidebar";
 import Service from "../../services/genricServices";
 import { useAuth } from "../../services/useAuth";
 import { useNotification } from "../notification/hooks/useNotification";
