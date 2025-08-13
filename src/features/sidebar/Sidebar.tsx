@@ -80,59 +80,67 @@ export function AppSidebar() {
       .catch((ex) => console.log(ex));
   };
   return (
-    <Sidebar variant="inset">
-      <SidebarHeader className="mt-2 mb-3">
-        <div className="flex justify-around text-[#059669] font-sans font-extrabold text-4xl px-3 pb-0 ">
-          <span>Forumly</span>
-          <MessageSquare className="size-9 relative top-1" />
+    <Sidebar
+      variant="inset"
+      className="bg-gradient-to-b from-white/80 to-emerald-50/40 backdrop-blur-md border-r border-gray-200 shadow-sm"
+    >
+      {/* Header */}
+      <SidebarHeader className="mt-4 mb-4 px-4">
+        <div className="flex items-center gap-2 text-emerald-700 font-bold text-2xl">
+          <MessageSquare className="size-8" />
+          <span className="tracking-wide">Forumly</span>
         </div>
-
-        <span className="text-xs text-[#6B7280] px-3">Developer Community</span>
+        <span className="text-xs text-gray-500">Developer Community</span>
       </SidebarHeader>
-      <SidebarContent className="  ">
+
+      {/* Menu */}
+      <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupContent className="text-sm font-medium">
-            <SidebarMenu>
+          <SidebarGroupContent>
+            <SidebarMenu className="space-y-1">
               {items.map((item) => (
                 <SidebarMenuItem
                   key={item.title}
-                  className={`${
-                    active === item.title && "bg-emerald-50 text-emerald-600"
-                  } px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600 `}
+                  className={`group ${
+                    active === item.title
+                      ? "bg-emerald-100 text-emerald-700 border-l-4 border-emerald-500"
+                      : "text-gray-600"
+                  } rounded-md transition-all duration-200`}
                 >
                   <SidebarMenuButton
-                    className="hover:bg-emerald-50 hover:text-emerald-600"
                     asChild
                     onClick={() => setactive(item.title)}
+                    className="flex items-center gap-3 px-4 py-2 rounded-md hover:bg-emerald-50 hover:text-emerald-600 transition"
                   >
                     <Link to={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
+                      <item.icon className="size-5 group-hover:scale-110 transition-transform" />
+                      <span className="font-medium">{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+
+              {/* Notifications */}
               <SidebarMenuItem
-                key={"notification"}
-                className={`${
-                  active === "Notifications" && "bg-emerald-50 text-emerald-600"
-                } px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600 `}
+                className={`group ${
+                  active === "Notifications"
+                    ? "bg-emerald-100 text-emerald-700 border-l-4 border-emerald-500"
+                    : "text-gray-600"
+                } rounded-md`}
               >
                 <SidebarMenuButton
-                  className="hover:bg-emerald-50 hover:text-emerald-600"
                   asChild
                   onClick={() => setactive("Notifications")}
+                  className="flex items-center gap-3 px-4 py-2 hover:bg-emerald-50 hover:text-emerald-600 transition"
                 >
                   <Link to={"/app/notification"}>
-                    <Bell />
-                    <span className="flex items-center gap-2">
-                      Notifications{" "}
-                      {data.data.length === 0 ? (
-                        ""
-                      ) : (
-                        <div className="size-4 rounded-full items-center flex justify-center text-xs bg-red-600 text-white">
+                    <Bell className="size-5 group-hover:scale-110 transition-transform" />
+                    <span className="flex items-center gap-2 font-medium">
+                      Notifications
+                      {data.data.length > 0 && (
+                        <span className="px-2 py-0.5 bg-red-500 text-white text-xs rounded-full shadow-sm">
                           {data.data.length}
-                        </div>
+                        </span>
                       )}
                     </span>
                   </Link>
@@ -141,174 +149,88 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        {/* <SidebarGroup className="">
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <Collapsible defaultOpen className="group/collapsible">
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton className="mb-3  ">
-                      <BsTags />
-                      <a
-                        href="#"
-                        className="text-[#374151] text-sm font-sans font-medium"
-                      >
-                        Popular Tags
-                      </a>
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                </SidebarMenuItem>
-              </Collapsible>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup> */}
-        {/* <SidebarGroup className="mb-3">
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <Collapsible defaultOpen className="group/collapsible">
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton>
-                      <MdOutlinePeopleAlt />
-                      <a
-                        href="#"
-                        className="font-sans text-sm font-medium text-[#374151]"
-                      >
-                        Communities
-                      </a>
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <SidebarMenuSub>
-                    <CollapsibleContent>
-                      <SidebarMenuSubItem>
-                        <SidebarMenuSubButton
-                          asChild
-                          className="hover:bg-emerald-50 hover:text-emerald-600"
-                        >
-                          <Link
-                            to="#"
-                            className="font-sans text-xs font-medium"
-                          >
-                            Frontend Developers
-                          </Link>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                      <SidebarMenuSubItem>
-                        <SidebarMenuSubButton
-                          asChild
-                          className="hover:bg-emerald-50 hover:text-emerald-600"
-                        >
-                          <a href="#" className="font-sans text-xs font-medium">
-                            Backend Engineers
-                          </a>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                      <SidebarMenuSubItem>
-                        <SidebarMenuSubButton
-                          asChild
-                          className="hover:bg-emerald-50 hover:text-emerald-600"
-                        >
-                          <a href="#" className="font-sans text-xs font-medium">
-                            DevOps & Cloud
-                          </a>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                      <SidebarMenuSubItem>
-                        <SidebarMenuSubButton
-                          asChild
-                          className="hover:bg-emerald-50 hover:text-emerald-600"
-                        >
-                          <a href="#" className="font-sans text-xs font-medium">
-                            Mobile Development
-                          </a>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    </CollapsibleContent>
-                  </SidebarMenuSub>
-                </SidebarMenuItem>
-              </Collapsible>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup> */}
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton
-                  size={"lg"}
-                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+
+      {/* Footer - User */}
+      <SidebarFooter className="border-t border-gray-200 mt-4 pt-4 px-3">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              type="button"
+              className="w-full flex items-center gap-3 rounded-lg px-2.5 py-2 hover:bg-gray-50 transition"
+            >
+              <Avatar className="relative inline-flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-gray-200">
+                <AvatarImage
+                  src={user?.avatar ?? "https://github.com/shadcn.png"}
+                  alt={user?.username ?? "User"}
+                  className="h-full w-full object-cover"
+                />
+                <AvatarFallback className="w-full h-full flex items-center justify-center text-xs font-semibold text-gray-600">
+                  {(user?.username?.trim()?.slice(0, 2) || "U").toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+
+              <div className="flex flex-col text-sm min-w-0">
+                <span className="font-semibold truncate">{user?.username}</span>
+                <span className="text-gray-500 text-xs truncate">
+                  {user?.email}
+                </span>
+              </div>
+
+              <BsThreeDotsVertical className="ml-auto text-gray-500" />
+            </button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent
+            side={isMobile ? "top" : "right"}
+            align="end"
+            sideOffset={8}
+            className="z-50 min-w-56 rounded-xl bg-white shadow-lg border border-gray-200 p-2"
+          >
+            <DropdownMenuLabel className="p-0 font-normal">
+              <div className="flex items-center gap-2 px-2 py-1.5">
+                <Avatar className="relative inline-flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-gray-200">
+                  <AvatarImage
+                    src={user?.avatar ?? "https://github.com/shadcn.png"}
+                    alt={user?.username ?? "User"}
+                    className="h-full w-full object-cover"
+                  />
+                  <AvatarFallback className="w-full h-full flex items-center justify-center text-[10px] font-semibold text-gray-600">
+                    {(user?.username?.trim()?.slice(0, 2) || "U").toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col text-sm">
+                  <span className="font-medium">{user?.username}</span>
+                  <span className="text-gray-500 text-xs">{user?.email}</span>
+                </div>
+              </div>
+            </DropdownMenuLabel>
+
+            <DropdownMenuSeparator className="my-2" />
+
+            <DropdownMenuGroup>
+              <DropdownMenuItem asChild>
+                <Link
+                  to="/app/user"
+                  className="flex items-center gap-2 text-sm px-2 py-1.5 rounded-md hover:bg-gray-50"
                 >
-                  <Avatar className="h-8 w-8 rounded-lg ">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      className="rounded-full"
-                    />
-                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">
-                      {user?.username}
-                    </span>
-                    <span className="text-muted-foreground truncate text-xs">
-                      {user?.email}
-                    </span>
-                  </div>
-                  <BsThreeDotsVertical className="ml-auto size-4" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg bg-gray-100 border border-gray-200 shadow-lg p-3"
-                side={isMobile ? "bottom" : "right"}
-                align="end"
-                sideOffset={4}
-              >
-                <DropdownMenuLabel className="p-0 font-normal ">
-                  {" "}
-                  <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                    <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage
-                        src="https://github.com/shadcn.png"
-                        className="rounded-full"
-                      />
-                      <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                    </Avatar>
-                    <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-medium">
-                        {user?.username}
-                      </span>
-                      <span className="text-muted-foreground truncate text-xs">
-                        {user?.email}
-                      </span>
-                    </div>
-                  </div>
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator className=" border-1 border-gray-300 mb-2" />
-                <DropdownMenuGroup className="flex flex-col gap-2 mb-2 pl-1">
-                  <DropdownMenuItem className="flex text-sm font-medium items-center ">
-                    <Link to={"/app/user"} className="flex items-center gap-2">
-                      <UserCircle className="size-5" />
-                      Account
-                    </Link>
-                  </DropdownMenuItem>
-                  {/* <DropdownMenuItem className="flex text-sm font-medium items-center gap-2">
-                    <IoNotifications className="size-5" />
-                    Notifications
-                  </DropdownMenuItem> */}
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator className=" border-1 border-gray-300" />
-                <DropdownMenuItem
-                  className="flex text-sm font-medium items-center gap-2 mt-2 pl-1 text-red-700 cursor-pointer"
-                  onClick={handleLogout}
-                >
-                  <LogOut className="size-5" />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
+                  <UserCircle className="size-4" />
+                  Account
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+
+            <DropdownMenuSeparator className="my-2" />
+
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-sm px-2 py-1.5 rounded-md text-red-600 hover:bg-red-50 cursor-pointer"
+            >
+              <LogOut className="size-4" />
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarFooter>
     </Sidebar>
   );

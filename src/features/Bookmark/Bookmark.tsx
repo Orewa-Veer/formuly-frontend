@@ -1,78 +1,77 @@
 import { BookmarkIcon } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { Bookmarks, Question } from "../../types/Question";
+import { useEffect, useMemo } from "react";
+import { Bookmarks } from "../../types/Question";
 import Service from "../../services/genricServices";
 import { useSocket } from "../../services/useSocket";
 import { useData } from "../../useHooks/useData";
 import QuestionCard from "../discussions/components/QuestionCard";
 
 const Bookmark = () => {
-  // Data fectchin
   const { data: book, error, loading } = useData<Bookmarks>("/api/bookmark");
-  const [discussions, setDiscussions] = useState<Question[] | []>([]);
   const { ready, socket } = useSocket();
-  // fetching discussions fromm it
-  const [bookmarks, setBookmarks] = useState<Bookmarks[]>([]);
-  useEffect(() => {
-    if (book) setBookmarks(book.data);
-  }, [book]);
-  useEffect(() => {
-    if (bookmarks) setDiscussions(book.data.map((b) => b.parent_id));
-  }, [book]);
 
-  // const { data, loading, error } = useDiscussion({});
-  // useeffects
+  // Derived state directly from data
+  const bookmarks = book?.data || [];
+  const discussions = useMemo(
+    () => bookmarks.map((b) => b.parent_id),
+    [bookmarks]
+  );
   const bookmarksSet = useMemo(
     () => new Set(bookmarks.map((b) => b.parent_id._id)),
     [bookmarks]
   );
-  // useEffect(() => {
-  //   const bookmarkedQuestions = data.filter((d) => bookmarks?.includes(d._id));
-  //   setDiscussions(bookmarkedQuestions);
-  // }, [data]);
-  // socket handler
+
+  // Socket room join
   useEffect(() => {
     if (!ready || !socket) return;
     socket.emit("bookmark:join");
-    return () => {
-      socket.emit("bookamrk:leave");
-    };
+    return () => socket.emit("bookmark:leave");
   }, [ready, socket]);
-  // handle functions
-  const handleUpvotes = (id: string) => {
-    const upvote = new Service("/api/upvote/" + id);
-    upvote.post();
+
+  // Actions
+  const handleUpvotes = async (id: string) => {
+    try {
+      await new Service(`/api/upvote/${id}`).post();
+    } catch (err) {
+      console.error("Upvote failed", err);
+    }
   };
-  const handleBookmark = (discussId: string) => {
-    const bookmark = new Service("/api/bookmark/" + discussId);
-    bookmark.post().then((res) => {
-      if (res.data.status === "added") {
-        setBookmarks([...bookmarks, res.data.book]);
-      } else {
-        setBookmarks(bookmarks.filter((b) => b.parent_id._id !== discussId));
-      }
-    });
+
+  const handleBookmark = async (discussId: string) => {
+    try {
+      const res = await new Service(`/api/bookmark/${discussId}`).post();
+      // Optimistic update logic could be added here
+    } catch (err) {
+      console.error("Bookmark toggle failed", err);
+    }
   };
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
-  // if (!data) return <div> No Discussions</div>;
-  if (!bookmarks) return;
-  // console.log(book);
+
+  // UI states
+  if (loading)
+    return <div className="p-4 text-gray-500">Loading bookmarks...</div>;
+  if (error) return <div className="p-4 text-red-500">{error.message}</div>;
+  if (bookmarks.length === 0) {
+    return (
+      <div className="p-6 text-center text-gray-500">
+        <BookmarkIcon className="mx-auto mb-2 size-10 text-gray-400" />
+        <p>No bookmarks yet. Save questions to see them here.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-col p-3  px-6 md:px-8 lg:px-10 xl:px-14">
-      {/* Heading  */}
-      <div>
-        <h1 className="text-4xl font-bold text-shadow-sm     flex items-center text-emerald-700">
-          <BookmarkIcon className="size-10 font-bold " />
-          <span>Bookmarks</span>
-        </h1>
-        <p className="text-gray-400 italic pl-2">
-          All your bookmarks Apprear here
-        </p>
+    <div className="flex flex-col p-4 sm:px-6 md:px-8 lg:px-12 ">
+      {/* Heading */}
+      <div className="mb-4 flex items-center gap-3">
+        <BookmarkIcon className="size-8 text-emerald-700" />
+        <div>
+          <h1 className="text-3xl font-bold text-emerald-700">Bookmarks</h1>
+          <p className="text-sm text-gray-500">Your saved discussions</p>
+        </div>
       </div>
-      {/* Questions grid  */}
-      <div>
+
+      {/* Grid of Questions */}
+      <div className="">
         <QuestionCard
           discussions={discussions}
           bookmarks={bookmarksSet}

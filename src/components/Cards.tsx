@@ -5,11 +5,14 @@ interface Props {
   className?: string;
   padding?: string;
 }
-const Cards = ({ children, className = "", padding = "p-6" }: Props) => {
+
+const Cards = ({ children, className = "", padding = "p-4" }: Props) => {
   return (
     <div
       className={clsx(
-        `group/hoverRoot bg-white/10 shadow-lg  rounded-2xl backdrop-blur-md  hover:shadow-xl transition-all duration-300 border border-white/20  `,
+        "bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800",
+        "rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200",
+        "flex flex-col", // Ensures content stacks naturally
         padding,
         className
       )}

@@ -6,118 +6,99 @@ import { Link } from "react-router-dom";
 import { Question } from "../../../types/Question";
 import Cards from "../../../components/Cards";
 import { Button } from "../../../components/ui/button";
+
 interface Props {
   discussions: Question[];
   bookmarks?: Set<string>;
   handleUpvotes: (discuss_id: string) => void;
   handleBookmark: (discuss_id: string) => void;
 }
+
 const QuestionCard = ({
   discussions,
   bookmarks,
   handleUpvotes,
   handleBookmark,
 }: Props) => {
-  // console.log(bookmarks);
-  // console.log(discussions);
   return (
-    <div className="flex flex-col space-y-2.5">
-      {" "}
+    <div className="flex flex-col space-y-3">
       {discussions.map((discuss) => (
         <Cards
           key={discuss._id}
-          className={` border shadow-sm rounded-b-md gap-3 bg-gradient-to-br  border-gray-200  flex hover:shadow-lg backdrop-blur-lg hover:backdrop-blur-xl hover:-translate-y-0.5 transition duration-100`}
+          className="flex-row border border-gray-200 rounded-lg bg-white hover:shadow-md transition-shadow"
         >
-          <div className={`border-r-3 `}>
-            {/* upvotes */}
-            <div className="flex  gap-0.5 md:gap-2 items-center justify-between p-0.5  md:p-3">
-              <span className="font-medium">{discuss.upvoteCounter}</span>
+          {/* Left side - Votes & Replies */}
+          <div className="flex flex-col  items-center justify-center w-16 border-r border-gray-200 p-3 shrink-0">
+            {/* Upvotes */}
+            <div className="flex flex-col items-center gap-1">
+              <span className="font-semibold text-gray-800">
+                {discuss.upvoteCounter}
+              </span>
               <GoTriangleUp
-                className="rounded-full  border-2 text-gray-600 border-gray-600 size-5 cursor-pointer"
+                className="rounded-full border border-gray-400 text-gray-600 w-6 h-6 cursor-pointer hover:bg-gray-100"
                 onClick={() => handleUpvotes(discuss._id)}
               />
-              {/* <GoTriangleDown className="rounded-full  border-2 text-gray-600 border-gray-600 size-6" /> */}
             </div>
-            {/* replies */}
-            <div
-              className="flex items-center gap-2 mt-2 p-0.5 md:p-3"
-              key={discuss._id}
-            >
-              <span>{discuss.replyCounter}</span>
-              <MessageSquare className="text-emerald-700 size-6" />{" "}
+
+            {/* Replies */}
+            <div className="flex flex-col items-center gap-1 mt-4">
+              <span className="text-gray-700">{discuss.replyCounter}</span>
+              <MessageSquare className="text-emerald-600 w-5 h-5" />
             </div>
           </div>
-          {/*top */}
-          <div className="flex-1">
-            <div className="flex items-start justify-between mb-3 w-full">
-              {/*text */}
+
+          {/* Main content */}
+          <div className="flex-1 p-4 flex flex-col">
+            {/* Title + Actions */}
+            <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-2xl font-bold tracking-wide text-gray-900 hover:text-primary cursor-pointer mb-2">
-                  <Link to={`/app/questions/${discuss._id}`} key={discuss._id}>
+                <h3 className="text-lg font-semibold text-gray-900 hover:text-primary transition-colors">
+                  <Link to={`/app/questions/${discuss._id}`}>
                     {discuss.title}
                   </Link>
                 </h3>
                 <p
-                  className="text-gray-600 text-sm mb-3 line-clamp-2 italic "
+                  className="text-gray-600 text-sm mt-1 line-clamp-2"
                   dangerouslySetInnerHTML={{ __html: discuss.body }}
                 ></p>
               </div>
-              {/*logo */}
-              <div className=" flex gap-2 ml-4 ">
-                {/* <Button
-              className={`px-1.5 py-0.5 bg-gradient-to-br ${color.buttons}  text-black`}
-              onClick={() => {
-                if (users[0].bookmark.includes(discuss._id))
-                  return users[0].bookmark.filter((book) => book != discuss._id);
-                users[0].bookmark.push(discuss.title);
-              }}
-            >
-              <FaRegBookmark />
-            </Button> */}
+
+              {/* Buttons */}
+              <div className="flex gap-2 ml-4 shrink-0">
                 <Button
-                  variant={"default"}
-                  className={` ${
+                  size="sm"
+                  className={
                     bookmarks?.has(discuss._id)
                       ? "bg-emerald-600 text-white"
-                      : "text-emerald-600 bg-white"
-                  } hover:bg-emerald-600 hover:text-white shadow-sm`}
+                      : "bg-white text-emerald-600 border border-emerald-600"
+                  }
                   onClick={() => handleBookmark(discuss._id)}
                 >
                   <FaRegBookmark />
                 </Button>
                 <Button
-                  variant={"default"}
-                  className="bg-white text-blue-600 hover:bg-blue-600 hover:text-white shadow-sm  "
+                  size="sm"
+                  className="bg-white text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white"
                 >
                   <IoShareSocial />
                 </Button>
               </div>
             </div>
-            {/*mid */}
-            <div className="flex flex-wrap gap-2 mb-4 w-full">
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2 mt-3">
               {discuss.tags.map((cat) => (
-                <div
+                <span
                   key={cat.name}
-                  className={`bg-gradient-to-br   rounded-full items-center px-2.5 py-.75 font-semibold border text-xs`}
+                  className="bg-gray-100 text-gray-800 text-xs px-3 py-1 rounded-full border border-gray-200"
                 >
                   {cat.name}
-                </div>
+                </span>
               ))}
             </div>
-            {/*bottom */}
-            {/* <div className="flex items-center justify-between w-full">
-          <div className="flex items-center gap-2">
-            <div className="size-6 rounded-full bg-gray-500">
-              {" "}
-              <img src={discuss.user.avatar} alt="" />
-            </div>
-            <span className="font-medium text-sm">{discuss.user.username}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaRegEye /> <span>{discuss.views}</span>
-          </div>
-        </div> */}
-            <div className="w-full p-2 text-sm font-semibold">
+
+            {/* Footer */}
+            <div className="mt-auto pt-3 text-sm font-medium text-gray-700">
               {discuss.user.username}
             </div>
           </div>

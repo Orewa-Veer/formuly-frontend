@@ -23,7 +23,7 @@ function App() {
 
   if (!user) return <div>Unauthorized</div>;
   return (
-    <div className="  h-full w-full flex ">
+    <div className="  h-full  flex ">
       <div className={`transition-all duration-200 ease-in-out flex-1  `}>
         <SidebarProvider>
           <AppSidebar />

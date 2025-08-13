@@ -1,14 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import DOMPurfiy from "dompurify";
+import DOMPurify from "dompurify";
 import { Controller, FieldErrors, useForm } from "react-hook-form";
 import z from "zod";
 import { SimpleEditor } from "../../../components/tiptap-templates/simple/simple-editor";
 import Service from "../../../services/genricServices";
 import { Question } from "../../../types/Question";
+
 const schema = z.object({
-  body: z.string().max(3000, { message: "Max word limit  exceed" }),
+  body: z.string().max(3000, { message: "Max word limit exceeded" }),
 });
 type FormSch = z.infer<typeof schema>;
+
 interface Reply {
   discuss: Question;
 }
@@ -23,64 +25,44 @@ const ReplySubmit = ({ discuss }: Reply) => {
     resolver: zodResolver(schema),
     defaultValues: { body: "" },
   });
+
   const onSubmit = (data: FormSch) => {
-    const clean = DOMPurfiy.sanitize(data.body);
-    console.log(clean);
-    // apiClient
-    //   .post(`/api/replies/${discuss._id}`, { body: clean })
-    //   .catch((ex) => console.log(ex));
+    const clean = DOMPurify.sanitize(data.body);
     const reply = new Service(`/api/replies/${discuss._id}`);
     reply.post({ body: clean }).catch((ex) => console.log(ex.message));
     reset();
   };
+
   const onError = (error: FieldErrors<FormSch>) => {
     console.log(error);
   };
+
   return (
-    <div className="flex flex-col gap-3 pl-2 mt-3  backdrop-blur-lg border-white/20">
-      <div className="font-semibold text-xl"> Reply to the question</div>
+    <div className="flex flex-col gap-4 p-6 rounded-xl border border-gray-200/10 bg-white/5 backdrop-blur-lg shadow-lg mt-6">
+      <h2 className="font-semibold text-xl text-emerald-700">
+        Reply to the question
+      </h2>
+
       <form
-        action=""
         onSubmit={handleSubmit(onSubmit, onError)}
-        className="flex flex-col gap-3  border rounded-md  p-5"
+        className="flex flex-col gap-4"
       >
         <Controller
           control={control}
           name="body"
           render={({ field }) => (
-            <SimpleEditor
-              // key={field.value}
-              content={field.value}
-              onChange={field.onChange}
-            />
+            <SimpleEditor content={field.value} onChange={field.onChange} />
           )}
-        ></Controller>
+        />
+
         {errors.body && (
-          <p className="text-red-600 text-sm">{errors.body.message}</p>
+          <p className="text-red-500 text-sm">{errors.body.message}</p>
         )}
 
-        {/* <div className="flex flex-col gap-2">
-          <label
-            htmlFor="reply-body"
-            className="text-sm text-gray-600 font-semibold"
-          >
-            Enter Body
-          </label>
-          <input
-            id="reply-body"
-            {...register("body")}
-            type="text"
-            className="border border-gray-300/50 rounded-sm"
-          />
-          {errors.body && (
-            <div className="text-red-700">{errors.body.message}</div>
-          )}
-        </div> */}
-
-        <div className="flex items-center justify-center">
+        <div className="flex justify-end">
           <button
             type="submit"
-            className="cursor-pointer bg-blue-700/60 border-blue-700/80 rounded-md w-fit px-3 py-0.5 inline"
+            className="px-5 py-2 bg-emerald-700 text-white font-medium rounded-lg shadow hover:bg-emerald-600 transition-colors duration-200"
           >
             Submit
           </button>

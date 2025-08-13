@@ -3,22 +3,25 @@ import apiClient from "../services/api-Client";
 import z from "zod";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+
 const schema = z.object({
   username: z
     .string()
-    .max(255)
-    .min(3, { message: "username must be atleast 3 characters" }),
+    .min(3, { message: "Username must be at least 3 characters" })
+    .max(255),
   name: z
     .string()
-    .max(255)
-    .min(3, { message: "Name must be atleast 3 characters" }),
+    .min(3, { message: "Name must be at least 3 characters" })
+    .max(255),
   password: z
     .string()
-    .min(8, { message: "Password must of atleast 8 digits" })
+    .min(8, { message: "Password must be at least 8 characters" })
     .max(255),
   email: z.string().email(),
 });
-type Login = z.infer<typeof schema>;
+
+type RegisterForm = z.infer<typeof schema>;
 
 const Register = () => {
   const navigate = useNavigate();
@@ -26,100 +29,147 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Login>({ resolver: zodResolver(schema) });
-  const onSubmit = (data: Login) => {
+  } = useForm<RegisterForm>({ resolver: zodResolver(schema) });
+
+  const onSubmit = (data: RegisterForm) => {
     apiClient
       .post("/api/register", data)
       .then((res) => res.status === 200 && navigate("/app/home"))
-      .catch((ex) => {
-        console.log(ex);
-        return <div>{ex}</div>;
-      });
+      .catch((ex) => console.log(ex));
   };
-  const onError = (error: FieldErrors<Login>) => {
-    console.error(error);
-  };
+
+  const onError = (error: FieldErrors<RegisterForm>) => console.error(error);
+
   return (
-    <div className="flex   items-center  justify-center p-3">
-      <div className="flex flex-col gap-5 p-3">
-        <div className="text-4xl font-bold">
-          Fill the User Registration Form
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-200 via-blue-100 to-purple-200 p-4">
+      <div className="w-full max-w-lg bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl p-8 relative">
+        {/* Header */}
+        <h1 className="text-3xl font-bold text-gray-800 text-center mb-2">
+          Create an Account
+        </h1>
+        <p className="text-gray-600 text-center mb-6">
+          Fill in your details to get started
+        </p>
+
+        {/* Form */}
         <form
-          action=""
-          className="flex flex-col gap-3 max-w-xl bg-white/10 border border-white/20 p-5 backdrop-blur-lg shadow-xl rounded-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg "
           onSubmit={handleSubmit(onSubmit, onError)}
+          className="flex flex-col gap-5"
         >
-          {errors.name && <p className="text-black">{errors.name.message}</p>}
-          <div className="flex flex-col gap-2 justify-between px-3">
-            <label htmlFor="regis-username" className="  block">
+          {/* Username */}
+          <div>
+            <label
+              htmlFor="username"
+              className="text-sm font-medium text-gray-700"
+            >
               Username
             </label>
-            <input
-              id="regis-username"
-              {...register("username")}
-              placeholder="Enter your username"
-              type="text"
-              className="border rounded-md p-1 "
-            />
+            <div className="relative">
+              <FaUser className="absolute left-3 top-3 text-gray-400" />
+              <input
+                id="username"
+                {...register("username")}
+                placeholder="Enter your username"
+                type="text"
+                className="pl-10 w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none transition"
+              />
+            </div>
             {errors.username && (
-              <p className="text-red-700">{errors.username.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.username.message}
+              </p>
             )}
           </div>
-          <div className="flex flex-col gap-2 justify-between px-3 ">
-            <label htmlFor="regis-name">Name</label>
-            <input
-              className="border rounded-md p-1"
-              id="regis-name"
-              placeholder="Enter your Name"
-              {...register("name")}
-              type="text"
-            />
+
+          {/* Name */}
+          <div>
+            <label htmlFor="name" className="text-sm font-medium text-gray-700">
+              Full Name
+            </label>
+            <div className="relative">
+              <FaUser className="absolute left-3 top-3 text-gray-400" />
+              <input
+                id="name"
+                {...register("name")}
+                placeholder="Enter your full name"
+                type="text"
+                className="pl-10 w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none transition"
+              />
+            </div>
             {errors.name && (
-              <p className="text-red-700">{errors.name.message}</p>
+              <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>
             )}
           </div>
-          <div className="flex flex-col gap-2 justify-between px-3 ">
-            <label htmlFor="regis-email">Email</label>
-            <input
-              className="border rounded-md p-1"
-              id="regis-email"
-              placeholder="Enter your email"
-              {...register("email")}
-              type="email"
-            />
+
+          {/* Email */}
+          <div>
+            <label
+              htmlFor="email"
+              className="text-sm font-medium text-gray-700"
+            >
+              Email Address
+            </label>
+            <div className="relative">
+              <FaEnvelope className="absolute left-3 top-3 text-gray-400" />
+              <input
+                id="email"
+                {...register("email")}
+                placeholder="Enter your email"
+                type="email"
+                className="pl-10 w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none transition"
+              />
+            </div>
             {errors.email && (
-              <p className="text-red-700">{errors.email.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
-          <div className="flex flex-col gap-2 justify-between px-3 ">
-            <label htmlFor="regis-password">Password</label>
-            <input
-              className="border rounded-md p-1"
-              id="regis-password"
-              placeholder="Enter your Password"
-              {...register("password")}
-              type="text"
-            />
+
+          {/* Password */}
+          <div>
+            <label
+              htmlFor="password"
+              className="text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <div className="relative">
+              <FaLock className="absolute left-3 top-3 text-gray-400" />
+              <input
+                id="password"
+                {...register("password")}
+                placeholder="Enter your password"
+                type="password"
+                className="pl-10 w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none transition"
+              />
+            </div>
             {errors.password && (
-              <p className="text-red-700">{errors.password.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.password.message}
+              </p>
             )}
           </div>
+
+          {/* Submit */}
           <button
             type="submit"
-            className="bg-gray-200/50 border-gray-200/80 rounded-2xl w-fit px-2.5 cursor-pointer hover:bg-blue-500 hover:text-white mx-3"
+            className="w-full bg-emerald-500 text-white py-2 rounded-lg font-semibold hover:bg-emerald-600 transition-transform transform hover:-translate-y-0.5 shadow-md"
           >
-            Submit
+            Sign Up
           </button>
         </form>
-        <div>
+
+        {/* Footer */}
+        <p className="text-sm text-gray-600 text-center mt-6">
+          Already have an account?{" "}
           <Link
-            to={"/login"}
-            className="bg-blue-400 rounded-md  px-2 py-0.5 text-white font-semibold hover:bg-blue-600 "
+            to="/login"
+            className="text-emerald-600 hover:underline font-semibold"
           >
-            Login Here
+            Login here
           </Link>
-        </div>
+        </p>
       </div>
     </div>
   );

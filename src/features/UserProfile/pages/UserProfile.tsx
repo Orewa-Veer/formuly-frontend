@@ -1,5 +1,5 @@
 import { MessageSquare } from "lucide-react";
-import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
+import { GoTriangleUp } from "react-icons/go";
 import { IoShareSocial } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import Service from "../../../services/genricServices";
@@ -10,198 +10,149 @@ import { Button } from "../../../components/ui/button";
 import { useEffect, useState } from "react";
 import { Question } from "../../../types/Question";
 import { useUpvotes } from "../hooks/useUpvotes";
+
 const UserProfile = () => {
   const user = useAuth();
-  useState();
   const { data, loading, error } = useDiscussion({ user: user?.user?._id });
   const { data: upvotes } = useUpvotes();
-  const [feed, setFeed] = useState<Question[]>();
-  const [active, setActive] = useState("discussion");
+  const [feed, setFeed] = useState<Question[]>([]);
+  const [active, setActive] = useState<"discussion" | "reply" | "upvote">(
+    "discussion"
+  );
+
   useEffect(() => {
-    if (data) setFeed(data.data);
+    if (data?.data) setFeed(data.data);
   }, [data]);
-  console.log(user);
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
-  if (!feed) return <div>Nothing to Show</div>;
+
+  if (loading) return <div className="text-gray-500">Loading...</div>;
+  if (error) return <div className="text-red-500">{error.message}</div>;
+  if (!feed.length) return <div className="text-gray-400">Nothing to show</div>;
+
   const handleUpvotes = (id: string) => {
-    const upvote = new Service("/api/upvote/" + id);
-    upvote.post();
+    new Service("/api/upvote/" + id).post();
   };
+
   const upvoteData = () => {
-    setFeed(upvotes.data);
+    setFeed(upvotes?.data || []);
     setActive("upvote");
   };
+
   const discussData = () => {
-    setFeed(data.data);
+    setFeed(data?.data || []);
     setActive("discussion");
   };
 
   return (
-    <div className=" md:mx-8 p-6">
-      {/* Header */}
-      <div className="flex items-center gap-6 mb-8">
+    <div className="md:mx-8 p-6 max-w-6xl mx-auto">
+      {/* Profile Header */}
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-8">
         <img
           src="https://github.com/shadcn.png"
           alt="User Avatar"
-          className="w-20 h-20 rounded-full border shadow-md"
+          className="w-24 h-24 rounded-full border-4 border-white shadow-lg"
         />
-        <div>
-          <h2 className="text-2xl font-semibold">{user?.user?.name}</h2>
-          <p className="text-sm text-gray-500">@{user?.user?.username}</p>
-          <p className="text-sm text-gray-400">Joined on Jan 2, 2025</p>
+        <div className="text-center sm:text-left">
+          <h2 className="text-3xl font-bold">{user?.user?.name}</h2>
+          <p className="text-gray-500">@{user?.user?.username}</p>
+          <p className="text-gray-400 text-sm">Joined on Jan 2, 2025</p>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-gray-50 p-4 rounded-xl shadow">
-          <h4 className="text-gray-600 text-sm">Discussions</h4>
-          <p className="text-xl font-bold">{data.data.length}</p>
-        </div>
-        <div className="bg-gray-50 p-4 rounded-xl shadow">
-          <h4 className="text-gray-600 text-sm">Replies</h4>
-          <p className="text-xl font-bold">128</p>
-        </div>
-        <div className="bg-gray-50 p-4 rounded-xl shadow">
-          <h4 className="text-gray-600 text-sm">Upvoted</h4>
-          <p className="text-xl font-bold">{upvotes.data.length}</p>
-        </div>
+        {[
+          { label: "Discussions", value: data?.data?.length || 0 },
+          { label: "Replies", value: 128 },
+          { label: "Upvoted", value: upvotes?.data?.length || 0 },
+        ].map((stat) => (
+          <div
+            key={stat.label}
+            className="bg-white text-gray-900 p-4 rounded-xl shadow hover:shadow-lg transition"
+          >
+            <h4 className="text-gray-500 text-sm">{stat.label}</h4>
+            <p className="text-2xl font-bold">{stat.value}</p>
+          </div>
+        ))}
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-4 border-b mb-4">
-        <Button
-          variant={"ghost"}
-          key={"discussion"}
-          className={`pb-2 ${active === "discussion" ? "bg-gray-200" : ""} `}
-          onClick={discussData}
-        >
-          Discussions
-        </Button>
-        <Button
-          variant={"ghost"}
-          key={"reply"}
-          className={`pb-2 ${active === "reply" ? "bg-gray-200" : ""} `}
-        >
-          Replies
-        </Button>
-        <Button
-          variant={"ghost"}
-          key={"upvote"}
-          className={`pb-2 ${active === "upvote" ? "bg-gray-200" : ""} `}
-          onClick={upvoteData}
-        >
-          Upvoted
-        </Button>
+      <div className="flex gap-2 border-b border-gray-200 mb-4">
+        {[
+          { key: "discussion", label: "Discussions", action: discussData },
+          { key: "reply", label: "Replies" },
+          { key: "upvote", label: "Upvoted", action: upvoteData },
+        ].map((tab) => (
+          <Button
+            key={tab.key}
+            variant="ghost"
+            className={`pb-2 rounded-none ${
+              active === tab.key
+                ? "border-b-2 border-emerald-500 text-emerald-500"
+                : "text-gray-500"
+            }`}
+            onClick={tab.action}
+          >
+            {tab.label}
+          </Button>
+        ))}
       </div>
 
-      {/* Activity feed (example cards) */}
-      {/* <div className="space-y-4">
-        <div className="p-4 bg-white border rounded-xl shadow-sm">
-          <h4 className="font-medium text-lg">
-            🔥 How to handle socket disconnects on multiple tabs?
-          </h4>
-          <p className="text-sm text-gray-500">
-            Posted 2 days ago in #WebSockets
-          </p>
-        </div>
-
-        <div className="p-4 bg-white border rounded-xl shadow-sm">
-          <h4 className="font-medium text-lg">
-            🧠 Reply: You can track sockets by user ID and forcibly disconnect
-            previous ones
-          </h4>
-          <p className="text-sm text-gray-500">
-            Replied 1 day ago in #Discussions
-          </p>
-        </div>
-      </div> */}
-      {/* discussion  */}
+      {/* Feed */}
       <div className="space-y-4">
-        {" "}
         {feed.map((discuss) => (
           <Cards
             key={discuss._id}
-            className={` border shadow-sm border-gray-300 rounded-b-md gap-3 bg-white  flex hover:shadow-md backdrop-blur-md hover:backdrop-blur-lg hover:-translate-y-0.5 transition duration-100`}
+            className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition"
           >
-            <div className={`border-r-3 `}>
-              {/* upvotes */}
-              <div className="flex flex-col gap-2 items-center justify-between p-3">
+            <div className="flex gap-4">
+              {/* Voting */}
+              <div className="flex flex-col items-center">
                 <GoTriangleUp
-                  className="rounded-full  border-2 text-gray-600 border-gray-600 size-6 cursor-pointer"
+                  className="text-gray-600 hover:text-emerald-600 cursor-pointer"
+                  size={24}
                   onClick={() => handleUpvotes(discuss._id)}
                 />
-                <span className="font-medium">{discuss.upvoteCounter}</span>
-                <GoTriangleDown className="rounded-full  border-2 text-gray-600 border-gray-600 size-6" />
-              </div>
-              {/* replies */}
-              <div className="flex items-center gap-1 mt-2" key={discuss._id}>
-                <MessageSquare className="text-emerald-700 size-6" />{" "}
-                <span>{discuss.replyCounter}</span>
-              </div>
-            </div>
-            {/*top */}
-            <div className="flex-1">
-              <div className="flex items-start justify-between mb-3 w-full">
-                {/*text */}
-                <div>
-                  <h3 className="text-2xl font-bold tracking-wide text-gray-900 hover:text-primary cursor-pointer mb-2">
-                    <Link
-                      to={`/app/questions/${discuss._id}`}
-                      key={discuss._id}
-                    >
-                      {discuss.title}
-                    </Link>
-                  </h3>
-                  <p
-                    className="text-gray-600 text-sm mb-3 line-clamp-2 italic"
-                    dangerouslySetInnerHTML={{ __html: discuss.body }}
-                  ></p>
+                <span className="font-semibold">{discuss.upvoteCounter}</span>
+                <div className="flex items-center gap-1 mt-2 text-gray-500">
+                  <MessageSquare size={16} /> {discuss.replyCounter}
                 </div>
-                {/*logo */}
-                <div className=" flex gap-2 ml-4 ">
-                  {/* <Button
-                  className={`px-1.5 py-0.5 bg-gradient-to-br ${color.buttons}  text-black`}
-                  onClick={() => {
-                    if (users[0].bookmark.includes(discuss._id))
-                      return users[0].bookmark.filter((book) => book != discuss._id);
-                    users[0].bookmark.push(discuss.title);
-                  }}
-                >
-                  <FaRegBookmark />
-                </Button> */}
-                  <Button className={`p-2 bg-gradient-to-br  text-black`}>
-                    <IoShareSocial />
+              </div>
+
+              {/* Content */}
+              <div className="flex-1">
+                <h3 className="text-xl font-bold hover:text-emerald-600">
+                  <Link to={`/app/questions/${discuss._id}`}>
+                    {discuss.title}
+                  </Link>
+                </h3>
+                <p
+                  className="text-gray-600 text-sm mt-1 line-clamp-2"
+                  dangerouslySetInnerHTML={{ __html: discuss.body }}
+                ></p>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {discuss.tags.map((cat) => (
+                    <span
+                      key={cat.name}
+                      className="bg-emerald-50 text-emerald-600 text-xs px-2 py-1 rounded-full border border-emerald-200"
+                    >
+                      {cat.name}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Footer */}
+                <div className="flex items-center justify-between mt-4 text-sm text-gray-500">
+                  <span>{discuss.user.username}</span>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="flex items-center gap-1"
+                  >
+                    <IoShareSocial /> Share
                   </Button>
                 </div>
-              </div>
-              {/*mid */}
-              <div className="flex flex-wrap gap-2 mb-4 w-full">
-                {discuss.tags.map((cat) => (
-                  <div
-                    key={cat.name}
-                    className={`bg-gradient-to-br   rounded-full items-center px-2.5 py-.75 font-semibold border text-xs`}
-                  >
-                    {cat.name}
-                  </div>
-                ))}
-              </div>
-              {/*bottom */}
-              {/* <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-2">
-                <div className="size-6 rounded-full bg-gray-500">
-                  {" "}
-                  <img src={discuss.user.avatar} alt="" />
-                </div>
-                <span className="font-medium text-sm">{discuss.user.username}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FaRegEye /> <span>{discuss.views}</span>
-              </div>
-            </div> */}
-              <div className="w-full p-2 text-sm font-semibold">
-                {discuss.user.username}
               </div>
             </div>
           </Cards>

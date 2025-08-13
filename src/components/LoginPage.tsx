@@ -3,16 +3,18 @@ import { FieldErrors, useForm } from "react-hook-form";
 import z from "zod";
 import apiClient from "../services/api-Client";
 import { useNavigate } from "react-router-dom";
+
 const schema = z.object({
   username: z
     .string()
-    .min(3, { message: "username must be atleast 3 characters" }),
-  email: z.string().email().min(3).max(255),
+    .min(3, { message: "Username must be at least 3 characters" }),
+  email: z.string().email("Invalid email").min(3).max(255),
   password: z
     .string()
-    .min(8, { message: "password must be atleast 3 digits" })
+    .min(8, { message: "Password must be at least 8 characters" })
     .max(255),
 });
+
 type Login = z.infer<typeof schema>;
 
 const LoginPage = () => {
@@ -22,6 +24,7 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Login>({ resolver: zodResolver(schema) });
+
   const onSubmit = (data: Login) => {
     apiClient
       .post("/api/login", data)
@@ -30,62 +33,84 @@ const LoginPage = () => {
       })
       .catch((ex) => console.error(ex));
   };
+
   const onError = (error: FieldErrors<Login>) => {
     console.error(error);
   };
 
   return (
-    <div className="p-3 pl-5 flex items-center h-lvh justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-4">
       <form
-        action=""
         onSubmit={handleSubmit(onSubmit, onError)}
-        className="flex flex-col gap-3 w-xl bg-white/10 border border-white/20 p-5 backdrop-blur-lg shadow-xl rounded-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg"
+        className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 space-y-6 border border-gray-200 dark:border-gray-700"
       >
-        <div className="flex flex-col gap-2 text-lg font-semibold ">
-          <label htmlFor="login-username">Enter Username</label>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 text-center">
+          Login to Your Account
+        </h1>
+
+        {/* Username */}
+        <div className="space-y-1">
+          <label
+            htmlFor="login-username"
+            className="block font-medium text-gray-700 dark:text-gray-300"
+          >
+            Username
+          </label>
           <input
             id="login-username"
             {...register("username")}
             type="text"
-            className="border border-gray-800 px-2.5 py-0.5 rounded-md backdrop-blur-md"
+            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {errors.username && (
-            <div className="text-red-700">{errors.username.message}</div>
+            <p className="text-sm text-red-500">{errors.username.message}</p>
           )}
         </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="login-email" className="text-lg font-semibold">
-            Enter Email
+
+        {/* Email */}
+        <div className="space-y-1">
+          <label
+            htmlFor="login-email"
+            className="block font-medium text-gray-700 dark:text-gray-300"
+          >
+            Email
           </label>
           <input
             id="login-email"
             {...register("email")}
-            type="text"
-            className="border border-gray-800 px-2.5 py-0.5 rounded-md backdrop-blur-md"
+            type="email"
+            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {errors.email && (
-            <div className="text-red-700">{errors.email.message}</div>
+            <p className="text-sm text-red-500">{errors.email.message}</p>
           )}
         </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="login-password" className="text-lg font-semibold">
-            Enter Password
+
+        {/* Password */}
+        <div className="space-y-1">
+          <label
+            htmlFor="login-password"
+            className="block font-medium text-gray-700 dark:text-gray-300"
+          >
+            Password
           </label>
           <input
             id="login-password"
             {...register("password")}
-            type="text"
-            className="border border-gray-800 px-2.5 py-0.5 rounded-md backdrop-blur-md"
+            type="password"
+            className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {errors.password && (
-            <div className="text-red-700">{errors.password.message}</div>
+            <p className="text-sm text-red-500">{errors.password.message}</p>
           )}
         </div>
+
+        {/* Submit Button */}
         <button
           type="submit"
-          className="cursor-pointer bg-blue-400 border-blue-700 ps-3 py-1 inline rounded-lg font-semibold text-white"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg shadow-md transition-all duration-200"
         >
-          Submit
+          Login
         </button>
       </form>
     </div>

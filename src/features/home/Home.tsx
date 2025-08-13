@@ -58,23 +58,26 @@ const Home = () => {
             to experts, everyone is welcome to learn and contribute.
           </div>
           {/* Buttons */}
-          <div className="flex flex-col sm:flex-row justify-around w-full  gap-6  mb-16">
-            <button className="bg-white/20 border border-white/30 backdrop-blur-sm shadow-md transition-all duration-200 rounded-lg text-black  px-6 py-2 hover:bg-white/30">
-              <div className="flex items-center gap-2 font-medium text-lg">
-                <span onClick={scrollToHero}>Start Exploring</span>
-                <FaArrowRight />
-              </div>
+          <div className="flex flex-col sm:flex-row justify-around w-full gap-6 mb-16">
+            {/* Primary Button */}
+            <button
+              onClick={scrollToHero}
+              className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold px-6 py-2 rounded-lg shadow-lg hover:scale-105 transition-all duration-200 flex items-center gap-2 justify-center"
+            >
+              <span>Start Exploring</span>
+              <FaArrowRight />
             </button>
-            <button className="bg-white/80 text-emerald-700 border border-emerald-500 backdrop-blur-sm font-semibold px-4 py-2 rounded-lg shadow-lg hover:bg-white hover:text-emerald-800 transition-all duration-200  ">
-              <Link
-                to="/app/popup"
-                className="flex items-center gap-2 font-medium text-lg"
-              >
-                <span>Ask A Quesiton</span>
-                <FaRegMessage />
-              </Link>
-            </button>
+
+            {/* Secondary Button */}
+            <Link
+              to="/app/popup"
+              className="bg-white/20 backdrop-blur-md border border-white/30 text-gray-800 font-semibold px-6 py-2 rounded-lg shadow-lg hover:bg-white/30 hover:scale-105 transition-all duration-200 flex items-center gap-2 justify-center"
+            >
+              <span>Ask A Question</span>
+              <FaRegMessage />
+            </Link>
           </div>
+
           {/* Cards*/}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8  mx-auto w-full h-full">
             <Cards>

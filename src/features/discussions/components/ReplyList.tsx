@@ -1,100 +1,109 @@
 import { useEffect, useState } from "react";
 import { GoTriangleUp } from "react-icons/go";
 import { MdDelete } from "react-icons/md";
+import DOMPurify from "dompurify";
 import { Reply } from "../../../types/Question";
 import Service from "../../../services/genricServices";
 import { useAuth } from "../../../services/useAuth";
 import { useSocket } from "../../../services/useSocket";
 import { useReplies } from "../hooks/useReplies";
+
 interface Props {
   id: string;
 }
+
 const ReplyList = ({ id }: Props) => {
   const [replyList, setReplyList] = useState<Reply[]>([]);
   const { data, error, loading } = useReplies(id);
   const { socket, ready } = useSocket();
   const { user } = useAuth();
-  console.log(data.data);
+
   useEffect(() => {
-    setReplyList(data?.data || []);
+    if (data?.data) setReplyList(data.data);
   }, [data]);
+
   useEffect(() => {
     if (!ready || !socket) return;
-    // console.log(socket);
+
     const handleReplyUpdated = (reply: Reply) => {
-      console.log("In replies", reply);
       setReplyList((prev) => {
         const exists = prev.find((r) => r._id === reply._id);
-
-        if (exists) {
-          return prev.map((r) => (r._id === reply._id ? reply : r));
-        } else {
-          return [...prev, reply];
-        }
+        return exists
+          ? prev.map((r) => (r._id === reply._id ? reply : r))
+          : [...prev, reply];
       });
     };
+
     const handleReplyDeleted = (reply: Reply) => {
       setReplyList((prev) => prev.filter((r) => r._id !== reply._id));
     };
-    console.log("Reply updated using socket");
-    socket.on("reply:updated", handleReplyUpdated);
-    socket.on("reply:deleted", handleReplyDeleted);
+
+    socket.on(`reply:updated:${id}`, handleReplyUpdated);
+    socket.on(`reply:deleted:${id}`, handleReplyDeleted);
 
     return () => {
-      socket.off("reply:updated", handleReplyUpdated);
-      socket.off("reply:deleted", handleReplyDeleted);
+      socket.off(`reply:updated:${id}`, handleReplyUpdated);
+      socket.off(`reply:deleted:${id}`, handleReplyDeleted);
     };
-  }, [ready, socket]);
+  }, [ready, socket, id]);
+
   if (loading) return <div>Loading Replies...</div>;
   if (error) return <div>{error.message}</div>;
-  if (!data) return <div>No Replies Yet</div>;
+  if (!replyList.length) return <div>No Replies Yet</div>;
 
   return (
-    <div>
-      <div className="ml-1 sm:ml-3 md:ml-5 w-full space-y-5 mt-6 text-gray-600 ">
-        {replyList.map((rep) => (
-          <div
-            key={rep._id}
-            className="backdrop-blur-sm shadow-sm  bg-white/20 border border-gray-300/40 px-10 p-6 mx-1 sm:mx-3 md:mx-5 lg:mx-8 xl:mx-10 gap-5  flex flex-col rounded-md"
-          >
-            {/* user which replied */}
-            <div className="flex items-center gap-3">
-              {/* <img src={rep.user.avatar} alt="" className="size-6" /> */}
-              <span>{rep.user.username}</span>
-              <span className="text-sm flex gap-1 items-center">
-                {rep.upvoteCounter}
-                <GoTriangleUp />
+    <div className="mt-6 w-full space-y-5 text-gray-600">
+      {replyList.map((rep) => (
+        <div
+          key={rep._id}
+          className="flex gap-4 rounded-xl border border-white/20 bg-white/10 backdrop-blur-md shadow-md hover:shadow-lg transition-all p-4 sm:p-6"
+        >
+          {/* Upvote Section */}
+          <div className="flex flex-col items-center gap-1">
+            <GoTriangleUp
+              className="cursor-pointer text-gray-500 hover:text-blue-500 transition"
+              size={22}
+            />
+            <span className="text-sm font-medium">{rep.upvoteCounter}</span>
+          </div>
+
+          {/* Reply Content */}
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <span className="font-medium">{rep.user.username}</span>
+              <span className="text-xs text-gray-400">
+                {new Date(rep.createdAt).toLocaleDateString(undefined, {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
               </span>
             </div>
-            <p className="text-xs text-gray-1 00">
-              {new Date(rep.createdAt).toLocaleString().slice(0, 9)}
-            </p>
-            {/* body  */}
 
             <div
-              className="prose "
-              dangerouslySetInnerHTML={{ __html: rep.body }}
+              className="prose prose-sm max-w-none mt-2"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(rep.body),
+              }}
             />
 
-            {/* footing */}
-            <div className="flex gap-2 justify-end">
-              <GoTriangleUp className="size-8 cursor-pointer" />
-
-              <div
-                className={`flex items-center ${
-                  rep.user?._id !== user?._id ? "hidden" : ""
-                } cursor-pointer hover:text-red-500`}
-                onClick={() => {
-                  const reply = new Service("/api/replies");
-                  reply.delete(rep._id);
-                }}
-              >
-                <MdDelete />
-              </div>
+            {/* Actions */}
+            <div className="mt-3 flex gap-3">
+              {rep.user?._id === user?._id && (
+                <button
+                  onClick={() => {
+                    const reply = new Service("/api/replies");
+                    reply.delete(rep._id);
+                  }}
+                  className="text-red-500 hover:text-red-600 transition"
+                >
+                  <MdDelete size={18} />
+                </button>
+              )}
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

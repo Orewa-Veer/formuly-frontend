@@ -9,111 +9,105 @@ import ReplyList from "./ReplyList";
 import ReplySubmit from "./ReplySubmit";
 
 const Discussions = () => {
-  const params = useParams<{ id: string }>();
-  if (!params.id) console.log("No id provided");
-
-  const { data, loading, error } = useADiscuss<Question>(params.id);
-  // console.log("this is the socket", socket);
+  const { id } = useParams<{ id: string }>();
+  const { data, loading, error } = useADiscuss<Question>(id);
   const { socket, ready } = useSocket();
-  useEffect(() => {
-    if (!ready || !socket) return;
-    console.log("emmiting the discussion socket");
-    socket.emit("discussion:join", params.id);
-    return () => {
-      socket.emit("discussion:leave", params.id);
-    };
-  }, [params.id, ready, socket]);
   const [discussion, setDiscussion] = useState<Question>();
+
+  useEffect(() => {
+    if (!ready || !socket || !id) return;
+    socket.emit("discussion:join", id);
+    return () => {
+      socket.emit("discussion:leave", id);
+    };
+  }, [id, ready, socket]);
+
   useEffect(() => {
     setDiscussion(data);
   }, [data]);
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
-  if (!discussion) return <div>Fetching</div>;
+
+  if (loading) return <div className="p-4">Loading...</div>;
+  if (error) return <div className="p-4 text-red-500">{error.message}</div>;
+  if (!discussion) return <div className="p-4">Fetching...</div>;
 
   return (
-    <div
-      className="pt-16 p-1 md:p-3  w-full
-     "
-    >
-      {" "}
-      {/* Question*/}
-      <div key={discussion._id} className=" w-full">
-        {/* Question card  */}
-        <div className="backdrop-blur-md   bg-white/40 border border-gray-300/60 text-gray-800 rounded-md p-0.5 md:p-4 px-2 md:px-6   shadow-lg  flex gap-2">
-          {/* Left Side  */}
-          <div className="flex flex-col    space-y-5 items-center  p-3 border-r-2 pr-0">
-            <div className="flex  gap-2 items-center mt-10 p-3 pl-1">
-              <span className="text-gray-600 text-3xl font-bold">
+    <div className="pt-2 sm:pt-6 lg:pt-16 p-2 sm:p-4 space-y-8 max-w-6xl mx-auto">
+      {/* Question Card */}
+      <div className="bg-white/60 backdrop-blur-md border border-gray-200 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-5 sm:p-8">
+        <div className="flex flex-col sm:flex-row gap-6">
+          {/* Left Actions */}
+          <div className="flex sm:flex-col sm:items-center sm:space-y-6 space-x-4 sm:space-x-0">
+            <button className="group flex flex-col items-center">
+              <GoTriangleUp className="size-8 text-gray-400 group-hover:text-emerald-600 transition-colors" />
+              <span className="text-lg font-bold text-gray-700">
                 {discussion.upvoteCounter}
               </span>
-              <GoTriangleUp className="size-7 text-gray-600  rounded-full border-gray-600 border-2" />
-              {/* <GoTriangleDown className="size-10 text-gray-600 rounded-full border-gray-600 border-2" /> */}
-            </div>
-            <div>
-              <Bookmark className="text-emerald-700 " />
-            </div>
+            </button>
+            <button>
+              <Bookmark className="text-emerald-700 hover:scale-110 transition-transform" />
+            </button>
           </div>
-          {/* Right side  */}
-          <div id="ques-wrap" className="flex-1 pl-6">
-            <div className="flex  ">
-              <div className="flex flex-col gap-1">
-                <h1 className="text-4xl font-bold text-shadow-2xs text-shadow-gray-500 text-gray-800 font-iceland ">
-                  {discussion.title}
-                </h1>
-                <p className="text-xs text-gray-600  mt-1 pl-1 flex gap-3 items-center">
-                  {/* <img
-                      src={data.user.avatar}
-                      className="w-8 h-8 rounded-full border border-gray-300"
-                    /> */}
-                  Asked by{" "}
-                  <span className="font-medium">
-                    {discussion.user.username}
-                  </span>{" "}
-                  •{" "}
-                  <span>{new Date(discussion.createdAt).toLocaleString()}</span>
-                </p>
-                {/* tags  */}
-                <div id="show-tags" className=" flex gap-3 mt-2 pl-1">
-                  {discussion.tags.map((tag) => (
-                    <div
-                      key={tag.name}
-                      className="rounded-full px-1.5  text-xs bg-white/60 border border-emerald-700/80 text-gray-700"
-                    >
-                      {tag.name}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {/* body */}
+
+          {/* Right Content */}
+          <div className="flex-1 space-y-5">
+            {/* Title */}
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+              {discussion.title}
+            </h1>
+
+            {/* Meta Info */}
+            <div className="text-sm text-gray-500 flex flex-wrap gap-2 items-center">
+              <span>Asked by</span>
+              <span className="font-semibold text-gray-800">
+                {discussion.user.username}
+              </span>
+              <span>•</span>
+              <span>{new Date(discussion.createdAt).toLocaleString()}</span>
             </div>
-            <p
-              className="mt-6 text-gray-600 text-lg leading-relaxed font-iceland prose"
+
+            {/* Tags */}
+            {discussion.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {discussion.tags.map((tag) => (
+                  <span
+                    key={tag.name}
+                    className="rounded-full px-3 py-1 text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition"
+                  >
+                    {tag.name}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* Body */}
+            <div
+              className="prose max-w-none text-gray-700 leading-relaxed"
               dangerouslySetInnerHTML={{ __html: discussion.body }}
-            ></p>
-            <div className="flex mt-6 gap-4 text-sm text-gray-600 justify-end ">
-              <button className="hover:text-green-600 transition flex gap-1 items-center">
-                <GoTriangleUp className="size-8" /> {discussion.upvoteCounter}
+            ></div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-4 text-sm text-gray-500 border-t border-gray-200 pt-4">
+              <button className="hover:text-emerald-600 transition flex items-center gap-1">
+                <GoTriangleUp className="size-5" />
+                {discussion.upvoteCounter}
               </button>
-              {/* <button className="hover:text-pink-500 transition">
-                  ❤️ {data.views}
-                </button> */}
-              <button className="hover:text-blue-500 transition">
+              <button className="hover:text-blue-500 transition flex items-center gap-1">
                 💬 {discussion.replyCounter} Replies
               </button>
             </div>
           </div>
         </div>
-
-        <div className="w-full">
-          <ReplyList id={discussion._id} />
-        </div>
-        <div className="mt-10 mb-5 px-3 ">
-          <ReplySubmit discuss={discussion} />
-        </div>
       </div>
-      {/* side panel */}
-      {/* Reply List */}
+
+      {/* Replies */}
+      <div>
+        <ReplyList id={discussion._id} />
+      </div>
+
+      {/* Reply Input */}
+      <div className="px-2 sm:px-0">
+        <ReplySubmit discuss={discussion} />
+      </div>
     </div>
   );
 };
