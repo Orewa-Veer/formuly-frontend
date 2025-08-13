@@ -40,14 +40,14 @@ const Register = () => {
     console.error(error);
   };
   return (
-    <div className="flex  h-lvh items-center  justify-center p-3">
+    <div className="flex   items-center  justify-center p-3">
       <div className="flex flex-col gap-5 p-3">
         <div className="text-4xl font-bold">
           Fill the User Registration Form
         </div>
         <form
           action=""
-          className="flex flex-col gap-3 w-xl bg-white/10 border border-white/20 p-5 backdrop-blur-lg shadow-xl rounded-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg "
+          className="flex flex-col gap-3 max-w-xl bg-white/10 border border-white/20 p-5 backdrop-blur-lg shadow-xl rounded-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg "
           onSubmit={handleSubmit(onSubmit, onError)}
         >
           {errors.name && <p className="text-black">{errors.name.message}</p>}

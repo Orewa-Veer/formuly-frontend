@@ -9,12 +9,13 @@ interface Props {
 // const SocketContext = createContext<SocketContextType>({ socket: null, ready: false });
 
 export const SocketProvider = ({ children }: Props) => {
+  console.log(import.meta.env.VITE_API_URL);
   const user = useAuth();
   const [ready, setReady] = useState(false);
   const socketRef = useRef<Socket | null>(null);
   useEffect(() => {
     if (user?.user?._id && !socketRef.current) {
-      const socket = io("https://forumly-backend.onrender.com", {
+      const socket = io(import.meta.env.VITE_API_URL, {
         transports: ["websocket"],
         auth: {
           userId: user.user._id,

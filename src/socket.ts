@@ -7,7 +7,7 @@ let socket: Socket | null = null;
 export const initSocket = (token: string) => {
   if (socket) socket.disconnect(); // kill old one if re-authing
 
-  socket = io("https://forumly-backend.onrender.com", {
+  socket = io(import.meta.env.VITE_API_URL, {
     auth: { userId: token },
     transports: ["websocket"],
     autoConnect: true,
