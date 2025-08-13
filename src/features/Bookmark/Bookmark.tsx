@@ -25,7 +25,9 @@ const Bookmark = () => {
   useEffect(() => {
     if (!ready || !socket) return;
     socket.emit("bookmark:join");
-    return () => socket.emit("bookmark:leave");
+    return () => {
+      socket.emit("bookmark:leave");
+    };
   }, [ready, socket]);
 
   // Actions
@@ -39,7 +41,7 @@ const Bookmark = () => {
 
   const handleBookmark = async (discussId: string) => {
     try {
-      const res = await new Service(`/api/bookmark/${discussId}`).post();
+      await new Service(`/api/bookmark/${discussId}`).post();
       // Optimistic update logic could be added here
     } catch (err) {
       console.error("Bookmark toggle failed", err);

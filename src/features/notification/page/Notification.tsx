@@ -101,7 +101,7 @@ const Notification = () => {
                   </Link>
                 </div>
                 <span className="text-gray-600 text-xs sm:text-sm">
-                  {timeAgo(notific.date)}
+                  {timeAgo(`${notific.date}`)}
                 </span>
               </div>
             </Cards>

@@ -161,7 +161,7 @@ export function AppSidebar() {
             >
               <Avatar className="relative inline-flex h-9 w-9 items-center justify-center rounded-full overflow-hidden bg-gray-200">
                 <AvatarImage
-                  src={user?.avatar ?? "https://github.com/shadcn.png"}
+                  src={"https://github.com/shadcn.png"}
                   alt={user?.username ?? "User"}
                   className="h-full w-full object-cover"
                 />
@@ -191,7 +191,7 @@ export function AppSidebar() {
               <div className="flex items-center gap-2 px-2 py-1.5">
                 <Avatar className="relative inline-flex h-8 w-8 items-center justify-center rounded-full overflow-hidden bg-gray-200">
                   <AvatarImage
-                    src={user?.avatar ?? "https://github.com/shadcn.png"}
+                    src={"https://github.com/shadcn.png"}
                     alt={user?.username ?? "User"}
                     className="h-full w-full object-cover"
                   />
