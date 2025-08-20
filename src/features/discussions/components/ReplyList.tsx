@@ -38,12 +38,12 @@ const ReplyList = ({ id }: Props) => {
       setReplyList((prev) => prev.filter((r) => r._id !== reply._id));
     };
 
-    socket.on(`reply:updated:${id}`, handleReplyUpdated);
-    socket.on(`reply:deleted:${id}`, handleReplyDeleted);
+    socket.on(`reply:updated`, handleReplyUpdated);
+    socket.on(`reply:deleted`, handleReplyDeleted);
 
     return () => {
-      socket.off(`reply:updated:${id}`, handleReplyUpdated);
-      socket.off(`reply:deleted:${id}`, handleReplyDeleted);
+      socket.off(`reply:updated`, handleReplyUpdated);
+      socket.off(`reply:deleted`, handleReplyDeleted);
     };
   }, [ready, socket, id]);
 
@@ -56,7 +56,7 @@ const ReplyList = ({ id }: Props) => {
       {replyList.map((rep) => (
         <div
           key={rep._id}
-          className="flex gap-4 rounded-xl border border-white/20 bg-white/10 backdrop-blur-md shadow-md hover:shadow-lg transition-all p-4 sm:p-6"
+          className="flex gap-4 rounded-xl  border border-white/20 bg-white/10 backdrop-blur-md shadow-md hover:shadow-lg transition-all p-4 sm:p-6"
         >
           {/* Upvote Section */}
           <div className="flex flex-col items-center gap-1">
@@ -81,7 +81,7 @@ const ReplyList = ({ id }: Props) => {
             </div>
 
             <div
-              className="prose prose-sm max-w-none mt-2"
+              className="prose prose-sm max-w-xl md:max-w-4xl mt-2 whitespace-pre-line"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(rep.body),
               }}

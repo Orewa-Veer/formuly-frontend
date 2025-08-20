@@ -81,7 +81,7 @@ const Discussions = () => {
 
             {/* Body */}
             <div
-              className="prose max-w-none text-gray-700 leading-relaxed"
+              className="prose max-w-xl md:max-w-4xl text-gray-700 leading-relaxed"
               dangerouslySetInnerHTML={{ __html: discussion.body }}
             ></div>
 
