@@ -21,7 +21,7 @@ export interface DiscussStru {
 }
 
 const AskForm = () => {
-  const [image, setImage] = useState<File | null>(null);
+  // const [image, setImage] = useState<File | null>(null);
 
   const { register, control, handleSubmit, reset } = useForm<FormStu>();
   const [tagsId, setTagsId] = useState<string[]>([]);
