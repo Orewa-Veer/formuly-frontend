@@ -4,6 +4,8 @@ import z from "zod";
 import apiClient from "../services/api-Client";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { useState } from "react";
+import { Spinner } from "./ui/shadcn-io/spinner";
 
 const schema = z.object({
   username: z
@@ -19,6 +21,7 @@ const schema = z.object({
 type Login = z.infer<typeof schema>;
 
 const LoginPage = () => {
+  const[loading,setLoading]=useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -27,15 +30,20 @@ const LoginPage = () => {
   } = useForm<Login>({ resolver: zodResolver(schema) });
 
   const onSubmit = (data: Login) => {
+    setLoading(true);
     apiClient
       .post("/api/login", data)
       .then((res) => {
+        setLoading(false);
         if (res.status === 200) navigate("/app");
       })
-      .catch((ex) => console.error(ex));
+      .catch((ex) => {
+        setLoading(false)
+        console.error(ex);});
   };
 
   const onError = (error: FieldErrors<Login>) => console.error(error);
+  if(loading)return <Spinner/>
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-200 via-blue-100 to-purple-200 p-4">
