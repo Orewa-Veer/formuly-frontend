@@ -9,13 +9,14 @@ import { useSocket } from "../../../services/useSocket";
 import { Notifications } from "../../../types/Question";
 import { FilterNotifications } from "../components/FilterNotifications";
 import { useNotification } from "../hooks/useNotification";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 const Notification = () => {
   const [type, setType] = useState("");
   const [limit, setLimit] = useState(10);
   const [notifications, setNotifications] = useState<Notifications[]>([]);
 
-  const { data } = useNotification({ seen: "false", type, limit });
+  const { data ,loading} = useNotification({ seen: "false", type, limit });
   const { socket, ready } = useSocket();
 
   /** Load notifications from API hook */
@@ -66,6 +67,7 @@ const Notification = () => {
           <div className="text-2xl sm:text-4xl font-bold drop-shadow-2xl flex items-center gap-2">
             <Bell className="size-6 sm:size-9" /> Notifications
           </div>
+          {loading&&<Spinner/>}
           <div className="flex flex-wrap gap-2">
             <FilterNotifications value={type} setValue={setType} />
             <Button variant="outline" size="sm" onClick={markAllSeen}>

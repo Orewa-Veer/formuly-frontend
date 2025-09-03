@@ -5,6 +5,7 @@ import Service from "../../services/genricServices";
 import { useSocket } from "../../services/useSocket";
 import { useData } from "../../useHooks/useData";
 import QuestionCard from "../discussions/components/QuestionCard";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 const Bookmark = () => {
   const { data: book, error, loading } = useData<Bookmarks>("/api/bookmark");
@@ -49,8 +50,6 @@ const Bookmark = () => {
   };
 
   // UI states
-  if (loading)
-    return <div className="p-4 text-gray-500">Loading bookmarks...</div>;
   if (error) return <div className="p-4 text-red-500">{error.message}</div>;
   if (bookmarks.length === 0) {
     return (
@@ -66,6 +65,7 @@ const Bookmark = () => {
       {/* Heading */}
       <div className="mb-4 flex items-center gap-3">
         <BookmarkIcon className="size-8 text-emerald-700" />
+        {loading&&<Spinner/>}
         <div>
           <h1 className="text-3xl font-bold text-emerald-700">Bookmarks</h1>
           <p className="text-sm text-gray-500">Your saved discussions</p>

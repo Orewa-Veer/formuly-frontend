@@ -4,6 +4,7 @@ import Cards from "../../../components/Cards";
 import { Tags } from "../../../useHooks/useTags";
 import { useTags } from "../../../useHooks/useTags";
 import { Tag as TagIcon, MessageSquare } from "lucide-react";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 const TagsSectioin = () => {
   const { data, error, loading } = useTags();
@@ -35,6 +36,7 @@ const TagsSectioin = () => {
           Create Tag
         </Link>
       </div>
+      {loading&&<Spinner/>}
 
       {/* Tags Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
