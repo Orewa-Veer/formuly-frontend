@@ -43,7 +43,7 @@ const LoginPage = () => {
   };
 
   const onError = (error: FieldErrors<Login>) => console.error(error);
-  if(loading)return <Spinner/>
+  if(loading)return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-200 via-blue-100 to-purple-200 p-4"><div className="w-full max-w-lg bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl p-8 relative"><Spinner/></div></div>
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-200 via-blue-100 to-purple-200 p-4">
