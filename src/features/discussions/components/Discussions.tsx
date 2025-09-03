@@ -7,6 +7,7 @@ import { useSocket } from "../../../services/useSocket";
 import { useADiscuss } from "../hooks/useDiscussion";
 import ReplyList from "./ReplyList";
 import ReplySubmit from "./ReplySubmit";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 const Discussions = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,7 +27,12 @@ const Discussions = () => {
     setDiscussion(data);
   }, [data]);
 
-  if (loading) return <div className="p-4">Loading...</div>;
+  if (loading)
+    return (
+      <div className="p-4">
+        <Spinner />
+      </div>
+    );
   if (error) return <div className="p-4 text-red-500">{error.message}</div>;
   if (!discussion) return <div className="p-4">Fetching...</div>;
 

@@ -6,6 +6,7 @@ import { useDiscussion } from "../hooks/useDiscussion";
 import { useSocket } from "../../../services/useSocket";
 import QuestionCard from "./QuestionCard";
 import Paginations from "@/components/Pagination";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 interface Props {
   sortType?: string;
@@ -85,7 +86,12 @@ const QuestionGrid = ({
       socket?.off("discussions:updated", updateHandler);
     };
   }, [ready, socket]);
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div>
+        <Spinner />
+      </div>
+    );
   if (error) return <div>{error.message}</div>;
   if (!data) return <div> No Discussions</div>;
   // console.log(data[0]._id);
