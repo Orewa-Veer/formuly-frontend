@@ -52,7 +52,7 @@ const ReplyList = ({ id }: Props) => {
   if (!replyList.length) return <div>No Replies Yet</div>;
 
   return (
-    <div className="mt-6 w-full space-y-5 text-gray-600">
+    <div className="mt-6  space-y-5 text-gray-600">
       {replyList.map((rep) => (
         <div
           key={rep._id}
@@ -81,7 +81,7 @@ const ReplyList = ({ id }: Props) => {
             </div>
 
             <div
-              className="prose prose-sm max-w-xl md:max-w-4xl mt-2 whitespace-pre-line"
+              className="prose prose-sm max-w-2xl md:max-w-4xl mt-2 whitespace-pre-line"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(rep.body),
               }}

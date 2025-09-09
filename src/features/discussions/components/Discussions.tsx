@@ -37,73 +37,76 @@ const Discussions = () => {
   if (!discussion) return <div className="p-4">Fetching...</div>;
 
   return (
-    <div className="pt-2 sm:pt-6 lg:pt-16 p-2 sm:p-4 space-y-8 max-w-6xl mx-auto">
+    <div className="pt-2 sm:pt-6 lg:pt-16 p-2 sm:p-4 space-y-8 max-w-7xl mx-auto w-full">
       {/* Question Card */}
-      <div className="bg-white/60 backdrop-blur-md border border-gray-200 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-5 sm:p-8">
-        <div className="flex flex-col sm:flex-row gap-6">
-          {/* Left Actions */}
-          <div className="flex sm:flex-col sm:items-center sm:space-y-6 space-x-4 sm:space-x-0">
-            <button className="group flex flex-col items-center">
-              <GoTriangleUp className="size-8 text-gray-400 group-hover:text-emerald-600 transition-colors" />
-              <span className="text-lg font-bold text-gray-700">
-                {discussion.upvoteCounter}
-              </span>
-            </button>
-            <button>
-              <Bookmark className="text-emerald-700 hover:scale-110 transition-transform" />
-            </button>
-          </div>
+    <div className="bg-white/70 backdrop-blur-md border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-3 sm:p-5">
+  <div className="flex flex-col sm:flex-row gap-6">
+    
+    {/* Left Actions */}
+    <div className="flex sm:flex-col sm:items-center sm:space-y-5 space-x-4 sm:space-x-0">
+      <button className="group flex flex-col items-center">
+        <GoTriangleUp className="size-7 text-gray-400 group-hover:text-emerald-600 transition-colors" />
+        <span className="text-base font-semibold text-gray-700">
+          {discussion.upvoteCounter}
+        </span>
+      </button>
+      <button className="p-2 rounded-full hover:bg-gray-100 transition">
+        <Bookmark className="size-6 text-emerald-700" />
+      </button>
+    </div>
 
-          {/* Right Content */}
-          <div className="flex-1 space-y-5">
-            {/* Title */}
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
-              {discussion.title}
-            </h1>
+    {/* Right Content */}
+    <div className="flex-1 ">
+      
+      {/* Title */}
+      <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 leading-snug">
+        {discussion.title}
+      </h1>
 
-            {/* Meta Info */}
-            <div className="text-sm text-gray-500 flex flex-wrap gap-2 items-center">
-              <span>Asked by</span>
-              <span className="font-semibold text-gray-800">
-                {discussion.user.username}
-              </span>
-              <span>•</span>
-              <span>{new Date(discussion.createdAt).toLocaleString()}</span>
-            </div>
-
-            {/* Tags */}
-            {discussion.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {discussion.tags.map((tag) => (
-                  <span
-                    key={tag.name}
-                    className="rounded-full px-3 py-1 text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition"
-                  >
-                    {tag.name}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Body */}
-            <div
-              className="prose max-w-xl md:max-w-4xl text-gray-700 leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: discussion.body }}
-            ></div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-wrap gap-4 text-sm text-gray-500 border-t border-gray-200 pt-4">
-              <button className="hover:text-emerald-600 transition flex items-center gap-1">
-                <GoTriangleUp className="size-5" />
-                {discussion.upvoteCounter}
-              </button>
-              <button className="hover:text-blue-500 transition flex items-center gap-1">
-                💬 {discussion.replyCounter} Replies
-              </button>
-            </div>
-          </div>
-        </div>
+      {/* Meta Info */}
+      <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 mb-3">
+        <span>Asked by</span>
+        <span className="font-medium text-gray-800">
+          {discussion.user.username}
+        </span>
+        <span>•</span>
+        <span>{new Date(discussion.createdAt).toLocaleString()}</span>
       </div>
+
+      {/* Tags */}
+      {discussion.tags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {discussion.tags.map((tag) => (
+            <span
+              key={tag.name}
+              className="rounded-full px-3 py-1 text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition"
+            >
+              {tag.name}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Body */}
+      <div
+        className="prose prose-sm sm:prose max-w-none text-gray-700 leading-relaxed mt-3"
+        dangerouslySetInnerHTML={{ __html: discussion.body }}
+      ></div>
+
+      {/* Action Buttons */}
+      <div className="flex flex-wrap gap-6 text-sm text-gray-600 border-t border-gray-200 pt-4">
+        <button className="hover:text-emerald-600 transition flex items-center gap-1">
+          <GoTriangleUp className="size-4" />
+          {discussion.upvoteCounter}
+        </button>
+        <button className="hover:text-blue-500 transition flex items-center gap-1">
+          💬 {discussion.replyCounter} Replies
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
       {/* Replies */}
       <div>
