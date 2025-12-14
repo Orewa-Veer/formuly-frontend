@@ -1,54 +1,118 @@
-# React + TypeScript + Vite
+#  Forumly — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive and modern frontend for **Forumly**, a discussion platform inspired by Stack Overflow, Slack, and Reddit.  
+Built for smooth UX, real-time communication, and clean UI with rich text discussions, tagging, and notifications.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌐 Live Links
 
-## Expanding the ESLint configuration
+- **Frontend (Full App):** [https://forumly.vercel.app](https://formuly-frontend.vercel.app/)
+- **Backend (API):** [https://forumly-backend.onrender.com](https://forumly-backend.onrender.comer.com)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## ⚙️ Tech Stack
+
+- **Frontend:** React.js (Vite)
+- **Styling:** Tailwind CSS + ShadCN/UI
+- **Rich Text:** TipTap Editor
+- **State Management:** Zustand
+- **Routing:** React Router DOM
+- **Real-time:** Socket.io Client
+- **Build & Deploy:** Vercel
+- **Backend:** Node.js + Express + MongoDB (Render)
+
+---
+
+## ✨ Features
+
+- 🧑‍💻 User Authentication (JWT + Cookies)
+- 🏠 Home feed with active discussions
+- 🏷️ Tag-based filtering system
+- 💬 Create, edit, and reply to discussions
+- ❤️ Likes, bookmarks, and upvotes
+- 🔔 Real-time notifications via WebSockets
+- 🧾 Rich Text Editor (TipTap) with media uploads
+- 🧑‍🎓 User profile with stats and activity history
+- 📱 Fully responsive modern UI
+
+---
+
+## 🛠️ Installation & Setup
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/Orewa-Veer/forumly-frontend.git
+cd forumly-frontend
+```
+### 2️⃣ Install Dependencies
+```bash
+npm install
+```
+### 3️⃣ Configure Environment Variables
+Create a .env file in the root directory and add:
+.env
+```bash
+VITE_BACKEND_URL=https://forumly-backend.onrender.com
+VITE_SOCKET_URL=https://forumly-backend.onrender.com
+```
+### 4️⃣ Run the Development Server
+bash
+```
+npm run dev
+```
+Your app will start on http://localhost:5173
+
+## 📂 Project Structure
+```bash
+forumly-frontend/
+├── src/
+│   ├── api/
+│   ├── components/
+│   ├── context/
+│   ├── hooks/
+│   ├── pages/
+│   ├── store/
+│   ├── utils/
+│   ├── App.jsx
+│   └── main.jsx
+├── public/
+├── package.json
+└── tailwind.config.js
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🖼️ Preview
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/3983705c-3c01-4758-ab2d-73a69923623e" />
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+
+## 🤝 Contributing
+
+Fork the repository
+
+Create a new branch:
+
+```bash
+git checkout -b feature-name
 ```
+Commit your changes:
+```bash
+git commit -m "Add feature-name"
+```
+Push your branch:
+bash
+```bash
+git push origin feature-name
+```
+Open a Pull Request 🚀
+
+
+🧑‍💻 Author
+Veer — SDE
+
+GitHub: https://github.com/Orewa-Veer
+
+LinkedIn: [linkedin.com/in/veer](https://www.linkedin.com/in/veer-dev/)
+
+⭐ If you like this project, consider giving it a star on GitHub!
