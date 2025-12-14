@@ -23,14 +23,14 @@ function App() {
 
   if (!user) return <div>Unauthorized</div>;
   return (
-    <div className="  h-full  flex ">
-      <div className={`transition-all duration-200 ease-in-out flex-1  `}>
+    <div className="  min-h-screen overflow-x-hidden  ">
+      
         <SidebarProvider>
           <AppSidebar />
           <SidebarInset>
-            <main className="pt-3">
+            <main className="pt-3 min-w-0 overflow-y-auto">
               <SidebarTrigger />
-              <div className="flex flex-col flex-1">
+              <div className="">
                 <SocketProvider>
                   <Routes>
                     <Route path="/" element={<Home />}></Route>
@@ -55,7 +55,7 @@ function App() {
             </main>
           </SidebarInset>
         </SidebarProvider>
-      </div>
+      
     </div>
   );
 }

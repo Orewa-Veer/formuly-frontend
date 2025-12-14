@@ -53,12 +53,12 @@ const QuestionGrid = ({
   const handleBookmark = (discussId: string) => {
     const bookmark = new Service("/api/bookmark/" + discussId);
     bookmark.post().then((res) => {
-      if (res.data.status === "added") {
-        console.log(res.data.book.parent_id);
-        setBookmarks([...books, res.data.book]);
-      } else {
-        setBookmarks(books.filter((b) => b.parent_id._id !== discussId));
-      }
+    setBookmarks((prev) => 
+  res.data.status === "added"
+    ? [...prev, res.data.book]
+    : prev.filter((b) => b.parent_id._id !== discussId)
+);
+
     });
   };
   // useEffect(() => {

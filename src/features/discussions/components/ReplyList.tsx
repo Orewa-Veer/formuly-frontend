@@ -52,11 +52,11 @@ const ReplyList = ({ id }: Props) => {
   if (!replyList.length) return <div>No Replies Yet</div>;
 
   return (
-    <div className="mt-6  space-y-5 text-gray-600">
+    <div className="mt-6 ml-6 sm:ml-10 space-y-5 text-gray-600">
       {replyList.map((rep) => (
         <div
           key={rep._id}
-          className="flex gap-4 rounded-xl  border border-white/20 bg-white/10 backdrop-blur-md shadow-md hover:shadow-lg transition-all p-4 sm:p-6"
+          className="flex  rounded-xs border-l-2 backdrop-blur-lg border-gray-400 bg-gray-50 pl-4 "
         >
           {/* Upvote Section */}
           <div className="flex flex-col items-center gap-1">
@@ -64,14 +64,14 @@ const ReplyList = ({ id }: Props) => {
               className="cursor-pointer text-gray-500 hover:text-blue-500 transition"
               size={22}
             />
-            <span className="text-sm font-medium">{rep.upvoteCounter}</span>
+            {/* <span className="text-sm font-medium">{rep.upvoteCounter}</span> */}
           </div>
 
           {/* Reply Content */}
           <div className="flex-1">
-            <div className="flex items-center justify-between">
-              <span className="font-medium">{rep.user.username}</span>
-              <span className="text-xs text-gray-400">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span className=" text-sm font-medium text-foreground">{rep.user.username} </span>
+              <span className=" ">
                 {new Date(rep.createdAt).toLocaleDateString(undefined, {
                   day: "numeric",
                   month: "short",
@@ -81,14 +81,14 @@ const ReplyList = ({ id }: Props) => {
             </div>
 
             <div
-              className="prose prose-sm max-w-2xl md:max-w-4xl mt-2 whitespace-pre-line"
+              className="prose prose-sm max-w-none md:max-w-3xl mt-2 leading-snug whitespace-pre-line"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(rep.body),
               }}
             />
 
             {/* Actions */}
-            <div className="mt-3 flex gap-3">
+            <div className="mt-3 flex gap-3 justify-end">
               {rep.user?._id === user?._id && (
                 <button
                   onClick={() => {

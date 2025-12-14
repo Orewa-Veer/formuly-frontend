@@ -38,14 +38,14 @@ const ReplySubmit = ({ discuss }: Reply) => {
   };
 
   return (
-    <div className="flex flex-col gap-4 p-6 rounded-xl border border-gray-200/10 bg-white/5 backdrop-blur-lg shadow-lg mt-6">
-      <h2 className="font-semibold text-xl text-emerald-700">
+    <div className="flex flex-col mx-2 sm:mx-5">
+      <h2 className="font-semibold text-xl text-emerald-700 mb-2 ml-2" >
         Reply to the question
       </h2>
 
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
-        className="flex flex-col gap-4"
+        className="flex flex-col border bg-muted "
       >
         <Controller
           control={control}
@@ -59,10 +59,10 @@ const ReplySubmit = ({ discuss }: Reply) => {
           <p className="text-red-500 text-sm">{errors.body.message}</p>
         )}
 
-        <div className="flex justify-end">
+        <div className="flex justify-center pb-2">
           <button
             type="submit"
-            className="px-5 py-2 bg-emerald-700 text-white font-medium rounded-lg shadow hover:bg-emerald-600 transition-colors duration-200"
+            className="bg-emerald-700 text-white rounded-sm px-2"
           >
             Submit
           </button>
