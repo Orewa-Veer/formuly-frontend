@@ -21,7 +21,8 @@ const QuestionPage = () => {
   const [filter, setFilter] = React.useState("");
   const [sort, setSort] = React.useState("");
 
-  const handleClick = () => {
+  const handleClick = (e:React.FormEvent<HTMLFormElement>) => {
+e.preventDefault();
     setTitle(tit);
   };
 
@@ -37,7 +38,7 @@ const QuestionPage = () => {
             Find answers to your development questions
           </p>
         </div>
-        <Button className="bg-[#059669] text-white rounded font-medium w-full sm:w-auto">
+        <Button asChild className="bg-[#059669] text-white rounded font-medium w-full sm:w-auto">
           <Link to={"/app/popup"}>Ask Question</Link>
         </Button>
       </div>
@@ -46,18 +47,20 @@ const QuestionPage = () => {
       <div className="flex flex-col lg:flex-row gap-4 mb-6 w-full">
         {/* Search Bar */}
         <div className="flex items-center w-full lg:flex-1 rounded-md gap-2">
-          <Input
-            placeholder="Search questions..."
-            value={tit}
-            onChange={(val) => setTit(val.target.value)}
-            className="px-3 sm:px-6 flex-1"
-          />
-          <Button
-            className="cursor-pointer bg-blue-500 text-white"
-            onClick={handleClick}
-          >
-            <Search className="h-4 w-4" />
-          </Button>
+          <form onSubmit={handleClick} className="flex w-full gap-2">
+            <Input
+              placeholder="Search questions..."
+              value={tit}
+              onChange={(val) => setTit(val.target.value)}
+              className="px-3 sm:px-6 flex-1"
+            />
+            <Button
+              className="cursor-pointer bg-blue-500 text-white"
+              type="submit"
+            >
+              <Search className="h-4 w-4" />
+            </Button>
+          </form>
         </div>
 
         {/* Filters */}

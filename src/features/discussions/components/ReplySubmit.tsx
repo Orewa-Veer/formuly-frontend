@@ -73,3 +73,4 @@ const ReplySubmit = ({ discuss }: Reply) => {
 };
 
 export default ReplySubmit;
+

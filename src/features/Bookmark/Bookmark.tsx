@@ -5,7 +5,7 @@ import Service from "../../services/genricServices";
 import { useSocket } from "../../services/useSocket";
 import { useData } from "../../useHooks/useData";
 import QuestionCard from "../discussions/components/QuestionCard";
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 const Bookmark = () => {
   const { data: book, error, loading } = useData<Bookmarks>("/api/bookmark");

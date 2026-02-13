@@ -5,7 +5,7 @@ import apiClient from "../services/api-Client";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { useState } from "react";
-import { Spinner } from "./ui/shadcn-io/spinner";
+import { Spinner } from "./ui/spinner";
 
 const schema = z.object({
   username: z

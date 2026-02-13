@@ -6,7 +6,7 @@ import { useDiscussion } from "../hooks/useDiscussion";
 import { useSocket } from "../../../services/useSocket";
 import QuestionCard from "./QuestionCard";
 import Paginations from "@/components/Pagination";
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 interface Props {
   sortType?: string;

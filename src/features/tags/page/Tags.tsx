@@ -4,7 +4,7 @@ import Cards from "../../../components/Cards";
 import { Tags } from "../../../useHooks/useTags";
 import { useTags } from "../../../useHooks/useTags";
 import { Tag as TagIcon, MessageSquare } from "lucide-react";
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 const TagsSectioin = () => {
   const { data, error, loading } = useTags();
@@ -17,7 +17,12 @@ const TagsSectioin = () => {
   if (error) return <div className="p-6 text-red-500">{error.message}</div>;
   if (loading) return <div className="p-6 text-gray-500">Loading...</div>;
   if (!tags || tags.length === 0)
-    return <div className="p-6 text-gray-500">No tags found</div>;
+    return <div className="p-6 text-gray-500"> <Link
+          to={"/app/createTag"}
+          className="bg-emerald-600 text-white hover:bg-emerald-700 rounded-md px-4 py-2 text-sm font-medium transition-colors"
+        >
+          Create Tag
+        </Link></div>;
 
   return (
     <div className="flex flex-col p-4 md:p-6 lg:p-8 xl:p-10 max-w-screen-2xl mx-auto">

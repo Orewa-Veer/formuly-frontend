@@ -9,7 +9,7 @@ import { useSocket } from "../../../services/useSocket";
 import { Notifications } from "../../../types/Question";
 import { FilterNotifications } from "../components/FilterNotifications";
 import { useNotification } from "../hooks/useNotification";
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 const Notification = () => {
   const [type, setType] = useState("");

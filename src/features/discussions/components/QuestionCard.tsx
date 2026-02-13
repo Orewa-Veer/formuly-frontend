@@ -25,7 +25,7 @@ const QuestionCard = ({
       {discussions.map((discuss) => (
         <Cards
           key={discuss._id}
-          className="flex-row border border-gray-200 rounded-lg bg-white hover:shadow-md transition-shadow"
+          className="flex-row  border border-gray-200 rounded-lg bg-white hover:shadow-md transition-shadow"
         >
           {/* Left side - Votes & Replies */}
           <div className="flex flex-col  items-center justify-center w-16 border-r border-gray-200 p-3 shrink-0">
@@ -52,13 +52,13 @@ const QuestionCard = ({
             {/* Title + Actions */}
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 hover:text-primary transition-colors">
+                <h3 className="text-lg font-semibold text-gray-900 hover:text-primary transition-colors line-clamp-2  w-4xl">
                   <Link to={`/app/questions/${discuss._id}`}>
                     {discuss.title}
                   </Link>
                 </h3>
                 <p
-                  className="text-gray-600 text-sm mt-1 line-clamp-2"
+                  className="text-gray-600 text-sm mt-1 line-clamp-2 w-4xl"
                   dangerouslySetInnerHTML={{ __html: discuss.body }}
                 ></p>
               </div>

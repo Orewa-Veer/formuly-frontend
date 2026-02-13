@@ -7,7 +7,7 @@ import { useSocket } from "../../../services/useSocket";
 import { useADiscuss } from "../hooks/useDiscussion";
 import ReplyList from "./ReplyList";
 import ReplySubmit from "./ReplySubmit";
-import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import { Spinner } from "@/components/ui/spinner";
 
 const Discussions = () => {
   const { id } = useParams<{ id: string }>();
@@ -92,8 +92,8 @@ const Discussions = () => {
 
       {/* Body */}
       <div
-        className="prose prose-sm sm:prose  text-gray-700 leading-relaxed mt-5 "
-        dangerouslySetInnerHTML={{ __html: discussion.body }}
+        className=" prose prose-sm sm:prose  text-gray-700 leading-relaxed mt-5 "
+        dangerouslySetInnerHTML={{ __html: discussion.body }} 
       ></div>
 
       {/* Action Buttons */}
