@@ -7,7 +7,9 @@ Built for smooth UX, real-time communication, and clean UI with rich text discus
 
 ## 🌐 Live Links
 
-- **Frontend (Full App):** [https://forumly.vercel.app](https://formuly-frontend-ul6i.vercel.app/)
+- **Frontend (Full App):**  
+🔗 https://formuly-frontend-ul6i.vercel.app/
+
 - **Backend (API):** [https://forumly-backend.onrender.com](https://forumly-backend.onrender.comer.com)
 
 ---
