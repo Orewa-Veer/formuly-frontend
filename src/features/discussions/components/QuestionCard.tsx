@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Question } from "../../../types/Question";
 import Cards from "../../../components/Cards";
 import { Button } from "../../../components/ui/button";
+import timeAgo from "@/services/timeAgo";
 
 interface Props {
   discussions: Question[];
@@ -21,50 +22,52 @@ const QuestionCard = ({
   handleBookmark,
 }: Props) => {
   return (
-    <div className="flex flex-col space-y-3">
+    <div className="flex flex-col  space-y-3 ">
       {discussions.map((discuss) => (
         <Cards
           key={discuss._id}
-          className="flex-row  border border-gray-200 rounded-lg bg-white hover:shadow-md transition-shadow"
+          className="flex-row overflow-hidden border border-gray-200 rounded-lg bg-white hover:shadow-md transition-shadow"
         >
           {/* Left side - Votes & Replies */}
-          <div className="flex flex-col  items-center justify-center w-16 border-r border-gray-200 p-3 shrink-0">
+          <div className="flex flex-col  items-center justify-center w-16 border-r border-gray-200 p-3 ">
             {/* Upvotes */}
-            <div className="flex flex-col items-center gap-1">
+            <div className="flex flex-col bg-gray-100 px-2 py-3 rounded-md hover:bg-gray-200 items-center gap-1">
               <span className="font-semibold text-gray-800">
                 {discuss.upvoteCounter}
               </span>
               <GoTriangleUp
-                className="rounded-full border border-gray-400 text-gray-600 w-6 h-6 cursor-pointer hover:bg-gray-100"
+               className="size-8 cursor-pointer text-gray-500 group-hover:text-emerald-600 transition-colors"
                 onClick={() => handleUpvotes(discuss._id)}
               />
             </div>
 
             {/* Replies */}
-            <div className="flex flex-col items-center gap-1 mt-4">
-              <span className="text-gray-700">{discuss.replyCounter}</span>
+            <div className="flex  items-center gap-1 mt-4">
               <MessageSquare className="text-emerald-600 w-5 h-5" />
+              <span className="text-gray-700">{discuss.replyCounter}</span>
             </div>
           </div>
 
           {/* Main content */}
-          <div className="flex-1 p-4 flex flex-col">
+          <div className="flex-1 p-4 flex flex-col min-w-0">
             {/* Title + Actions */}
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 hover:text-primary transition-colors line-clamp-2  w-4xl">
+                <h3 className="text-lg font-semibold text-gray-900 hover:text-primary transition-colors line-clamp-2   ">
                   <Link to={`/app/questions/${discuss._id}`}>
                     {discuss.title}
                   </Link>
                 </h3>
-                <p
-                  className="text-gray-600 text-sm mt-1 line-clamp-2 w-4xl"
-                  dangerouslySetInnerHTML={{ __html: discuss.body }}
-                ></p>
+               <div
+      className="text-gray-600 text-sm mt-1 line-clamp-2   **:whitespace-normal
+"
+      dangerouslySetInnerHTML={{ __html: discuss.body }}
+    />
+  
               </div>
 
               {/* Buttons */}
-              <div className="flex gap-2 ml-4 shrink-0">
+              <div className="flex gap-2 ml-4 ">
                 <Button
                   size="sm"
                   className={
@@ -98,8 +101,9 @@ const QuestionCard = ({
             </div>
 
             {/* Footer */}
-            <div className="mt-auto pt-3 text-sm font-medium text-gray-700">
-              {discuss.user.username}
+            <div className="flex items-center  gap-2 mt-auto pt-3 text-sm font-medium text-gray-700">
+              <div>{discuss.user.username}</div>
+              <div className="text-xs text-gray-600">asked {timeAgo(discuss.createdAt)}</div>
             </div>
           </div>
         </Cards>
