@@ -103,7 +103,7 @@ const QuestionCard = ({
             {/* Footer */}
             <div className="flex items-center  gap-2 mt-auto pt-3 text-sm font-medium text-gray-700">
               <div>{discuss.user.username}</div>
-              <div className="text-xs text-gray-600">asked {timeAgo(discuss.createdAt)}</div>
+              <div className="text-xs text-gray-600">asked {timeAgo(`discuss.createdAt`)}</div>
             </div>
           </div>
         </Cards>
