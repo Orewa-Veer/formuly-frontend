@@ -21,7 +21,6 @@ const Bookmark = () => {
     () => new Set(bookmarks.map((b) => b.parent_id._id)),
     [bookmarks]
   );
-
   // Socket room join
   useEffect(() => {
     if (!ready || !socket) return;
@@ -30,7 +29,7 @@ const Bookmark = () => {
       socket.emit("bookmark:leave");
     };
   }, [ready, socket]);
-
+  
   // Actions
   const handleUpvotes = async (id: string) => {
     try {
@@ -39,7 +38,7 @@ const Bookmark = () => {
       console.error("Upvote failed", err);
     }
   };
-
+  
   const handleBookmark = async (discussId: string) => {
     try {
       await new Service(`/api/bookmark/${discussId}`).post();
@@ -48,8 +47,15 @@ const Bookmark = () => {
       console.error("Bookmark toggle failed", err);
     }
   };
-
+  
   // UI states
+  if (loading) {
+  return (
+    <div className="p-6 flex justify-center">
+      <Spinner />
+    </div>
+  );
+}
   if (error) return <div className="p-4 text-red-500">{error.message}</div>;
   if (bookmarks.length === 0) {
     return (

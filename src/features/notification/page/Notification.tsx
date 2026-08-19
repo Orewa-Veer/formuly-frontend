@@ -1,7 +1,13 @@
-import { ArrowUp, Bell, MessageCircle } from "lucide-react";
-import { useEffect, useState, useCallback } from "react";
+import {
+  ArrowUp,
+  Bell,
+  CheckCheck,
+  MessageCircle,
+  Sparkles,
+} from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Cards from "../../../components/Cards";
+
 import { Button } from "../../../components/ui/button";
 import Service from "../../../services/genricServices";
 import timeAgo from "../../../services/timeAgo";
@@ -16,25 +22,53 @@ const Notification = () => {
   const [limit, setLimit] = useState(10);
   const [notifications, setNotifications] = useState<Notifications[]>([]);
 
-  const { data ,loading} = useNotification({ seen: "false", type, limit });
+  const { data, loading } = useNotification({
+    seen: "false",
+    type,
+    limit,
+  });
+
   const { socket, ready } = useSocket();
 
-  /** Load notifications from API hook */
+  /*
+   * ----------------------------------------------------------
+   * Load notifications
+   * ----------------------------------------------------------
+   */
+
   useEffect(() => {
-    if (data?.data) setNotifications(data.data);
+    if (data?.data) {
+      setNotifications(data.data);
+    }
   }, [data]);
 
-  /** Socket event handlers */
+  /*
+   * ----------------------------------------------------------
+   * Socket events
+   * ----------------------------------------------------------
+   */
+
   useEffect(() => {
     if (!ready || !socket) return;
 
-    const addNotification = (notif: Notifications) =>
-      setNotifications((prev) => [...prev, notif]);
+    const addNotification = (notif: Notifications) => {
+      setNotifications((prev) => {
+        // Prevent duplicates if the same notification arrives twice
+        if (prev.some((item) => item._id === notif._id)) {
+          return prev;
+        }
 
-    const clearNotifications = () => setNotifications([]);
+        return [notif, ...prev];
+      });
+    };
 
-    const deleteNotification = (notif: Notifications) =>
-      setNotifications((prev) => prev.filter((n) => n._id !== notif._id));
+    const clearNotifications = () => {
+      setNotifications([]);
+    };
+
+    const deleteNotification = (notif: Notifications) => {
+      setNotifications((prev) => prev.filter((item) => item._id !== notif._id));
+    };
 
     socket.on("notification:new", addNotification);
     socket.on("allNotification:seen", clearNotifications);
@@ -47,80 +81,449 @@ const Notification = () => {
     };
   }, [ready, socket]);
 
-  /** API actions */
+  /*
+   * ----------------------------------------------------------
+   * Actions
+   * ----------------------------------------------------------
+   */
+
   const markAllSeen = useCallback(() => {
-    new Service(`/api/notification/mark-all-seen`).post().catch(console.error);
+    new Service(`/api/notification/mark-all-seen`)
+      .post()
+      .then(() => {
+        setNotifications([]);
+      })
+      .catch(console.error);
   }, []);
 
   const markSingleSeen = useCallback((id: string) => {
     new Service(`/api/notification/${id}`).post().catch(console.error);
+
+    setNotifications((prev) =>
+      prev.filter((notification) => notification._id !== id),
+    );
   }, []);
 
-  /** Pagination */
-  const handleShowMore = () => setLimit((prev) => prev + 10);
+  const handleShowMore = () => {
+    setLimit((prev) => prev + 10);
+  };
+
+  /*
+   * ----------------------------------------------------------
+   * Render
+   * ----------------------------------------------------------
+   */
 
   return (
-    <div className="p-3 sm:px-6 md:px-8 lg:px-10 xl:px-14 max-w-5xl mx-auto">
-      <div className="max-w-2xl mx-auto p-4 sm:p-6 space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-4 sm:items-center">
-          <div className="text-2xl sm:text-4xl font-bold drop-shadow-2xl flex items-center gap-2">
-            <Bell className="size-6 sm:size-9" /> Notifications
-          </div>
-          {loading&&<Spinner/>}
-          <div className="flex flex-wrap gap-2">
-            <FilterNotifications value={type} setValue={setType} />
-            <Button variant="outline" size="sm" onClick={markAllSeen}>
-              Mark All Seen
-            </Button>
-          </div>
-        </div>
+    <div className="relative min-h-[calc(100vh-1rem)] overflow-hidden">
+      {/* ======================================================
+          BACKGROUND DECORATION
+      ======================================================= */}
 
-        {/* Notification List */}
-        <div className="space-y-2">
-          {notifications.map((notific) => (
-            <Cards
-              key={notific._id}
-              className="flex flex-col sm:flex-row items-start gap-3 p-3 sm:p-4 rounded-xl shadow-sm border hover:bg-muted transition"
-            >
-              <div className="flex-shrink-0">
-                {notific.type === "reply" ? (
-                  <MessageCircle className="text-blue-600" />
-                ) : (
-                  <ArrowUp className="text-pink-600" />
-                )}
-              </div>
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute -left-32 -top-32 h-80 w-80 rounded-full bg-emerald-200/30 blur-3xl" />
 
-              <div className="flex flex-col flex-1">
-                <div className="flex flex-wrap gap-1 sm:gap-2">
-                  <span>New {notific.type} on your discussion titled</span>
-                  <Link
-                    to={`/app/questions/${notific.discussId._id}`}
-                    className="text-sm sm:text-base font-semibold hover:underline break-words"
-                    onClick={() => markSingleSeen(notific._id)}
-                  >
-                    {notific.discussId.title}
-                  </Link>
-                </div>
-                <span className="text-gray-600 text-xs sm:text-sm">
-                  {timeAgo(`${notific.date}`)}
-                </span>
-              </div>
-            </Cards>
-          ))}
-        </div>
+        <div className="absolute -right-32 top-20 h-96 w-96 rounded-full bg-indigo-200/25 blur-3xl" />
 
-        {/* Pagination */}
-        <div className="flex justify-center">
-          <Button
-            variant="outline"
-            className="w-full sm:w-1/4"
-            onClick={handleShowMore}
-          >
-            Show More
-          </Button>
-        </div>
+        <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-violet-200/20 blur-3xl" />
       </div>
+
+      {/* ======================================================
+          MAIN
+      ======================================================= */}
+
+      <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* ====================================================
+            HEADER
+        ===================================================== */}
+
+        <div className="mb-8">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            {/* Heading */}
+
+            <div>
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-emerald-200/70 bg-emerald-50/80 px-3 py-1.5 text-xs font-semibold text-emerald-700 shadow-sm backdrop-blur-sm">
+                <Sparkles className="h-3.5 w-3.5" />
+                Stay in the loop
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-lg shadow-emerald-200/60">
+                  <Bell className="h-6 w-6" />
+                </div>
+
+                <div>
+                  <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Notifications
+                  </h1>
+
+                  <p className="mt-1 text-sm text-gray-500 sm:text-base">
+                    See what's happening around your questions.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Actions */}
+
+            <div className="flex flex-wrap items-center gap-2">
+              <FilterNotifications value={type} setValue={setType} />
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={markAllSeen}
+                disabled={!notifications.length}
+                className="
+                  h-9
+                  rounded-xl
+                  border-gray-200
+                  bg-white/70
+                  px-3
+                  shadow-sm
+                  backdrop-blur-sm
+                  transition-all
+                  hover:-translate-y-0.5
+                  hover:border-emerald-200
+                  hover:bg-emerald-50
+                  hover:text-emerald-700
+                "
+              >
+                <CheckCheck className="mr-1.5 h-4 w-4" />
+                Mark all seen
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* ====================================================
+            NOTIFICATION PANEL
+        ===================================================== */}
+
+        <section
+          className="
+            overflow-hidden
+            rounded-[1.75rem]
+            border
+            border-white/80
+            bg-white/55
+            shadow-xl
+            shadow-gray-200/30
+            backdrop-blur-xl
+          "
+        >
+          {/* Panel header */}
+
+          <div
+            className="
+              flex
+              items-center
+              justify-between
+              border-b
+              border-gray-100/80
+              bg-white/40
+              px-5
+              py-4
+              sm:px-6
+            "
+          >
+            <div>
+              <h2 className="text-sm font-bold text-gray-900">
+                Recent activity
+              </h2>
+
+              <p className="mt-0.5 text-xs text-gray-400">
+                {notifications.length > 0
+                  ? `${notifications.length} unread notification${
+                      notifications.length === 1 ? "" : "s"
+                    }`
+                  : "You're all caught up"}
+              </p>
+            </div>
+
+            {loading && (
+              <div className="flex items-center gap-2 text-xs text-gray-400">
+                <Spinner />
+                Updating
+              </div>
+            )}
+          </div>
+
+          {/* ==================================================
+              LIST
+          =================================================== */}
+
+          <div className="p-3 sm:p-4">
+            {loading && !notifications.length ? (
+              <div className="flex min-h-[280px] flex-col items-center justify-center gap-4">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50">
+                  <Spinner />
+                </div>
+
+                <div className="text-center">
+                  <p className="font-semibold text-gray-700">
+                    Loading notifications
+                  </p>
+
+                  <p className="mt-1 text-xs text-gray-400">
+                    Checking for recent activity...
+                  </p>
+                </div>
+              </div>
+            ) : notifications.length === 0 ? (
+              /* ==================================================
+                 EMPTY STATE
+              =================================================== */
+
+              <div className="flex min-h-[360px] flex-col items-center justify-center px-6 text-center">
+                <div
+                  className="
+                    relative
+                    mb-5
+                    flex
+                    h-20
+                    w-20
+                    items-center
+                    justify-center
+                    rounded-[1.75rem]
+                    bg-gradient-to-br
+                    from-emerald-50
+                    to-teal-100
+                    shadow-inner
+                  "
+                >
+                  <Bell className="h-8 w-8 text-emerald-500" />
+
+                  <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-sm" />
+                </div>
+
+                <h3 className="text-lg font-bold text-gray-900">
+                  You're all caught up
+                </h3>
+
+                <p className="mt-2 max-w-sm text-sm leading-relaxed text-gray-500">
+                  No new notifications right now. We'll let you know when
+                  someone replies to your questions or interacts with them.
+                </p>
+
+                <Link
+                  to="/app/questions"
+                  className="
+                    mt-6
+                    inline-flex
+                    items-center
+                    rounded-xl
+                    bg-gradient-to-r
+                    from-emerald-500
+                    to-teal-500
+                    px-4
+                    py-2.5
+                    text-sm
+                    font-semibold
+                    text-white
+                    shadow-md
+                    shadow-emerald-200/50
+                    transition-all
+                    hover:-translate-y-0.5
+                    hover:shadow-lg
+                  "
+                >
+                  Explore questions
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {notifications.map((notific, index) => {
+                  const isReply = notific.type === "reply";
+
+                  return (
+                    <div
+                      key={notific._id}
+                      className="
+                        group
+                        relative
+                        overflow-hidden
+                        rounded-2xl
+                        border
+                        border-gray-100
+                        bg-white/70
+                        p-4
+                        shadow-sm
+                        transition-all
+                        duration-200
+                        hover:-translate-y-0.5
+                        hover:border-gray-200
+                        hover:bg-white
+                        hover:shadow-md
+                        sm:p-5
+                      "
+                    >
+                      {/* Colored side accent */}
+
+                      <div
+                        className={`absolute inset-y-0 left-0 w-1 ${
+                          isReply
+                            ? "bg-gradient-to-b from-blue-400 to-indigo-500"
+                            : "bg-gradient-to-b from-emerald-400 to-teal-500"
+                        }`}
+                      />
+
+                      <div className="flex gap-4">
+                        {/* Icon */}
+
+                        <div
+                          className={`
+                            flex
+                            h-11
+                            w-11
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-2xl
+                            transition-transform
+                            duration-200
+                            group-hover:scale-105
+                            ${
+                              isReply
+                                ? "bg-blue-50 text-blue-600"
+                                : "bg-emerald-50 text-emerald-600"
+                            }
+                          `}
+                        >
+                          {isReply ? (
+                            <MessageCircle className="h-5 w-5" />
+                          ) : (
+                            <ArrowUp className="h-5 w-5" />
+                          )}
+                        </div>
+
+                        {/* Content */}
+
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                            <div className="min-w-0 pr-2">
+                              <p className="text-sm leading-6 text-gray-600">
+                                Someone{" "}
+                                <span
+                                  className={`font-semibold ${
+                                    isReply
+                                      ? "text-blue-600"
+                                      : "text-emerald-600"
+                                  }`}
+                                >
+                                  {isReply ? "replied" : "upvoted"}
+                                </span>{" "}
+                                your discussion
+                              </p>
+
+                              <Link
+                                to={`/app/questions/${notific.discussId._id}`}
+                                onClick={() => markSingleSeen(notific._id)}
+                                className="
+                                  mt-1
+                                  block
+                                  truncate
+                                  text-sm
+                                  font-bold
+                                  text-gray-900
+                                  transition-colors
+                                  hover:text-emerald-600
+                                  sm:text-base
+                                "
+                              >
+                                {notific.discussId.title}
+                              </Link>
+                            </div>
+
+                            {/* Time */}
+
+                            <span className="shrink-0 text-[11px] font-medium text-gray-400">
+                              {timeAgo(`${notific.date}`)}
+                            </span>
+                          </div>
+
+                          {/* Bottom row */}
+
+                          <div className="mt-3 flex items-center justify-between">
+                            <span
+                              className={`
+                                inline-flex
+                                items-center
+                                rounded-full
+                                px-2.5
+                                py-1
+                                text-[10px]
+                                font-bold
+                                uppercase
+                                tracking-wider
+                                ${
+                                  isReply
+                                    ? "bg-blue-50 text-blue-600"
+                                    : "bg-emerald-50 text-emerald-600"
+                                }
+                              `}
+                            >
+                              {isReply ? "New reply" : "New upvote"}
+                            </span>
+
+                            <Link
+                              to={`/app/questions/${notific.discussId._id}`}
+                              onClick={() => markSingleSeen(notific._id)}
+                              className="
+                                text-xs
+                                font-semibold
+                                text-gray-400
+                                opacity-0
+                                transition-all
+                                group-hover:text-emerald-600
+                                group-hover:opacity-100
+                              "
+                            >
+                              View discussion →
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* ==================================================
+              SHOW MORE
+          =================================================== */}
+
+          {notifications.length > 0 && (
+            <div className="border-t border-gray-100/80 bg-white/30 p-4">
+              <Button
+                variant="outline"
+                onClick={handleShowMore}
+                className="
+                  h-10
+                  w-full
+                  rounded-xl
+                  border-gray-200
+                  bg-white/70
+                  text-sm
+                  font-semibold
+                  text-gray-600
+                  shadow-sm
+                  backdrop-blur-sm
+                  transition-all
+                  hover:-translate-y-0.5
+                  hover:border-emerald-200
+                  hover:bg-emerald-50
+                  hover:text-emerald-700
+                "
+              >
+                Show more notifications
+              </Button>
+            </div>
+          )}
+        </section>
+      </main>
     </div>
   );
 };

@@ -25,13 +25,13 @@ function App() {
   return (
     <div className="  min-h-screen overflow-x-hidden  ">
       
+                <SocketProvider>
         <SidebarProvider>
           <AppSidebar />
           <SidebarInset>
             <main className="pt-3 min-w-0 overflow-y-auto">
               <SidebarTrigger />
               <div className="">
-                <SocketProvider>
                   <Routes>
                     <Route path="/" element={<Home />}></Route>
                     <Route
@@ -50,11 +50,11 @@ function App() {
                       element={<Notification />}
                     ></Route>
                   </Routes>
-                </SocketProvider>
               </div>
             </main>
           </SidebarInset>
         </SidebarProvider>
+                </SocketProvider>
       
     </div>
   );
