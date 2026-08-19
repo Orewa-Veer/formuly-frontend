@@ -333,7 +333,7 @@ const Notification = () => {
               </div>
             ) : (
               <div className="space-y-2">
-                {notifications.map((notific, index) => {
+                {notifications.map((notific) => {
                   const isReply = notific.type === "reply";
 
                   return (

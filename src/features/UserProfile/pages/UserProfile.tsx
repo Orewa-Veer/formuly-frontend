@@ -12,7 +12,6 @@ import { useEffect, useMemo, useState } from "react";
 import { GoTriangleUp } from "react-icons/go";
 import { Link } from "react-router-dom";
 
-import Cards from "../../../components/Cards";
 import { Button } from "../../../components/ui/button";
 import Service from "../../../services/genricServices";
 import { useAuth } from "../../../services/useAuth";
